@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta name="referrer" content="no-referrer">
 <title>Intranet — Shopping Osasco Plaza</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -270,8 +273,6 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .login-form h2 { font-size:24px; font-weight:600; margin:0 0 6px; letter-spacing:-0.01em; }
 .login-form .sub { font-size:13px; color:var(--ink-3); margin:0 0 24px; }
 .login-form .field { margin-bottom:14px; }
-.login-form .demo-hint { margin-top:16px; padding:12px; background:var(--gold-soft); border-radius:8px; font-size:11px; color:#7c6326; line-height:1.5; }
-.login-form .demo-hint b { color:#5e4a16; }
 .login-form code { background:rgba(0,0,0,0.06); padding:1px 4px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:11px; }
 
 /* ── SKELETON ── */
@@ -459,32 +460,20 @@ function loadDBLocal() { try { const r=localStorage.getItem(STORAGE_KEY); if(r) 
 function saveDBLocal(db) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); } catch(e){} }
 
 async function seedDB() {
-  const h1 = await hashPassword('admin');
-  const h2 = await hashPassword('mariana');
-  const h3 = await hashPassword('colab');
+  /* Primeiro acesso: cria apenas um admin com senha temporária aleatória.
+     O sistema forçará a troca de senha antes de qualquer uso. */
+  const tempPwd = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6).toUpperCase();
+  const h1 = await hashPassword(tempPwd);
+  /* Guarda a senha temporária só para exibir UMA vez na tela de setup */
+  window.__TEMP_ADMIN_PWD__ = tempPwd;
   return {
     users: [
-      { id:'u1', login:'admin',   passwordHash:h1, role:'admin',       nome:'Administrador',  cargo:'TI',               store:'Administração',          forcePasswordChange:false },
-      { id:'u2', login:'mariana', passwordHash:h2, role:'gestor',      nome:'Mariana Castro', cargo:'Coord. Operações', store:'Administração · Bloco A', forcePasswordChange:false },
-      { id:'u3', login:'colab',   passwordHash:h3, role:'colaborador', nome:'Colaborador',    cargo:'Atendimento',      store:'Loja 142',               forcePasswordChange:false },
+      { id:'u1', login:'admin', passwordHash:h1, role:'admin', nome:'Administrador', cargo:'TI', store:'Administração', forcePasswordChange:true },
     ],
-    requests: [
-      { id:'SOL-2841', title:'Troca de lâmpada — Loja 142',          type:'maintenance', priority:'Alta',    status:'Em andamento',        updated:Date.now()-12*60*1000,    createdBy:'u2', progress:60,  owner:'Equipe Elétrica',   desc:'Lâmpada queimada na vitrine.' },
-      { id:'SOL-2839', title:'Limpeza extra — Praça de alimentação', type:'cleaning',    priority:'Normal',  status:'Concluído',           updated:Date.now()-24*3600*1000,  createdBy:'u2', progress:100, owner:'Equipe Limpeza',    desc:'Derramamento próximo mesa 12.' },
-      { id:'SOL-2837', title:'Acesso provisório — Fornecedor',       type:'security',    priority:'Normal',  status:'Aguardando aprovação',updated:Date.now()-2*3600*1000,   createdBy:'u3', progress:25,  owner:'Coord. Operações',  desc:'Fornecedor de equipamentos.' },
-      { id:'SOL-2832', title:'Reparo no escalador rolante 03',       type:'maintenance', priority:'Crítica', status:'Em andamento',        updated:Date.now()-24*3600*1000,  createdBy:'u2', progress:80,  owner:'Equipe Técnica',    desc:'Escalador travando intermitentemente.' },
-    ],
-    announcements: [
-      { id:'a1', tag:'EVENTO',        title:'Festival Gastronômico Internacional',     subtitle:'12 a 28 de maio · Praça Central', body:'Mais de 30 chefs, food trucks e música ao vivo.', cta:'Ver programação', bgKey:'gastronomia', likes:142, comments:38 },
-      { id:'a2', tag:'INSTITUCIONAL', title:'Novo plano de saúde para colaboradores',  subtitle:'Vigência a partir de 01/06',       body:'Cobertura nacional, telemedicina 24h.',           cta:'Conhecer benefícios', bgKey:'saude', likes:211, comments:64 },
-      { id:'a3', tag:'OPERAÇÃO',      title:'Manutenção do sistema de ar-condicionado',subtitle:'Domingo · 02h às 06h',             body:'Setores A1–A3 com variações de temperatura.',    cta:'Detalhes técnicos', bgKey:'operacao', likes:24, comments:12 },
-    ],
-    feed: [
-      { id:'f1', author:'Comunicação Interna', role:'Marketing', when:Date.now()-3600000,  title:'Resultados da pesquisa de clima 2026', body:'NPS interno de 72 — alta de 9 pontos vs. 2025.', aiReason:'Você participou da pesquisa', tags:['Pessoas','Cultura'], likes:156, comments:24, saved:false, liked:true, media:'chart' },
-      { id:'f2', author:'Direção Operacional', role:'Operações', when:Date.now()-14400000, title:'Movimento do fim de semana bate recorde', body:'127 mil visitantes no sábado.', aiReason:'Relevante para sua área', tags:['Resultados','Operações'], likes:312, comments:48, saved:true, liked:false, media:'photo' },
-      { id:'f3', author:'RH',                  role:'Pessoas',   when:Date.now()-86400000, title:'Vagas internas — Coord. de visual merchandising', body:'2 posições abertas para ≥1 ano de casa.', aiReason:'Corresponde ao seu perfil', tags:['Carreira','Vagas'], likes:78, comments:11, saved:false, liked:false },
-    ],
-    counters: { reqSeq:2841 }
+    requests:      [],
+    announcements: [],
+    feed:          [],
+    counters:      { reqSeq:1000 }
   };
 }
 
@@ -536,15 +525,46 @@ async function persistDB(onStatus) {
   return true;
 }
 
+/* Proteção contra força bruta */
+const _loginAttempts = {};
+function _checkBruteForce(login) {
+  const now = Date.now();
+  const key = login.toLowerCase();
+  if (!_loginAttempts[key]) _loginAttempts[key] = { count:0, blockedUntil:0 };
+  const a = _loginAttempts[key];
+  if (a.blockedUntil > now) {
+    const secs = Math.ceil((a.blockedUntil - now) / 1000);
+    return { blocked: true, secs };
+  }
+  return { blocked: false };
+}
+function _registerFailedAttempt(login) {
+  const key = login.toLowerCase();
+  if (!_loginAttempts[key]) _loginAttempts[key] = { count:0, blockedUntil:0 };
+  const a = _loginAttempts[key];
+  a.count++;
+  /* Bloqueia progressivamente: 3 erros → 30s, 5 erros → 5min, 8+ erros → 30min */
+  if (a.count >= 8)      a.blockedUntil = Date.now() + 30 * 60 * 1000;
+  else if (a.count >= 5) a.blockedUntil = Date.now() +  5 * 60 * 1000;
+  else if (a.count >= 3) a.blockedUntil = Date.now() + 30 * 1000;
+}
+function _clearAttempts(login) {
+  delete _loginAttempts[login.toLowerCase()];
+}
+
 async function findUserByLogin(login, password) {
   if (!DB) return null;
+  const bf = _checkBruteForce(login);
+  if (bf.blocked) return { __blocked: true, secs: bf.secs };
   const hash = await hashPassword(password);
-  return DB.users.find(u =>
-    u.login === login && (
-      u.passwordHash === hash ||
-      u.password === password
-    )
+  const u = DB.users.find(u =>
+    u.login === login &&
+    u.passwordHash === hash &&
+    u.active !== false
   ) || null;
+  if (!u) { _registerFailedAttempt(login); return null; }
+  _clearAttempts(login);
+  return u;
 }
 
 async function migratePasswords() {
@@ -782,16 +802,70 @@ function BottomTabs({ active, onNav, user }) {
    SCREENS
    ════════════════════════════════════════════════════════════════ */
 
-/* ── LOGIN ── */
-function LoginScreen({ onLogin, ghOpen, setGhOpen, onConfigSave }) {
-  const [user, setUser] = useState('admin');
-  const [pwd, setPwd] = useState('admin');
+/* ── SETUP INICIAL (primeiro acesso) ── */
+function SetupScreen({ tempPwd, onDone }) {
+  const [nova, setNova] = useState('');
+  const [conf, setConf] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const submit = async () => {
+    if (nova.length < 8) { setErr('Mínimo 8 caracteres.'); return; }
+    if (nova !== conf) { setErr('As senhas não coincidem.'); return; }
+    setBusy(true);
+    const hash = await hashPassword(nova);
+    DB.users[0].passwordHash = hash;
+    DB.users[0].forcePasswordChange = false;
+    saveDBLocal(DB);
+    window.__TEMP_ADMIN_PWD__ = null;
+    onDone();
+    setBusy(false);
+  };
+  return (
+    <div className="login-shell">
+      <div className="login-left">
+        <div className="login-brand-mark"><div className="lm">OP</div><div><div style={{ fontSize:14,fontWeight:600 }}>Osasco Plaza</div><div style={{ fontSize:11,color:'rgba(255,255,255,0.55)' }}>Portal do colaborador</div></div></div>
+        <div className="login-headline">
+          <div className="eyebrow">Primeiro Acesso</div>
+          <h1>Bem-vindo ao sistema.</h1>
+          <p>Configure a senha do administrador antes de continuar. Esta etapa só ocorre uma vez.</p>
+        </div>
+      </div>
+      <div className="login-right">
+        <div className="login-form">
+          <h2>🔐 Configuração inicial</h2>
+          <p className="sub">Defina a senha do administrador principal.</p>
+          <div style={{ background:'var(--info-bg)',border:'1px solid #c7d6f5',borderRadius:8,padding:'12px 14px',fontSize:12,color:'var(--info)',marginBottom:16,lineHeight:1.6 }}>
+            <b>Usuário:</b> <code>admin</code><br/>
+            <b>Senha temporária:</b> <code style={{ letterSpacing:2 }}>{tempPwd}</code><br/>
+            <span style={{ fontSize:11,color:'var(--ink-3)' }}>Defina uma senha definitiva abaixo. A senha temporária não funcionará após isso.</span>
+          </div>
+          <div className="field"><label>Nova Senha <span className="req">*</span></label><input type="password" value={nova} onChange={e=>setNova(e.target.value)} placeholder="Mínimo 8 caracteres" autoFocus/></div>
+          <div className="field"><label>Confirmar Senha <span className="req">*</span></label><input type="password" value={conf} onChange={e=>setConf(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
+          {err && <div style={{ color:'var(--err)',fontSize:12,marginBottom:12,padding:'8px 12px',background:'var(--err-bg)',borderRadius:8 }}>{err}</div>}
+          <button className="btn btn-primary btn-lg" style={{ width:'100%',marginTop:4 }} onClick={submit} disabled={busy}>
+            {busy?'Salvando...':'Definir senha e entrar'} {!busy&&<Icon name="arrow-right" size={14}/>}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── LOGIN ── */
+function LoginScreen({ onLogin, ghOpen, setGhOpen, onConfigSave }) {
+  const [user, setUser] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  const submit = async () => {
+    if (!user.trim() || !pwd) { setErr('Preencha usuário e senha.'); return; }
     setBusy(true); setErr('');
-    const ok = await onLogin(user, pwd);
-    if (!ok) { setErr('Usuário ou senha inválidos.'); setBusy(false); }
+    const result = await onLogin(user.trim(), pwd);
+    if (result && result.__blocked) {
+      setErr(`Muitas tentativas. Aguarde ${result.secs} segundos.`);
+      setBusy(false); return;
+    }
+    if (!result) { setErr('Usuário ou senha inválidos.'); setBusy(false); }
   };
   return (
     <div className="login-shell">
@@ -800,7 +874,7 @@ function LoginScreen({ onLogin, ghOpen, setGhOpen, onConfigSave }) {
         <div className="login-headline">
           <div className="eyebrow">Intranet · 2026</div>
           <h1>Tudo o que sua operação precisa, em um só lugar.</h1>
-          <p>Comunicados, solicitações, RH e suporte 24/7. Persistência criptografada · sincronização GitHub opcional.</p>
+          <p>Comunicados, solicitações, RH e suporte 24/7. Persistência criptografada · sincronização GitHub.</p>
           <div className="login-stats">
             <div><div className="ls-num">2.4k</div><div className="ls-lbl">COLABORADORES</div></div>
             <div><div className="ls-num">412</div><div className="ls-lbl">LOJAS</div></div>
@@ -813,24 +887,10 @@ function LoginScreen({ onLogin, ghOpen, setGhOpen, onConfigSave }) {
           <h2>Entrar</h2>
           <p className="sub">Use seu usuário corporativo.</p>
           {err && <div style={{ background:'var(--err-bg)',color:'var(--err)',padding:'10px 12px',borderRadius:8,fontSize:12,marginBottom:12 }}>{err}</div>}
-          <div className="field"><label>Usuário</label><input type="text" value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
-          <div className="field"><label>Senha</label><input type="password" value={pwd} onChange={e=>setPwd(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
-          <button className="btn btn-primary btn-lg" style={{ width:'100%',marginTop:4 }} onClick={submit} disabled={busy}>{busy?'Verificando...':'Acessar portal'} {!busy && <Icon name="arrow-right" size={14}/>}</button>
+          <div className="field"><label>Usuário</label><input type="text" value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()} autoComplete="username" autoFocus/></div>
+          <div className="field"><label>Senha</label><input type="password" value={pwd} onChange={e=>setPwd(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()} autoComplete="current-password"/></div>
+          <button className="btn btn-primary btn-lg" style={{ width:'100%',marginTop:4 }} onClick={submit} disabled={busy}>{busy?'Verificando...':'Acessar portal'} {!busy&&<Icon name="arrow-right" size={14}/>}</button>
           <button className="btn btn-ghost" style={{ width:'100%',marginTop:8 }} onClick={()=>setGhOpen(true)}><Icon name="settings" size={14}/> Configurar sincronização GitHub</button>
-          <div className="login-form demo-hint" style={{ marginTop:16,padding:12,background:'var(--gold-soft)',borderRadius:8,fontSize:11,color:'#7c6326',lineHeight:1.5 }}>
-            <b>Usuários demo:</b> <code>admin/admin</code> · <code>mariana/mariana</code> · <code>colab/colab</code><br/>
-            Dados persistidos com AES-GCM. Configure GitHub para sincronizar entre dispositivos.
-            <br/><br/>
-            <b>Primeiro acesso?</b> Se o login não funcionar, clique abaixo para reiniciar o banco local:<br/>
-            <button onClick={()=>{ localStorage.removeItem('intranet_shopping_v10_db'); window.location.reload(); }} style={{ marginTop:8,padding:'4px 10px',background:'#7c6326',color:'white',border:0,borderRadius:5,fontSize:11,cursor:'pointer',fontFamily:'inherit' }}>
-              🔄 Reiniciar banco local
-            </button>
-          </div>
-          <button className="btn btn-ghost" style={{ width:'100%',marginTop:8,fontSize:11,color:'var(--ink-3)' }} onClick={async()=>{
-            if(!confirm('Isso vai apagar os dados locais e recriar os usuários padrão. Continuar?')) return;
-            localStorage.removeItem(STORAGE_KEY);
-            window.location.reload();
-          }}>↩ Resetar dados locais (recuperar acesso)</button>
         </div>
       </div>
       {ghOpen && <GitHubConfigModal onClose={()=>setGhOpen(false)} onSave={onConfigSave}/>}
@@ -1372,47 +1432,66 @@ function App() {
   const [authed, setAuthed] = useState(false);
   const [user, setUser] = useState(null);
   const [dbReady, setDbReady] = useState(false);
+  const [isFirstAccess, setIsFirstAccess] = useState(false);
   const [syncMsg, setSyncMsg] = useState('Inicializando...');
   const [syncTone, setSyncTone] = useState('muted');
   const [, force] = useState(0);
-  const refresh = () => force(x=>x+1);
+  const refresh = () => force(x => x + 1);
   const [ghOpen, setGhOpen] = useState(false);
   const [forceChangePwd, setForceChangePwd] = useState(false);
+  const sessionTimer = useRef(null);
+
+  /* Timeout de sessão: 8 horas de inatividade */
+  const SESSION_TIMEOUT = 8 * 60 * 60 * 1000;
+  const resetSessionTimer = () => {
+    if (sessionTimer.current) clearTimeout(sessionTimer.current);
+    sessionTimer.current = setTimeout(() => {
+      setUser(null); setAuthed(false); setScreen('home');
+    }, SESSION_TIMEOUT);
+  };
+  useEffect(() => {
+    if (authed) {
+      resetSessionTimer();
+      const events = ['click','keydown','mousemove','touchstart'];
+      events.forEach(e => window.addEventListener(e, resetSessionTimer, { passive:true }));
+      return () => {
+        events.forEach(e => window.removeEventListener(e, resetSessionTimer));
+        if (sessionTimer.current) clearTimeout(sessionTimer.current);
+      };
+    }
+  }, [authed]);
 
   useEffect(() => {
-    initDB((m,t)=>{setSyncMsg(m);setSyncTone(t);}).then(async()=>{await migratePasswords();setDbReady(true);});
+    initDB((m,t) => { setSyncMsg(m); setSyncTone(t); }).then(() => {
+      /* Verifica se é primeiro acesso (só um user admin com forcePasswordChange) */
+      const u = DB?.users;
+      if (u && u.length === 1 && u[0].forcePasswordChange && window.__TEMP_ADMIN_PWD__) {
+        setIsFirstAccess(true);
+      }
+      setDbReady(true);
+    });
   }, []);
 
   const go = (s) => setScreen(s);
 
   const handleLogin = async (login, password) => {
-    let u = await findUserByLogin(login, password);
-    if (!u) {
-      // Se não achou, pode ser que o localStorage tenha dados de outra versão.
-      // Limpa e re-seed para garantir os usuários padrão.
-      const stored = loadDBLocal();
-      const hasOldFormat = stored && Array.isArray(stored.users) && stored.users.some(x => x.password && !x.passwordHash);
-      if (hasOldFormat) {
-        await migratePasswords();
-        u = await findUserByLogin(login, password);
-      }
-      if (!u && stored && Array.isArray(stored.users) && !stored.users.some(x=>x.login===login)) {
-        // usuário não existe mesmo
-      }
-    }
-    if (u) {
-      setUser(u); setAuthed(true); setScreen('home');
-      if (u.forcePasswordChange) setForceChangePwd(true);
-      return true;
-    }
-    return false;
+    const result = await findUserByLogin(login, password);
+    /* Bloqueio por força bruta */
+    if (result && result.__blocked) return result;
+    if (!result) return null;
+    setUser(result); setAuthed(true); setScreen('home');
+    if (result.forcePasswordChange) setForceChangePwd(true);
+    return true;
   };
 
-  const handleLogout = () => { setUser(null); setAuthed(false); setScreen('home'); };
+  const handleLogout = () => {
+    setUser(null); setAuthed(false); setScreen('home');
+    if (sessionTimer.current) clearTimeout(sessionTimer.current);
+  };
 
   const handleNewRequest = async (payload) => {
     addRequest(payload, user);
-    await persistDB((m,t)=>{setSyncMsg(m);setSyncTone(t);});
+    await persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); });
     refresh(); go('mine');
   };
 
@@ -1422,7 +1501,7 @@ function App() {
     const t = await GH.test();
     if (t.ok) {
       setSyncMsg('Sincronizando...'); setSyncTone('loading');
-      await persistDB((m,tone)=>{setSyncMsg(m);setSyncTone(tone);});
+      await persistDB((m,tone) => { setSyncMsg(m); setSyncTone(tone); });
       return { ok:true };
     }
     setSyncMsg(t.msg); setSyncTone('warn');
@@ -1430,34 +1509,48 @@ function App() {
   };
 
   if (!dbReady) {
-    return <div className="app-shell" style={{ alignItems:'center',justifyContent:'center',display:'flex' }}>
+    return <div className="app-shell" style={{ alignItems:'center', justifyContent:'center', display:'flex' }}>
       <div style={{ textAlign:'center' }}>
-        <div className="skel" style={{ width:120,height:120,borderRadius:24,margin:'0 auto 16px' }}/>
-        <div style={{ fontSize:13,color:'var(--ink-3)' }}>{syncMsg}</div>
+        <div className="skel" style={{ width:120, height:120, borderRadius:24, margin:'0 auto 16px' }}/>
+        <div style={{ fontSize:13, color:'var(--ink-3)' }}>{syncMsg}</div>
       </div>
     </div>;
   }
 
-  if (!authed) return <LoginScreen onLogin={handleLogin} ghOpen={ghOpen} setGhOpen={setGhOpen} onConfigSave={handleConfigSave}/>;
+  /* Primeiro acesso — tela de configuração da senha do admin */
+  if (isFirstAccess) {
+    return <SetupScreen tempPwd={window.__TEMP_ADMIN_PWD__} onDone={() => setIsFirstAccess(false)}/>;
+  }
+
+  if (!authed) {
+    return <LoginScreen onLogin={handleLogin} ghOpen={ghOpen} setGhOpen={setGhOpen} onConfigSave={handleConfigSave}/>;
+  }
 
   return (
     <div className="app-shell">
-      {forceChangePwd && <ForcePasswordModal user={user} onDone={()=>{setForceChangePwd(false);saveDBLocal(DB);}}/>}
-      <TopBar user={user} syncMsg={syncMsg} syncTone={syncTone} onConfig={()=>setGhOpen(true)} onLogout={handleLogout}/>
+      {forceChangePwd && <ForcePasswordModal user={user} onDone={() => { setForceChangePwd(false); saveDBLocal(DB); }}/>}
+      <TopBar user={user} syncMsg={syncMsg} syncTone={syncTone} onConfig={() => setGhOpen(true)} onLogout={handleLogout}/>
       <div className="layout-row">
         <Sidebar active={screen} onNav={go} user={user}/>
         <div className="main">
-          {screen==='home'    && <Dashboard go={go} mobile={false} user={user}/>}
-          {screen==='feed'    && <Feed mobile={false}/>}
-          {screen==='newreq'  && hasPerm(user,'servicos','create') && <NewRequest go={go} mobile={false} onSubmit={handleNewRequest}/>}
-          {screen==='mine'    && <MyRequests go={go} mobile={false} user={user} onChange={refresh} onPersist={()=>persistDB((m,t)=>{setSyncMsg(m);setSyncTone(t);})}/>}
-          {screen==='usuarios'&& <UsersScreen user={user} onPersist={()=>persistDB((m,t)=>{setSyncMsg(m);setSyncTone(t);})} onChange={refresh}/>}
-          {screen==='newreq'  && !hasPerm(user,'servicos','create') && <div className="main-pad"><div className="card" style={{ textAlign:'center',padding:40,color:'var(--ink-3)' }}><Icon name="shield" size={32} style={{ margin:'0 auto 12px',display:'block' }}/><p>Você não tem permissão para criar solicitações.</p></div></div>}
+          {screen==='home'     && <Dashboard go={go} mobile={false} user={user}/>}
+          {screen==='feed'     && <Feed mobile={false}/>}
+          {screen==='newreq'   && hasPerm(user,'servicos','create')  && <NewRequest go={go} mobile={false} onSubmit={handleNewRequest}/>}
+          {screen==='newreq'   && !hasPerm(user,'servicos','create') && <Blocked/>}
+          {screen==='mine'     && <MyRequests go={go} mobile={false} user={user} onChange={refresh} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })}/>}
+          {screen==='usuarios' && <UsersScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
         </div>
       </div>
-      {ghOpen && <GitHubConfigModal onClose={()=>setGhOpen(false)} onSave={handleConfigSave}/>}
+      {ghOpen && <GitHubConfigModal onClose={() => setGhOpen(false)} onSave={handleConfigSave}/>}
     </div>
   );
+}
+
+function Blocked() {
+  return <div className="main-pad"><div className="card" style={{ textAlign:'center', padding:40, color:'var(--ink-3)' }}>
+    <Icon name="shield" size={32} style={{ margin:'0 auto 12px', display:'block' }}/>
+    <p>Você não tem permissão para acessar este módulo.</p>
+  </div></div>;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
