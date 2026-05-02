@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intranet — Shopping Osasco Plaza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:      #1e3a5f;
+  --navy-2:    #16304f;
+  --gold:      #c9a961;
+  --gold-2:    #b8943e;
+  --gold-soft: #fdf6e3;
+  --bg:        #f4f6f9;
+  --surface:   #ffffff;
+  --surface-2: #f0f3f7;
+  --surface-3: #e4e8ef;
+  --line:      #e4e8ef;
+  --line-2:    #c8d0dc;
+  --ink:       #0f172a;
+  --ink-2:     #334155;
+  --ink-3:     #64748b;
+  --ink-4:     #94a3b8;
+  --ok:        #16a34a;
+  --ok-bg:     #f0fdf4;
+  --warn:      #d97706;
+  --warn-bg:   #fffbeb;
+  --err:       #dc2626;
+  --err-bg:    #fef2f2;
+  --info:      #2563eb;
+  --info-bg:   #eff6ff;
+  --r:         10px;
+  --r-lg:      14px;
+  --shadow:    0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-2:  0 4px 16px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body { background:#1e3a5f; display:flex; align-items:center; justify-content:center; font-family:'Inter',sans-serif; }
+#root { position:fixed; inset:0; }
+
+/* ── PULSE ANIMATION ── */
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+@keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+
+/* ── APP SHELL ── */
+.app-shell { position:absolute; inset:0; display:flex; flex-direction:column; background:var(--bg); font-family:'Inter',sans-serif; color:var(--ink); overflow:hidden; }
+
+/* ── TOPBAR ── */
+.topbar { height:60px; background:var(--surface); border-bottom:1px solid var(--line); display:flex; align-items:center; padding:0 24px; gap:20px; flex-shrink:0; }
+.brand-mark { display:flex; align-items:center; gap:10px; }
+.brand-logo { width:32px; height:32px; background:var(--navy); border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--gold); font-weight:700; font-size:13px; letter-spacing:-0.02em; }
+.brand-name { font-size:14px; font-weight:600; color:var(--ink); letter-spacing:-0.01em; }
+.brand-sub { font-size:11px; color:var(--ink-3); font-weight:400; margin-top:-2px; letter-spacing:0.02em; }
+.topbar-search { flex:1; max-width:480px; position:relative; }
+.topbar-search input { width:100%; height:36px; background:var(--surface-2); border:1px solid transparent; border-radius:999px; padding:0 14px 0 38px; font-size:13px; color:var(--ink); outline:none; font-family:inherit; transition:all 0.15s; }
+.topbar-search input:focus { background:var(--surface); border-color:var(--line-2); box-shadow:0 0 0 3px rgba(30,58,95,0.08); }
+.topbar-search .search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--ink-3); }
+.topbar-actions { display:flex; gap:8px; align-items:center; }
+.icon-btn { width:36px; height:36px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; transition:all 0.15s; }
+.icon-btn:hover { background:var(--surface-2); border-color:var(--line-2); }
+.icon-btn .ping { position:absolute; top:6px; right:8px; width:8px; height:8px; border-radius:50%; background:var(--gold); border:2px solid var(--surface); }
+.user-chip { display:flex; align-items:center; gap:10px; padding:4px 10px 4px 4px; border-radius:999px; border:1px solid var(--line); cursor:pointer; background:var(--surface); }
+.user-chip:hover { background:var(--surface-2); }
+.user-avatar { width:28px; height:28px; border-radius:50%; background:var(--navy); color:white; font-size:11px; font-weight:600; display:flex; align-items:center; justify-content:center; letter-spacing:0.02em; }
+.user-chip .who { font-size:12px; font-weight:500; color:var(--ink); line-height:1.2; }
+.user-chip .where { font-size:10px; color:var(--ink-3); line-height:1.1; }
+
+/* ── LAYOUT ── */
+.layout-row { flex:1; display:flex; min-height:0; }
+.sidebar { width:220px; background:var(--surface); border-right:1px solid var(--line); padding:16px 12px; flex-shrink:0; display:flex; flex-direction:column; gap:2px; overflow-y:auto; }
+.sidebar-section { font-size:10px; font-weight:600; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.1em; padding:14px 12px 6px; }
+.nav-link { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px; font-size:13px; font-weight:500; color:var(--ink-2); cursor:pointer; border:0; background:transparent; width:100%; text-align:left; font-family:inherit; transition:all 0.15s; }
+.nav-link:hover { background:var(--surface-2); color:var(--ink); }
+.nav-link.active { background:var(--navy); color:white; }
+.nav-link.active .badge { background:var(--gold); color:var(--navy); }
+.nav-link .badge { margin-left:auto; background:var(--surface-3); color:var(--ink-2); font-size:10px; font-weight:600; padding:1px 6px; border-radius:999px; }
+.sidebar-footer { margin-top:auto; padding:12px; background:var(--gold-soft); border-radius:12px; display:flex; flex-direction:column; gap:6px; }
+.sidebar-footer h4 { font-size:12px; font-weight:600; margin:0; color:#5e4a16; }
+.sidebar-footer p { font-size:11px; color:#7c6326; margin:0; line-height:1.4; }
+.sidebar-footer button { margin-top:4px; padding:6px 10px; background:var(--navy); color:var(--gold); border:0; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer; font-family:inherit; }
+
+/* ── MAIN ── */
+.main { flex:1; min-width:0; overflow-y:auto; background:var(--bg); }
+.main-pad { padding:24px 28px; max-width:1200px; margin:0 auto; }
+.page-title-row { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:20px; }
+.page-title h2 { font-size:22px; font-weight:600; margin:0; letter-spacing:-0.02em; }
+.page-title p { margin:2px 0 0; font-size:13px; color:var(--ink-3); }
+
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; height:36px; padding:0 16px; border-radius:8px; font-size:13px; font-weight:500; border:1px solid transparent; cursor:pointer; font-family:inherit; transition:all 0.15s; white-space:nowrap; }
+.btn:disabled { opacity:0.5; cursor:not-allowed; }
+.btn-primary { background:var(--navy); color:white; }
+.btn-primary:hover:not(:disabled) { background:var(--navy-2); }
+.btn-gold { background:var(--gold); color:#1c1917; font-weight:600; }
+.btn-gold:hover:not(:disabled) { background:var(--gold-2); color:white; }
+.btn-ghost { background:var(--surface); border-color:var(--line); color:var(--ink-2); }
+.btn-ghost:hover:not(:disabled) { background:var(--surface-2); }
+.btn-danger { background:var(--err-bg); border-color:var(--err); color:var(--err); }
+.btn-danger:hover:not(:disabled) { background:var(--err); color:white; }
+.btn-lg { height:44px; padding:0 22px; font-size:14px; }
+.btn-sm { height:30px; padding:0 12px; font-size:12px; }
+
+/* ── CARDS ── */
+.card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:20px; box-shadow:var(--shadow); }
+.card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.card-head h3 { font-size:15px; font-weight:600; margin:0; }
+.card-head .link { display:flex; align-items:center; gap:4px; font-size:12px; color:var(--ink-3); border:0; background:transparent; cursor:pointer; font-family:inherit; }
+.card-head .link:hover { color:var(--navy); }
+
+/* ── FORM FIELDS ── */
+.field { margin-bottom:16px; }
+.field label { display:block; font-size:12px; font-weight:500; color:var(--ink-2); margin-bottom:6px; }
+.field input, .field select, .field textarea {
+  width:100%; height:38px; background:var(--surface-2);
+  border:1px solid var(--line); border-radius:8px; padding:0 12px;
+  font-size:13px; color:var(--ink); outline:none; font-family:inherit; transition:all 0.15s;
+}
+.field textarea { height:auto; padding:10px 12px; resize:vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { background:var(--surface); border-color:var(--navy); box-shadow:0 0 0 3px rgba(30,58,95,0.08); }
+.field .hint { font-size:11px; color:var(--ink-3); margin-top:5px; }
+.req { color:var(--err); margin-left:2px; }
+
+/* ── BADGES / STATUS ── */
+.status-pill { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px; white-space:nowrap; }
+.status-pill .ind { width:6px; height:6px; border-radius:50%; }
+.status-pill.ok { background:var(--ok-bg); color:var(--ok); } .status-pill.ok .ind { background:var(--ok); }
+.status-pill.warn { background:var(--warn-bg); color:var(--warn); } .status-pill.warn .ind { background:var(--warn); }
+.status-pill.info { background:var(--info-bg); color:var(--info); } .status-pill.info .ind { background:var(--info); }
+.status-pill.err { background:var(--err-bg); color:var(--err); } .status-pill.err .ind { background:var(--err); }
+.status-pill.muted { background:var(--surface-2); color:var(--ink-3); } .status-pill.muted .ind { background:var(--ink-4); }
+
+/* ── CAROUSEL ── */
+.carousel { position:relative; border-radius:var(--r-lg); overflow:hidden; background:var(--navy); box-shadow:var(--shadow-2); }
+.carousel-track { display:flex; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+.carousel-slide { min-width:100%; position:relative; aspect-ratio:22/9; overflow:hidden; background:var(--navy); }
+.slide-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; }
+.slide-overlay { position:absolute; inset:0; background:linear-gradient(110deg,rgba(15,23,42,0.85) 0%,rgba(15,23,42,0.55) 45%,rgba(15,23,42,0.15) 75%,rgba(15,23,42,0.05) 100%); }
+.slide-content { position:absolute; left:0; bottom:0; padding:36px 40px; max-width:60%; color:white; z-index:2; }
+.slide-tag { display:inline-flex; background:var(--gold); color:#1c1917; font-size:10px; font-weight:700; letter-spacing:0.12em; padding:4px 10px; border-radius:4px; }
+.slide-content h3 { margin:14px 0 6px; font-size:28px; font-weight:600; letter-spacing:-0.01em; line-height:1.15; }
+.slide-content .slide-sub { font-size:13px; color:rgba(255,255,255,0.75); margin-bottom:6px; }
+.slide-content p { font-size:13px; color:rgba(255,255,255,0.85); max-width:480px; line-height:1.5; }
+.carousel-dots { position:absolute; bottom:16px; right:20px; display:flex; gap:6px; }
+.carousel-dots span { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.35); cursor:pointer; transition:all 0.2s; }
+.carousel-dots span.active { background:var(--gold); width:18px; border-radius:3px; }
+.carousel-controls { position:absolute; bottom:16px; right:80px; display:flex; gap:6px; }
+.carousel-btn { width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); color:white; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(8px); }
+.carousel-btn:hover { background:rgba(255,255,255,0.18); }
+
+/* ── TILES ── */
+.tile-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.tile { display:flex; align-items:center; gap:12px; padding:16px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); cursor:pointer; text-align:left; font-family:inherit; transition:all 0.15s; }
+.tile:hover { border-color:var(--line-2); box-shadow:var(--shadow); }
+.tile-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.tile.tone-navy .tile-icon { background:var(--navy); color:var(--gold); }
+.tile.tone-gold .tile-icon { background:var(--gold-soft); color:var(--gold-2); }
+.tile.tone-soft .tile-icon { background:var(--surface-2); color:var(--ink-2); }
+.tile-label { font-size:13px; font-weight:600; color:var(--ink); }
+.tile-sub { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.tile-arrow { margin-left:auto; color:var(--ink-4); }
+
+/* ── DASH GRID ── */
+.dash-grid { display:grid; grid-template-columns:1fr 340px; gap:20px; margin-top:20px; }
+.stat-list { display:flex; flex-direction:column; gap:8px; }
+.stat-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; background:var(--surface-2); }
+.stat-item.ok .stat-icon { color:var(--ok); } .stat-item.warn .stat-icon { color:var(--warn); } .stat-item.alert .stat-icon { color:var(--err); }
+.stat-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+.stat-num { font-size:18px; font-weight:600; letter-spacing:-0.02em; }
+.stat-lbl { font-size:11px; color:var(--ink-3); }
+.nps-row { display:flex; gap:4px; margin-top:10px; }
+.nps-row span { flex:1; height:6px; background:var(--surface-2); border-radius:2px; }
+.nps-row span.fill { background:linear-gradient(90deg,var(--err) 0%,var(--warn) 50%,var(--ok) 100%); }
+
+/* ── FEED ── */
+.feed-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:20px; margin-bottom:14px; }
+.feed-head { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.feed-head .av { width:36px; height:36px; border-radius:50%; background:var(--navy); color:white; font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.feed-head .who { font-size:13px; font-weight:600; color:var(--ink); }
+.feed-head .when { font-size:11px; color:var(--ink-3); }
+.feed-head .ai-tag { margin-left:auto; display:flex; align-items:center; gap:4px; font-size:10px; font-weight:600; color:var(--gold-2); background:var(--gold-soft); padding:4px 8px; border-radius:6px; white-space:nowrap; }
+.feed-card h4 { font-size:16px; font-weight:600; margin-bottom:6px; letter-spacing:-0.01em; }
+.feed-card p.body { font-size:13px; color:var(--ink-2); line-height:1.55; }
+.feed-media { margin-top:12px; background:var(--surface-2); border-radius:8px; padding:24px; text-align:center; font-size:12px; color:var(--ink-4); font-family:'JetBrains Mono',monospace; border:1px dashed var(--line-2); }
+.feed-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.feed-tags span { font-size:11px; color:var(--ink-3); background:var(--surface-2); padding:3px 8px; border-radius:6px; }
+.feed-actions { display:flex; gap:6px; margin-top:14px; flex-wrap:wrap; }
+.feed-actions button { display:flex; align-items:center; gap:6px; border:0; background:transparent; font-size:12px; color:var(--ink-3); cursor:pointer; padding:4px 8px; border-radius:6px; font-family:inherit; }
+.feed-actions button:hover { background:var(--surface-2); color:var(--ink-2); }
+.feed-actions button.liked { color:var(--err); }
+.feed-actions button.saved { color:var(--gold-2); }
+
+/* ── REQUESTS ── */
+.req-detail-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px; margin-bottom:12px; transition:all 0.15s; }
+.req-detail-card:hover { border-color:var(--line-2); }
+.req-detail-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.req-detail-id { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-3); }
+.req-detail-title { font-size:15px; font-weight:600; margin:2px 0 0; letter-spacing:-0.01em; line-height:1.3; }
+.req-detail-meta { display:flex; gap:8px; align-items:center; font-size:11px; color:var(--ink-3); margin-top:6px; flex-wrap:wrap; }
+.req-detail-meta span.dot { width:3px; height:3px; border-radius:50%; background:var(--ink-4); }
+.progress { height:4px; border-radius:2px; background:var(--surface-2); overflow:hidden; }
+.progress span { display:block; height:100%; background:var(--navy); border-radius:2px; transition:width 0.3s; }
+.progress.ok span { background:var(--ok); }
+.progress.crit span { background:var(--err); }
+
+/* ── STEPPER ── */
+.stepper-shell { display:flex; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow); min-height:520px; }
+.stepper-aside { width:260px; background:var(--navy); color:white; padding:32px 24px; flex-shrink:0; display:flex; flex-direction:column; }
+.stepper-aside h3 { font-size:11px; font-weight:600; letter-spacing:0.12em; color:rgba(255,255,255,0.5); text-transform:uppercase; margin-bottom:6px; }
+.stepper-aside h2 { font-size:20px; font-weight:600; margin:0 0 28px; line-height:1.25; }
+.step-list { display:flex; flex-direction:column; gap:4px; }
+.step-item { display:flex; align-items:center; gap:12px; padding:8px 12px; border-radius:8px; transition:all 0.2s; }
+.step-item.active { background:rgba(255,255,255,0.1); }
+.step-num { width:24px; height:24px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; flex-shrink:0; color:rgba(255,255,255,0.5); }
+.step-item.active .step-num { border-color:var(--gold); color:var(--gold); background:rgba(201,169,97,0.15); }
+.step-item.done .step-num { border-color:var(--ok); color:var(--ok); background:rgba(22,163,74,0.15); }
+.step-label { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); }
+.step-item.active .step-label { color:white; }
+.step-item.done .step-label { color:rgba(255,255,255,0.5); }
+.footer-tip { margin-top:auto; padding-top:24px; font-size:11px; color:rgba(255,255,255,0.35); line-height:1.5; }
+.stepper-main { flex:1; padding:36px; overflow-y:auto; }
+.stepper-main h3 { font-size:18px; font-weight:600; margin-bottom:6px; letter-spacing:-0.01em; }
+.stepper-main p.lead { font-size:13px; color:var(--ink-3); margin-bottom:24px; line-height:1.5; }
+.type-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.type-card { display:flex; align-items:center; gap:12px; padding:14px; border:1.5px solid var(--line); border-radius:10px; background:var(--surface); cursor:pointer; text-align:left; font-family:inherit; transition:all 0.15s; width:100%; }
+.type-card:hover { border-color:var(--line-2); background:var(--surface-2); }
+.type-card.selected { border-color:var(--navy); background:#f6f8fc; }
+.ti { width:36px; height:36px; border-radius:8px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--ink-2); flex-shrink:0; }
+.type-card.selected .ti { background:var(--navy); color:white; }
+.tl { font-size:13px; font-weight:600; color:var(--ink); }
+.td { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.priority-row { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.priority-card { padding:12px; border:1.5px solid var(--line); border-radius:8px; background:var(--surface); cursor:pointer; font-family:inherit; transition:all 0.15s; }
+.priority-card:hover { border-color:var(--line-2); }
+.priority-card.selected { border-color:var(--navy); background:#f6f8fc; }
+.priority-card[data-p="Crítica"].selected { border-color:var(--err); background:var(--err-bg); }
+.pl { font-size:13px; font-weight:600; color:var(--ink); }
+.ps { font-size:11px; color:var(--ink-3); margin-top:2px; }
+.upload-zone { border:2px dashed var(--line-2); border-radius:10px; padding:28px; text-align:center; cursor:pointer; }
+.upload-zone .uh { font-size:13px; font-weight:500; color:var(--ink-2); margin-top:8px; }
+.upload-zone .us { font-size:11px; color:var(--ink-3); margin-top:4px; }
+.review-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.review-row:last-child { border-bottom:0; }
+.review-row .k { color:var(--ink-3); }
+.review-row .v { color:var(--ink); font-weight:500; max-width:60%; text-align:right; }
+.stepper-foot { display:flex; justify-content:space-between; margin-top:28px; padding-top:20px; border-top:1px solid var(--line); }
+
+/* ── DIVIDERS ── */
+.divider { height:1px; background:var(--line); margin:18px 0; }
+.label-eyebrow { font-size:10px; font-weight:600; letter-spacing:0.12em; color:var(--ink-4); text-transform:uppercase; margin-bottom:8px; }
+
+/* ── LOGIN ── */
+.login-shell { position:absolute; inset:0; display:flex; background:var(--bg); }
+.login-left { flex:1.1; background:var(--navy); color:white; padding:48px; display:flex; flex-direction:column; position:relative; overflow:hidden; background-image:radial-gradient(ellipse 80% 60% at 100% 100%,rgba(201,169,97,0.18) 0%,transparent 50%),radial-gradient(ellipse 60% 80% at 0% 0%,rgba(44,83,128,0.4) 0%,transparent 60%); }
+.login-left::after { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px); background-size:24px 24px; pointer-events:none; }
+.login-brand-mark { display:flex; align-items:center; gap:12px; position:relative; z-index:2; }
+.login-brand-mark .lm { width:40px; height:40px; background:var(--gold); color:var(--navy); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
+.login-headline { margin-top:auto; position:relative; z-index:2; }
+.login-headline .eyebrow { font-size:11px; font-weight:600; letter-spacing:0.16em; color:var(--gold); margin-bottom:14px; text-transform:uppercase; }
+.login-headline h1 { font-size:36px; font-weight:600; margin:0; letter-spacing:-0.02em; line-height:1.15; max-width:460px; }
+.login-headline p { margin:14px 0 0; font-size:14px; color:rgba(255,255,255,0.65); max-width:440px; line-height:1.5; }
+.login-stats { display:flex; gap:36px; margin-top:28px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.1); position:relative; z-index:2; }
+.login-stats .ls-num { font-size:22px; font-weight:600; color:var(--gold); letter-spacing:-0.01em; }
+.login-stats .ls-lbl { font-size:11px; color:rgba(255,255,255,0.55); margin-top:2px; letter-spacing:0.04em; }
+.login-right { flex:1; display:flex; align-items:center; justify-content:center; padding:40px; }
+.login-form { width:100%; max-width:380px; }
+.login-form h2 { font-size:24px; font-weight:600; margin:0 0 6px; letter-spacing:-0.01em; }
+.login-form .sub { font-size:13px; color:var(--ink-3); margin:0 0 24px; }
+.login-form .field { margin-bottom:14px; }
+.login-form .demo-hint { margin-top:16px; padding:12px; background:var(--gold-soft); border-radius:8px; font-size:11px; color:#7c6326; line-height:1.5; }
+.login-form .demo-hint b { color:#5e4a16; }
+.login-form code { background:rgba(0,0,0,0.06); padding:1px 4px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:11px; }
+
+/* ── SKELETON ── */
+.skel { background:linear-gradient(90deg,var(--surface-2) 0%,var(--surface-3) 50%,var(--surface-2) 100%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:4px; }
+
+/* ── USERS MODULE ── */
+.users-table { width:100%; border-collapse:collapse; }
+.users-table th { text-align:left; font-size:11px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.06em; padding:8px 12px; border-bottom:1px solid var(--line); }
+.users-table td { padding:12px; border-bottom:1px solid var(--line); font-size:13px; vertical-align:middle; }
+.users-table tr:last-child td { border-bottom:0; }
+.users-table tr:hover td { background:var(--surface-2); }
+.role-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; }
+.role-badge.admin { background:#eef2ff; color:#4338ca; }
+.role-badge.gestor { background:var(--warn-bg); color:var(--warn); }
+.role-badge.colaborador { background:var(--surface-2); color:var(--ink-3); }
+.perm-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+.perm-item { display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--line); border-radius:8px; cursor:pointer; user-select:none; font-size:12px; font-family:inherit; background:var(--surface); transition:all 0.15s; }
+.perm-item:hover { border-color:var(--line-2); background:var(--surface-2); }
+.perm-item input[type=checkbox] { width:15px; height:15px; accent-color:var(--navy); cursor:pointer; }
+.modal-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.55); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; z-index:2000; padding:24px; }
+.modal-card { background:var(--surface); border-radius:var(--r-lg); padding:28px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 24px 48px rgba(0,0,0,0.2); }
+.modal-card h3 { font-size:17px; font-weight:600; margin:0 0 4px; }
+.modal-card .close-x { position:absolute; top:14px; right:14px; background:transparent; border:0; cursor:pointer; color:var(--ink-3); width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:6px; }
+.modal-card .close-x:hover { background:var(--surface-2); color:var(--ink); }
+.force-pwd-modal { border:2px solid var(--gold); }
+
+/* ── MOBILE ── */
+.app-shell.mobile { font-size:14px; }
+.bottom-tabs { position:absolute; left:0; right:0; bottom:0; height:64px; background:var(--surface); border-top:1px solid var(--line); display:flex; z-index:100; }
+.bottom-tabs button { flex:1; border:0; background:transparent; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:10px; font-weight:500; color:var(--ink-3); cursor:pointer; font-family:inherit; position:relative; }
+.bottom-tabs button.active { color:var(--navy); }
+.bottom-tabs button.fab { margin:-22px 6px 0; background:var(--gold); border-radius:50%; height:52px; flex:0 0 52px; color:#1c1917; box-shadow:0 6px 16px rgba(201,169,97,0.4); }
+.bottom-tabs button.active::after { content:''; position:absolute; top:8px; width:24px; height:3px; background:var(--gold); border-radius:2px; }
+.mobile .main { padding-bottom:80px; }
+.mobile .main-pad { padding:16px; }
+.mobile .carousel-slide { aspect-ratio:4/3; }
+.mobile .slide-content { max-width:100%; padding:18px; }
+.mobile .slide-content h3 { font-size:19px; }
+.mobile .dash-grid { grid-template-columns:1fr; }
+.mobile .tile-grid { grid-template-columns:1fr 1fr; gap:10px; }
+.mobile .stepper-shell { flex-direction:column; }
+.mobile .stepper-aside { width:100%; padding:16px 20px; }
+.mobile .stepper-aside h2, .mobile .stepper-aside h3, .mobile .stepper-aside .footer-tip { display:none; }
+.mobile .step-list { flex-direction:row; }
+.mobile .step-item { flex-direction:column; align-items:center; flex:1; padding:6px 0; }
+.mobile .step-item .step-label { font-size:10px; text-align:center; }
+.mobile .stepper-main { padding:20px; }
+.mobile .type-grid { grid-template-columns:1fr 1fr; }
+.mobile .priority-row { grid-template-columns:1fr 1fr; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+/* ════════════════════════════════════════════════════════════════
+   DATA LAYER — GitHub sync + AES-GCM encryption + localStorage
+   ════════════════════════════════════════════════════════════════ */
+const STORAGE_KEY   = 'intranet_shopping_v10_db';
+const CRYPTO_KEY_ID = 'intranet_shopping_v10_ck';
+const GH_CFG_KEY    = 'intranet_shopping_v10_gh';
+const GH_FILE       = 'db/dados.json';
+const SENSITIVE_USER_FIELDS = ['nome','cpf','dataNascimento','dataAdmissao','dataDemissao'];
+
+/* ── Crypto ── */
+let _cryptoKey = null;
+async function getCryptoKey() {
+  if (_cryptoKey) return _cryptoKey;
+  try {
+    const stored = localStorage.getItem(CRYPTO_KEY_ID);
+    if (stored) {
+      const raw = Uint8Array.from(atob(stored), c => c.charCodeAt(0));
+      _cryptoKey = await crypto.subtle.importKey('raw', raw, { name:'AES-GCM' }, false, ['encrypt','decrypt']);
+      return _cryptoKey;
+    }
+  } catch(e) {}
+  _cryptoKey = await crypto.subtle.generateKey({ name:'AES-GCM', length:256 }, true, ['encrypt','decrypt']);
+  const exported = await crypto.subtle.exportKey('raw', _cryptoKey);
+  localStorage.setItem(CRYPTO_KEY_ID, btoa(String.fromCharCode(...new Uint8Array(exported))));
+  return _cryptoKey;
+}
+async function encryptField(value) {
+  if (value === undefined || value === null || value === '') return value;
+  const key = await getCryptoKey();
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name:'AES-GCM', iv }, key, new TextEncoder().encode(String(value)));
+  const combined = new Uint8Array(iv.byteLength + ct.byteLength);
+  combined.set(iv, 0); combined.set(new Uint8Array(ct), iv.byteLength);
+  return '__enc__' + btoa(String.fromCharCode(...combined));
+}
+async function decryptField(value) {
+  if (typeof value !== 'string' || !value.startsWith('__enc__')) return value;
+  try {
+    const key = await getCryptoKey();
+    const raw = Uint8Array.from(atob(value.slice(7)), c => c.charCodeAt(0));
+    const pt = await crypto.subtle.decrypt({ name:'AES-GCM', iv:raw.slice(0,12) }, key, raw.slice(12));
+    return new TextDecoder().decode(pt);
+  } catch(e) { return '***'; }
+}
+
+/* ── Password hash (SHA-256) ── */
+async function hashPassword(pwd) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ── GitHub ── */
+let _currentSha = null;
+const GH = {
+  getCfg() { try { return JSON.parse(localStorage.getItem(GH_CFG_KEY) || 'null') || {}; } catch(e) { return {}; } },
+  saveCfg(obj) { localStorage.setItem(GH_CFG_KEY, JSON.stringify(obj)); },
+  clearCfg() { localStorage.removeItem(GH_CFG_KEY); },
+  isConfigured() { const c = GH.getCfg(); return !!(c.user && c.repo && c.branch && c.token); },
+  _url() { const c = GH.getCfg(); return `https://api.github.com/repos/${c.user}/${c.repo}/contents/${GH_FILE}?ref=${c.branch}`; },
+  _headers() { const c = GH.getCfg(); return { 'Authorization':'token '+c.token, 'Accept':'application/vnd.github.v3+json', 'Content-Type':'application/json' }; },
+  async read() {
+    const resp = await fetch(GH._url(), { headers: GH._headers() });
+    if (resp.status === 404) return { content:null, sha:null };
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const rawB64 = (data.content||'').replace(/\n/g,'').trim();
+    if (!rawB64) return { content:null, sha:data.sha };
+    let json='';
+    try { json = decodeURIComponent(escape(atob(rawB64))); } catch(e) { json = atob(rawB64); }
+    try { return { content:JSON.parse(json.trim()), sha:data.sha }; } catch(e) { return { content:null, sha:data.sha }; }
+  },
+  async write(dados, sha) {
+    const c = GH.getCfg();
+    let b64; try { b64 = btoa(unescape(encodeURIComponent(JSON.stringify(dados,null,2)))); } catch(e) { b64 = btoa(JSON.stringify(dados,null,2)); }
+    const body = { message:'Atualização — '+new Date().toLocaleString('pt-BR'), content:b64, branch:c.branch };
+    if (sha) body.sha = sha;
+    const resp = await fetch(`https://api.github.com/repos/${c.user}/${c.repo}/contents/${GH_FILE}`, { method:'PUT', headers:GH._headers(), body:JSON.stringify(body) });
+    if (!resp.ok) { const err = await resp.json().catch(()=>({})); throw new Error((err.message||'Erro ao salvar')+' (HTTP '+resp.status+')'); }
+    return (await resp.json()).content.sha;
+  },
+  async test() {
+    try {
+      const c = GH.getCfg();
+      const resp = await fetch(`https://api.github.com/repos/${c.user}/${c.repo}`, { headers:GH._headers() });
+      if (resp.status===401) return { ok:false, msg:'Token inválido.' };
+      if (resp.status===404) return { ok:false, msg:'Repositório não encontrado.' };
+      if (!resp.ok) return { ok:false, msg:'Erro HTTP '+resp.status };
+      return { ok:true, msg:'Conectado com sucesso!' };
+    } catch(e) { return { ok:false, msg:'Erro de rede: '+e.message }; }
+  }
+};
+
+/* ── Permissions ── */
+const DEFAULT_PERMISSIONS = {
+  admin: {
+    home:      { view:true, create:true, edit:true, delete:true, approve:true },
+    feed:      { view:true, create:true, edit:true, delete:true, approve:true },
+    servicos:  { view:true, create:true, edit:true, delete:true, approve:true },
+    usuarios:  { view:true, create:true, edit:true, delete:true, approve:true },
+    relatorios:{ view:true, create:true, edit:true, delete:true, approve:true },
+  },
+  gestor: {
+    home:      { view:true, create:false, edit:false, delete:false, approve:false },
+    feed:      { view:true, create:true,  edit:true,  delete:false, approve:false },
+    servicos:  { view:true, create:true,  edit:true,  delete:false, approve:true },
+    usuarios:  { view:true, create:false, edit:false, delete:false, approve:false },
+    relatorios:{ view:true, create:false, edit:false, delete:false, approve:false },
+  },
+  colaborador: {
+    home:      { view:true,  create:false, edit:false, delete:false, approve:false },
+    feed:      { view:true,  create:false, edit:false, delete:false, approve:false },
+    servicos:  { view:true,  create:true,  edit:false, delete:false, approve:false },
+    usuarios:  { view:false, create:false, edit:false, delete:false, approve:false },
+    relatorios:{ view:false, create:false, edit:false, delete:false, approve:false },
+  },
+};
+
+function hasPerm(user, mod, action) {
+  if (!user) return false;
+  const perms = user.permissions || DEFAULT_PERMISSIONS[user.role] || DEFAULT_PERMISSIONS.colaborador;
+  return !!(perms[mod] && perms[mod][action]);
+}
+
+/* ── DB ── */
+function loadDBLocal() { try { const r=localStorage.getItem(STORAGE_KEY); if(r) return JSON.parse(r); } catch(e){} return null; }
+function saveDBLocal(db) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); } catch(e){} }
+
+async function seedDB() {
+  const h1 = await hashPassword('admin');
+  const h2 = await hashPassword('mariana');
+  const h3 = await hashPassword('colab');
+  return {
+    users: [
+      { id:'u1', login:'admin',   passwordHash:h1, role:'admin',       nome:'Administrador',  cargo:'TI',               store:'Administração',          forcePasswordChange:false },
+      { id:'u2', login:'mariana', passwordHash:h2, role:'gestor',      nome:'Mariana Castro', cargo:'Coord. Operações', store:'Administração · Bloco A', forcePasswordChange:false },
+      { id:'u3', login:'colab',   passwordHash:h3, role:'colaborador', nome:'Colaborador',    cargo:'Atendimento',      store:'Loja 142',               forcePasswordChange:false },
+    ],
+    requests: [
+      { id:'SOL-2841', title:'Troca de lâmpada — Loja 142',          type:'maintenance', priority:'Alta',    status:'Em andamento',        updated:Date.now()-12*60*1000,    createdBy:'u2', progress:60,  owner:'Equipe Elétrica',   desc:'Lâmpada queimada na vitrine.' },
+      { id:'SOL-2839', title:'Limpeza extra — Praça de alimentação', type:'cleaning',    priority:'Normal',  status:'Concluído',           updated:Date.now()-24*3600*1000,  createdBy:'u2', progress:100, owner:'Equipe Limpeza',    desc:'Derramamento próximo mesa 12.' },
+      { id:'SOL-2837', title:'Acesso provisório — Fornecedor',       type:'security',    priority:'Normal',  status:'Aguardando aprovação',updated:Date.now()-2*3600*1000,   createdBy:'u3', progress:25,  owner:'Coord. Operações',  desc:'Fornecedor de equipamentos.' },
+      { id:'SOL-2832', title:'Reparo no escalador rolante 03',       type:'maintenance', priority:'Crítica', status:'Em andamento',        updated:Date.now()-24*3600*1000,  createdBy:'u2', progress:80,  owner:'Equipe Técnica',    desc:'Escalador travando intermitentemente.' },
+    ],
+    announcements: [
+      { id:'a1', tag:'EVENTO',        title:'Festival Gastronômico Internacional',     subtitle:'12 a 28 de maio · Praça Central', body:'Mais de 30 chefs, food trucks e música ao vivo.', cta:'Ver programação', bgKey:'gastronomia', likes:142, comments:38 },
+      { id:'a2', tag:'INSTITUCIONAL', title:'Novo plano de saúde para colaboradores',  subtitle:'Vigência a partir de 01/06',       body:'Cobertura nacional, telemedicina 24h.',           cta:'Conhecer benefícios', bgKey:'saude', likes:211, comments:64 },
+      { id:'a3', tag:'OPERAÇÃO',      title:'Manutenção do sistema de ar-condicionado',subtitle:'Domingo · 02h às 06h',             body:'Setores A1–A3 com variações de temperatura.',    cta:'Detalhes técnicos', bgKey:'operacao', likes:24, comments:12 },
+    ],
+    feed: [
+      { id:'f1', author:'Comunicação Interna', role:'Marketing', when:Date.now()-3600000,  title:'Resultados da pesquisa de clima 2026', body:'NPS interno de 72 — alta de 9 pontos vs. 2025.', aiReason:'Você participou da pesquisa', tags:['Pessoas','Cultura'], likes:156, comments:24, saved:false, liked:true, media:'chart' },
+      { id:'f2', author:'Direção Operacional', role:'Operações', when:Date.now()-14400000, title:'Movimento do fim de semana bate recorde', body:'127 mil visitantes no sábado.', aiReason:'Relevante para sua área', tags:['Resultados','Operações'], likes:312, comments:48, saved:true, liked:false, media:'photo' },
+      { id:'f3', author:'RH',                  role:'Pessoas',   when:Date.now()-86400000, title:'Vagas internas — Coord. de visual merchandising', body:'2 posições abertas para ≥1 ano de casa.', aiReason:'Corresponde ao seu perfil', tags:['Carreira','Vagas'], likes:78, comments:11, saved:false, liked:false },
+    ],
+    counters: { reqSeq:2841 }
+  };
+}
+
+let DB = null;
+
+async function initDB(onStatus) {
+  if (GH.isConfigured()) {
+    try {
+      onStatus && onStatus('Carregando do GitHub...', 'loading');
+      const r = await GH.read();
+      _currentSha = r.sha || null;
+      if (r.content) {
+        DB = r.content;
+        await migratePasswords();
+        saveDBLocal(DB);
+        onStatus && onStatus('Sincronizado com GitHub', 'ok');
+        return DB;
+      }
+    } catch(e) { onStatus && onStatus('GitHub indisponível, usando local', 'warn'); }
+  }
+  const local = loadDBLocal();
+  if (local && Array.isArray(local.users) && local.users.length > 0) {
+    DB = local;
+    await migratePasswords(); // converte senhas em texto puro para hash
+    saveDBLocal(DB);
+    onStatus && onStatus(GH.isConfigured() ? 'Local (sem rede)' : 'Local', 'muted');
+    return DB;
+  }
+  DB = await seedDB();
+  saveDBLocal(DB);
+  onStatus && onStatus('Banco inicializado', 'muted');
+  return DB;
+}
+
+async function persistDB(onStatus) {
+  saveDBLocal(DB);
+  if (GH.isConfigured()) {
+    try {
+      onStatus && onStatus('Salvando no GitHub...', 'loading');
+      _currentSha = await GH.write(DB, _currentSha);
+      onStatus && onStatus('Sincronizado com GitHub', 'ok');
+      return true;
+    } catch(e) {
+      try { const r=await GH.read(); _currentSha=r.sha||null; _currentSha=await GH.write(DB,_currentSha); onStatus&&onStatus('Sincronizado','ok'); return true; }
+      catch(e2) { onStatus&&onStatus('Salvo localmente · GitHub falhou','warn'); return false; }
+    }
+  }
+  onStatus && onStatus('Salvo localmente', 'muted');
+  return true;
+}
+
+async function findUserByLogin(login, password) {
+  if (!DB) return null;
+  const hash = await hashPassword(password);
+  return DB.users.find(u =>
+    u.login === login && (
+      u.passwordHash === hash ||
+      u.password === password
+    )
+  ) || null;
+}
+
+async function migratePasswords() {
+  if (!DB || !DB.users) return;
+  let changed = false;
+  for (const u of DB.users) {
+    if (u.password && !u.passwordHash) {
+      u.passwordHash = await hashPassword(u.password);
+      delete u.password;
+      changed = true;
+    }
+  }
+  if (changed) saveDBLocal(DB);
+}
+
+function nextRequestId() {
+  DB.counters = DB.counters || { reqSeq:2840 };
+  DB.counters.reqSeq = (DB.counters.reqSeq||2840) + 1;
+  return 'SOL-' + DB.counters.reqSeq;
+}
+function addRequest(payload, user) {
+  const r = { id:nextRequestId(), status:'Pendente', progress:5, updated:Date.now(), createdBy:user?user.id:null, owner: payload.type==='maintenance'?'Manutenção predial':payload.type==='cleaning'?'Limpeza & conservação':payload.type==='security'?'Segurança':payload.type==='it'?'TI':payload.type==='logistics'?'Logística':'Triagem central', ...payload };
+  DB.requests = DB.requests || [];
+  DB.requests.unshift(r);
+  return r;
+}
+function updateRequestStatus(id, status, progress) {
+  const r = (DB.requests||[]).find(x => x.id===id);
+  if (!r) return null;
+  r.status=status; if(typeof progress==='number') r.progress=progress; r.updated=Date.now();
+  return r;
+}
+function relativeTime(ts) {
+  if (!ts) return '';
+  const diff=Date.now()-ts, m=Math.round(diff/60000);
+  if(m<1) return 'agora'; if(m<60) return `há ${m} min`;
+  const h=Math.round(m/60); if(h<24) return `há ${h}h`;
+  const d=Math.round(h/24); if(d<30) return `há ${d} dia${d>1?'s':''}`;
+  return new Date(ts).toLocaleDateString('pt-BR');
+}
+
+const serviceTypes = [
+  { id:'maintenance', label:'Manutenção',    icon:'wrench',    desc:'Reparos, infraestrutura, elétrica' },
+  { id:'cleaning',    label:'Limpeza',       icon:'broom',     desc:'Solicitações de limpeza extra' },
+  { id:'security',    label:'Segurança',     icon:'shield',    desc:'Acesso, vigilância, ocorrências' },
+  { id:'it',          label:'TI & Sistemas', icon:'bolt',      desc:'Equipamentos, sistemas, redes' },
+  { id:'logistics',   label:'Logística',     icon:'truck',     desc:'Entregas, doca, fornecedores' },
+  { id:'other',       label:'Outro',         icon:'lightbulb', desc:'Solicitações diversas' },
+];
+const navItems = [
+  { id:'home',    icon:'home',      label:'Início' },
+  { id:'feed',    icon:'megaphone', label:'Comunicados' },
+  { id:'newreq',  icon:'plus',      label:'Nova solicitação' },
+  { id:'mine',    icon:'list',      label:'Meus pedidos' },
+  { id:'usuarios',icon:'shield',    label:'Usuários' },
+];
+
+/* ════════════════════════════════════════════════════════════════
+   ICON COMPONENT
+   ════════════════════════════════════════════════════════════════ */
+const Icon = ({ name, size=18, stroke=1.6, style }) => {
+  const p = { width:size, height:size, viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth:stroke, strokeLinecap:'round', strokeLinejoin:'round', style };
+  switch(name) {
+    case 'home':        return <svg {...p}><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>;
+    case 'megaphone':   return <svg {...p}><path d="M3 11v2a2 2 0 0 0 2 2h2l5 4V5L7 9H5a2 2 0 0 0-2 2z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg>;
+    case 'plus':        return <svg {...p}><path d="M12 5v14M5 12h14"/></svg>;
+    case 'list':        return <svg {...p}><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>;
+    case 'bell':        return <svg {...p}><path d="M6 8a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9z"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>;
+    case 'search':      return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>;
+    case 'user':        return <svg {...p}><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>;
+    case 'settings':    return <svg {...p}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.3.6.9 1 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>;
+    case 'arrow-right': return <svg {...p}><path d="M5 12h14M13 5l7 7-7 7"/></svg>;
+    case 'arrow-left':  return <svg {...p}><path d="M19 12H5M11 5l-7 7 7 7"/></svg>;
+    case 'arrow-up':    return <svg {...p}><path d="M12 19V5M5 12l7-7 7 7"/></svg>;
+    case 'check':       return <svg {...p}><path d="M5 13l4 4L19 7"/></svg>;
+    case 'check-circle':return <svg {...p}><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>;
+    case 'x':           return <svg {...p}><path d="M6 6l12 12M18 6 6 18"/></svg>;
+    case 'clock':       return <svg {...p}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>;
+    case 'paperclip':   return <svg {...p}><path d="M21 12 12.5 20.5a5 5 0 0 1-7-7L14 5a3.5 3.5 0 0 1 5 5L10.5 18.5a2 2 0 0 1-3-3L15 8"/></svg>;
+    case 'calendar':    return <svg {...p}><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>;
+    case 'tools':       return <svg {...p}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/></svg>;
+    case 'bolt':        return <svg {...p}><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>;
+    case 'shield':      return <svg {...p}><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3z"/></svg>;
+    case 'sparkle':     return <svg {...p}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg>;
+    case 'heart':       return <svg {...p}><path d="M20.8 7.2a5 5 0 0 0-7.1-.4L12 8.5l-1.7-1.7A5 5 0 1 0 3.2 14L12 22l8.8-8a5 5 0 0 0 0-6.8z"/></svg>;
+    case 'message':     return <svg {...p}><path d="M21 12a8 8 0 0 1-12 7l-5 2 2-5a8 8 0 1 1 15-4z"/></svg>;
+    case 'bookmark':    return <svg {...p}><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16l7-4 7 4z"/></svg>;
+    case 'filter':      return <svg {...p}><path d="M3 5h18l-7 9v6l-4-2v-4L3 5z"/></svg>;
+    case 'menu':        return <svg {...p}><path d="M4 7h16M4 12h16M4 17h16"/></svg>;
+    case 'logout':      return <svg {...p}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>;
+    case 'chart':       return <svg {...p}><path d="M3 21V3M3 21h18"/><rect x="7" y="11" width="3" height="7"/><rect x="13" y="7" width="3" height="11"/><rect x="19" y="14" width="3" height="4"/></svg>;
+    case 'wrench':      return <svg {...p}><path d="M14 7a4 4 0 0 0-4 4l-7 7 3 3 7-7a4 4 0 0 0 5-5l-2 2-2-2 2-2a4 4 0 0 0-2 0z"/></svg>;
+    case 'broom':       return <svg {...p}><path d="M14 4l6 6-3 3-3-3M11 7l6 6-7 7H4v-6z"/></svg>;
+    case 'truck':       return <svg {...p}><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>;
+    case 'lightbulb':   return <svg {...p}><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5V16H8v-2.5A6 6 0 0 1 12 3z"/></svg>;
+    case 'key':         return <svg {...p}><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9 2 2-2 2 2 2-3 3-2-2-3 3"/></svg>;
+    case 'chevron-right':return <svg {...p}><path d="m9 6 6 6-6 6"/></svg>;
+    case 'chevron-down': return <svg {...p}><path d="m6 9 6 6 6-6"/></svg>;
+    case 'chevron-left': return <svg {...p}><path d="m15 6-6 6 6 6"/></svg>;
+    case 'send':        return <svg {...p}><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>;
+    case 'building':    return <svg {...p}><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M9 16h6"/></svg>;
+    case 'briefcase':   return <svg {...p}><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>;
+    case 'edit':        return <svg {...p}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
+    case 'trash':       return <svg {...p}><path d="M3 6h18M19 6l-1 14H6L5 6M9 6V4h6v2"/></svg>;
+    default:            return <svg {...p}><circle cx="12" cy="12" r="9"/></svg>;
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   SHARED COMPONENTS
+   ════════════════════════════════════════════════════════════════ */
+const { useState, useEffect, useRef } = React;
+
+function StatusPill({ status }) {
+  const map = { 'Em andamento':{c:'info'}, 'Concluído':{c:'ok'}, 'Aguardando aprovação':{c:'warn'}, 'Pendente':{c:'muted'}, 'Cancelado':{c:'err'} };
+  const cls = (map[status]||{c:'muted'}).c;
+  return <span className={`status-pill ${cls}`}><span className="ind"/>{status}</span>;
+}
+
+function PhotoPlaceholder({ label, hue=0 }) {
+  const grad = `linear-gradient(135deg, hsl(${210+hue},30%,22%) 0%, hsl(${220+hue},35%,14%) 100%)`;
+  return <div className="slide-bg" style={{ backgroundImage:`${grad}, repeating-linear-gradient(45deg,rgba(255,255,255,0.02) 0 14px,transparent 14px 28px)` }}>
+    <span>[ {label} ]</span>
+  </div>;
+}
+
+function Carousel({ slides, mobile=false }) {
+  const [idx, setIdx] = useState(0);
+  const total = slides.length;
+  useEffect(() => { const t=setInterval(()=>setIdx(i=>(i+1)%total),6000); return ()=>clearInterval(t); }, [total]);
+  return (
+    <div className="carousel">
+      <div className="carousel-track" style={{ transform:`translateX(-${idx*100}%)` }}>
+        {slides.map((s,i) => (
+          <div className="carousel-slide" key={s.id}>
+            <PhotoPlaceholder label={s.bgKey} hue={i*18} />
+            <div className="slide-overlay"/>
+            <div className="slide-content">
+              <span className="slide-tag">{s.tag}</span>
+              <h3>{s.title}</h3>
+              <div className="slide-sub">{s.subtitle}</div>
+              <p>{s.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="carousel-dots">{slides.map((_,i) => <span key={i} className={i===idx?'active':''} onClick={()=>setIdx(i)}/>)}</div>
+      {!mobile && <div className="carousel-controls">
+        <button className="carousel-btn" onClick={()=>setIdx(i=>(i-1+total)%total)}><Icon name="chevron-left" size={16}/></button>
+        <button className="carousel-btn" onClick={()=>setIdx(i=>(i+1)%total)}><Icon name="chevron-right" size={16}/></button>
+      </div>}
+    </div>
+  );
+}
+
+function TopBar({ user, syncMsg, syncTone, onConfig, onLogout }) {
+  const [open, setOpen] = useState(false);
+  const initials = (user?.nome||'U').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const toneColor = syncTone==='ok'?'var(--ok)':syncTone==='warn'?'var(--warn)':syncTone==='loading'?'var(--info)':'var(--ink-3)';
+  return (
+    <div className="topbar">
+      <div className="brand-mark">
+        <div className="brand-logo">OP</div>
+        <div><div className="brand-name">Osasco Plaza</div><div className="brand-sub">Portal do colaborador</div></div>
+      </div>
+      <div className="topbar-search">
+        <span className="search-icon"><Icon name="search" size={15}/></span>
+        <input placeholder="Buscar comunicados, solicitações..."/>
+      </div>
+      <div className="topbar-actions">
+        <button onClick={onConfig} title={syncMsg} style={{ display:'flex',alignItems:'center',gap:6,padding:'6px 10px',borderRadius:8,background:'var(--surface-2)',border:'1px solid var(--line)',cursor:'pointer',fontSize:11,color:'var(--ink-2)' }}>
+          <span style={{ width:8,height:8,borderRadius:'50%',background:toneColor,animation:syncTone==='loading'?'pulse 1.4s infinite':'none' }}/>
+          <span style={{ maxWidth:180,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>{syncMsg}</span>
+        </button>
+        <button className="icon-btn" title="Notificações"><Icon name="bell" size={16}/><span className="ping"/></button>
+        <button className="icon-btn" onClick={onConfig}><Icon name="settings" size={16}/></button>
+        <div className="user-chip" style={{ position:'relative',cursor:'pointer' }} onClick={()=>setOpen(o=>!o)}>
+          <div className="user-avatar">{initials}</div>
+          <div><div className="who">{user?.nome||''}</div><div className="where">{user?.role==='admin'?'Administrador':user?.role==='gestor'?'Gestor':'Colaborador'}</div></div>
+          <Icon name="chevron-down" size={14} style={{ color:'var(--ink-3)' }}/>
+          {open && <div style={{ position:'absolute',top:'calc(100% + 6px)',right:0,background:'var(--surface)',border:'1px solid var(--line)',borderRadius:10,minWidth:180,boxShadow:'0 8px 24px rgba(15,23,42,0.12)',overflow:'hidden',zIndex:50 }}>
+            <button onClick={e=>{e.stopPropagation();onConfig();setOpen(false);}} style={{ width:'100%',textAlign:'left',padding:'10px 14px',background:'transparent',border:0,cursor:'pointer',fontSize:12,color:'var(--ink)',display:'flex',alignItems:'center',gap:8 }}><Icon name="settings" size={13}/> Sincronização GitHub</button>
+            <button onClick={e=>{e.stopPropagation();onLogout();setOpen(false);}} style={{ width:'100%',textAlign:'left',padding:'10px 14px',background:'transparent',border:0,borderTop:'1px solid var(--line)',cursor:'pointer',fontSize:12,color:'var(--err)',display:'flex',alignItems:'center',gap:8 }}><Icon name="logout" size={13}/> Sair</button>
+          </div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Sidebar({ active, onNav, user }) {
+  const myReqs = ((DB?.requests)||[]).filter(r=>r.createdBy===user.id&&r.status!=='Concluído').length;
+  const items = navItems.filter(n => {
+    if (n.id==='newreq' && !hasPerm(user,'servicos','create')) return false;
+    if (n.id==='usuarios' && !hasPerm(user,'usuarios','view')) return false;
+    return true;
+  });
+  return (
+    <div className="sidebar">
+      <div className="sidebar-section">Principal</div>
+      {items.map(n => (
+        <button key={n.id} className={`nav-link ${active===n.id?'active':''}`} onClick={()=>onNav(n.id)}>
+          <Icon name={n.icon} size={16}/>
+          <span>{n.label}</span>
+          {n.id==='mine' && myReqs>0 && <span className="badge">{myReqs}</span>}
+        </button>
+      ))}
+      <div className="sidebar-section">Espaço</div>
+      <button className="nav-link"><Icon name="building" size={16}/> Lojas & operações</button>
+      <button className="nav-link"><Icon name="briefcase" size={16}/> RH & carreira</button>
+      {hasPerm(user,'relatorios','read') && <button className="nav-link"><Icon name="chart" size={16}/> Relatórios</button>}
+      <div className="sidebar-footer">
+        <Icon name="sparkle" size={14} style={{ color:'var(--gold-2)' }}/>
+        <h4>Festival Gastronômico</h4>
+        <p>Inscreva sua loja como parceira até 08/05.</p>
+        <button>Saiba mais</button>
+      </div>
+    </div>
+  );
+}
+
+function BottomTabs({ active, onNav, user }) {
+  return (
+    <div className="bottom-tabs">
+      <button className={active==='home'?'active':''} onClick={()=>onNav('home')}><Icon name="home" size={18}/><span>Início</span></button>
+      <button className={active==='feed'?'active':''} onClick={()=>onNav('feed')}><Icon name="megaphone" size={18}/><span>Feed</span></button>
+      {hasPerm(user,'servicos','create') && <button className="fab" onClick={()=>onNav('newreq')}><Icon name="plus" size={20}/><span>Nova</span></button>}
+      <button className={active==='mine'?'active':''} onClick={()=>onNav('mine')}><Icon name="list" size={18}/><span>Pedidos</span></button>
+      <button onClick={()=>onNav('profile')}><Icon name="user" size={18}/><span>Você</span></button>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SCREENS
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── LOGIN ── */
+function LoginScreen({ onLogin, ghOpen, setGhOpen, onConfigSave }) {
+  const [user, setUser] = useState('admin');
+  const [pwd, setPwd] = useState('admin');
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  const submit = async () => {
+    setBusy(true); setErr('');
+    const ok = await onLogin(user, pwd);
+    if (!ok) { setErr('Usuário ou senha inválidos.'); setBusy(false); }
+  };
+  return (
+    <div className="login-shell">
+      <div className="login-left">
+        <div className="login-brand-mark"><div className="lm">OP</div><div><div style={{ fontSize:14,fontWeight:600 }}>Osasco Plaza</div><div style={{ fontSize:11,color:'rgba(255,255,255,0.55)' }}>Portal do colaborador</div></div></div>
+        <div className="login-headline">
+          <div className="eyebrow">Intranet · 2026</div>
+          <h1>Tudo o que sua operação precisa, em um só lugar.</h1>
+          <p>Comunicados, solicitações, RH e suporte 24/7. Persistência criptografada · sincronização GitHub opcional.</p>
+          <div className="login-stats">
+            <div><div className="ls-num">2.4k</div><div className="ls-lbl">COLABORADORES</div></div>
+            <div><div className="ls-num">412</div><div className="ls-lbl">LOJAS</div></div>
+            <div><div className="ls-num">98.7%</div><div className="ls-lbl">SLA OPERACIONAL</div></div>
+          </div>
+        </div>
+      </div>
+      <div className="login-right">
+        <div className="login-form">
+          <h2>Entrar</h2>
+          <p className="sub">Use seu usuário corporativo.</p>
+          {err && <div style={{ background:'var(--err-bg)',color:'var(--err)',padding:'10px 12px',borderRadius:8,fontSize:12,marginBottom:12 }}>{err}</div>}
+          <div className="field"><label>Usuário</label><input type="text" value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
+          <div className="field"><label>Senha</label><input type="password" value={pwd} onChange={e=>setPwd(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
+          <button className="btn btn-primary btn-lg" style={{ width:'100%',marginTop:4 }} onClick={submit} disabled={busy}>{busy?'Verificando...':'Acessar portal'} {!busy && <Icon name="arrow-right" size={14}/>}</button>
+          <button className="btn btn-ghost" style={{ width:'100%',marginTop:8 }} onClick={()=>setGhOpen(true)}><Icon name="settings" size={14}/> Configurar sincronização GitHub</button>
+          <div className="login-form demo-hint" style={{ marginTop:16,padding:12,background:'var(--gold-soft)',borderRadius:8,fontSize:11,color:'#7c6326',lineHeight:1.5 }}>
+            <b>Usuários demo:</b> <code>admin/admin</code> · <code>mariana/mariana</code> · <code>colab/colab</code><br/>
+            Dados persistidos com AES-GCM. Configure GitHub para sincronizar entre dispositivos.
+            <br/><br/>
+            <b>Primeiro acesso?</b> Se o login não funcionar, clique abaixo para reiniciar o banco local:<br/>
+            <button onClick={()=>{ localStorage.removeItem('intranet_shopping_v10_db'); window.location.reload(); }} style={{ marginTop:8,padding:'4px 10px',background:'#7c6326',color:'white',border:0,borderRadius:5,fontSize:11,cursor:'pointer',fontFamily:'inherit' }}>
+              🔄 Reiniciar banco local
+            </button>
+          </div>
+          <button className="btn btn-ghost" style={{ width:'100%',marginTop:8,fontSize:11,color:'var(--ink-3)' }} onClick={async()=>{
+            if(!confirm('Isso vai apagar os dados locais e recriar os usuários padrão. Continuar?')) return;
+            localStorage.removeItem(STORAGE_KEY);
+            window.location.reload();
+          }}>↩ Resetar dados locais (recuperar acesso)</button>
+        </div>
+      </div>
+      {ghOpen && <GitHubConfigModal onClose={()=>setGhOpen(false)} onSave={onConfigSave}/>}
+    </div>
+  );
+}
+
+/* ── GITHUB CONFIG ── */
+function GitHubConfigModal({ onClose, onSave }) {
+  const cfg = GH.getCfg();
+  const [u,setU]=useState(cfg.user||''); const [r,setR]=useState(cfg.repo||'');
+  const [b,setB]=useState(cfg.branch||'main'); const [t,setT]=useState(cfg.token||'');
+  const [msg,setMsg]=useState(''); const [tone,setTone]=useState(''); const [busy,setBusy]=useState(false);
+  const test = async () => { if(!u||!r||!b||!t){setMsg('Preencha todos os campos');setTone('err');return;} setBusy(true); GH.saveCfg({user:u,repo:r,branch:b,token:t}); const res=await GH.test(); setMsg(res.msg); setTone(res.ok?'ok':'err'); setBusy(false); };
+  const save = async () => { if(!u||!r||!b||!t){setMsg('Preencha todos os campos');setTone('err');return;} setBusy(true); const res=await onSave({user:u,repo:r,branch:b,token:t}); setBusy(false); if(res&&res.ok){setMsg('Sincronizado · você pode fechar.');setTone('ok');}else{setMsg((res&&res.msg)||'Falha');setTone('err');} };
+  const clear = () => { GH.clearCfg(); setU(''); setR(''); setB('main'); setT(''); setMsg('Configuração removida'); setTone('muted'); };
+  return (
+    <div className="modal-overlay">
+      <div className="modal-card">
+        <button className="close-x" onClick={onClose}><Icon name="x" size={16}/></button>
+        <h3>⚙️ Sincronização GitHub</h3>
+        <p style={{ fontSize:12,color:'var(--ink-3)',marginBottom:16 }}>Persistência em nuvem · campos sensíveis criptografados (AES-GCM)</p>
+        <div className="divider"/>
+        <div className="field"><label>Usuário / Organização</label><input type="text" value={u} onChange={e=>setU(e.target.value)} placeholder="minha-org"/></div>
+        <div className="field"><label>Repositório</label><input type="text" value={r} onChange={e=>setR(e.target.value)} placeholder="intranet-data"/></div>
+        <div className="field"><label>Branch</label><input type="text" value={b} onChange={e=>setB(e.target.value)} placeholder="main"/></div>
+        <div className="field"><label>Personal Access Token</label><input type="password" value={t} onChange={e=>setT(e.target.value)} placeholder="ghp_..."/><div className="hint">Arquivo salvo em <code>db/dados.json</code>. Token fica apenas no localStorage.</div></div>
+        {msg && <div style={{ padding:10,borderRadius:8,fontSize:12,marginTop:8,background:tone==='ok'?'var(--ok-bg)':tone==='err'?'var(--err-bg)':'var(--surface-2)',color:tone==='ok'?'var(--ok)':tone==='err'?'var(--err)':'var(--ink-2)' }}>{msg}</div>}
+        <div style={{ display:'flex',gap:8,marginTop:16,justifyContent:'flex-end' }}>
+          <button className="btn btn-ghost btn-sm" onClick={clear} disabled={busy}>Remover</button>
+          <button className="btn btn-ghost" onClick={test} disabled={busy}><Icon name="bolt" size={13}/> Testar</button>
+          <button className="btn btn-primary" onClick={save} disabled={busy}><Icon name="check" size={13}/> {busy?'Aguarde...':'Salvar & sincronizar'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── FORCE PASSWORD CHANGE MODAL ── */
+function ForcePasswordModal({ user, onDone }) {
+  const [nova, setNova] = useState('');
+  const [conf, setConf] = useState('');
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  const submit = async () => {
+    if (nova.length < 6) { setErr('Mínimo 6 caracteres.'); return; }
+    if (nova !== conf) { setErr('As senhas não coincidem.'); return; }
+    setBusy(true);
+    const hash = await hashPassword(nova);
+    const idx = DB.users.findIndex(u => u.id === user.id);
+    if (idx >= 0) { DB.users[idx].passwordHash = hash; DB.users[idx].forcePasswordChange = false; }
+    saveDBLocal(DB);
+    setBusy(false);
+    onDone();
+  };
+  return (
+    <div className="modal-overlay" style={{ zIndex:3000 }}>
+      <div className="modal-card force-pwd-modal" style={{ maxWidth:400,textAlign:'center' }}>
+        <div style={{ fontSize:40,marginBottom:8 }}>🔐</div>
+        <h3>Troca de Senha Obrigatória</h3>
+        <p style={{ fontSize:13,color:'var(--ink-3)',margin:'8px 0 24px',lineHeight:1.5 }}>Por segurança, defina uma nova senha antes de continuar.</p>
+        <div className="field" style={{ textAlign:'left' }}><label>Nova Senha</label><input type="password" value={nova} onChange={e=>setNova(e.target.value)} placeholder="Mínimo 6 caracteres"/></div>
+        <div className="field" style={{ textAlign:'left' }}><label>Confirmar Senha</label><input type="password" value={conf} onChange={e=>setConf(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
+        {err && <div style={{ color:'var(--err)',fontSize:12,marginBottom:12 }}>{err}</div>}
+        <button className="btn btn-gold" style={{ width:'100%' }} onClick={submit} disabled={busy}><Icon name="check" size={13}/> {busy?'Salvando...':'Definir nova senha'}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ── DASHBOARD ── */
+function Dashboard({ go, mobile, user }) {
+  const db = DB || {};
+  const userReqs = (db.requests||[]).filter(r=>r.createdBy===user.id);
+  const active = userReqs.filter(r=>r.status!=='Concluído'&&r.status!=='Cancelado');
+  const slides = db.announcements || [];
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title">
+          <h2>Olá, {user.nome.split(' ')[0]} 👋</h2>
+          <p>{new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})} · {slides.length} comunicados · {active.length} solicitações ativas</p>
+        </div>
+        {!mobile && hasPerm(user,'servicos','create') && <button className="btn btn-gold" onClick={()=>go('newreq')}><Icon name="plus" size={13}/> Nova solicitação</button>}
+      </div>
+      {slides.length > 0 && <Carousel slides={slides} mobile={mobile}/>}
+      <div className="dash-grid" style={{ marginTop:20 }}>
+        <div>
+          <div className="card" style={{ marginBottom:16 }}>
+            <div className="card-head"><h3>Minhas solicitações</h3><button className="link" onClick={()=>go('mine')}>Ver todas <Icon name="chevron-right" size={12}/></button></div>
+            {active.length===0 ? <div style={{ textAlign:'center',padding:20,color:'var(--ink-3)',fontSize:13 }}>Nenhuma solicitação ativa.</div>
+            : active.slice(0,3).map(r=>(
+              <div key={r.id} style={{ display:'flex',alignItems:'center',gap:12,padding:'10px 0',borderBottom:'1px solid var(--line)' }}>
+                <div style={{ flex:1,minWidth:0 }}>
+                  <div style={{ fontSize:10,color:'var(--ink-3)',fontFamily:'JetBrains Mono,monospace' }}>{r.id}</div>
+                  <div style={{ fontSize:13,fontWeight:500,marginTop:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>{r.title}</div>
+                </div>
+                <StatusPill status={r.status}/>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="card">
+            <div className="card-head"><h3>Resumo</h3></div>
+            <div className="stat-list">
+              <div className="stat-item ok"><div className="stat-icon"><Icon name="check-circle" size={16}/></div><div><div className="stat-num">{userReqs.filter(r=>r.status==='Concluído').length}</div><div className="stat-lbl">Concluídas</div></div></div>
+              <div className="stat-item warn"><div className="stat-icon"><Icon name="clock" size={16}/></div><div><div className="stat-num">{userReqs.filter(r=>r.status==='Aguardando aprovação').length}</div><div className="stat-lbl">Aguardando aprovação</div></div></div>
+              <div className="stat-item alert"><div className="stat-icon" style={{ color:'var(--err)' }}><Icon name="bolt" size={16}/></div><div><div className="stat-num">{userReqs.filter(r=>r.priority==='Crítica'&&r.status!=='Concluído').length}</div><div className="stat-lbl">Críticas em andamento</div></div></div>
+            </div>
+            <div className="divider"/>
+            <div className="label-eyebrow">SLA · ÚLTIMOS 30 DIAS</div>
+            <div style={{ display:'flex',alignItems:'baseline',gap:6 }}>
+              <div style={{ fontSize:24,fontWeight:600,letterSpacing:'-0.02em' }}>96.4%</div>
+              <div style={{ fontSize:11,color:'var(--ok)',display:'flex',alignItems:'center',gap:2 }}><Icon name="arrow-up" size={12}/> 1.8 pp</div>
+            </div>
+            <div className="nps-row"><span className="fill" style={{ flex:0.96 }}/><span style={{ flex:0.04 }}/></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── FEED ── */
+function Feed({ mobile }) {
+  const [items, setItems] = useState((DB?.feed)||[]);
+  const toggle = (id,key) => setItems(items.map(it=>it.id===id?{...it,[key]:!it[key],likes:key==='liked'?it.likes+(it.liked?-1:1):it.likes}:it));
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title"><h2>Comunicados</h2><p>Personalizados pelo seu cargo, loja e histórico</p></div>
+        {!mobile && <div style={{ display:'flex',gap:8 }}><button className="btn btn-ghost"><Icon name="filter" size={13}/> Filtros</button><button className="btn btn-ghost"><Icon name="bookmark" size={13}/> Salvos</button></div>}
+      </div>
+      {items.map(it=>(
+        <div className="feed-card" key={it.id}>
+          <div className="feed-head">
+            <div className="av">{it.author.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>
+            <div><div className="who">{it.author}</div><div className="when">{it.role} · {relativeTime(it.when)}</div></div>
+            <div className="ai-tag"><Icon name="sparkle" size={11}/> PARA VOCÊ</div>
+          </div>
+          <h4>{it.title}</h4>
+          <p className="body">{it.body}</p>
+          {it.media==='chart' && <div className="feed-media">[ GRÁFICO · NPS Interno 2026 ]</div>}
+          {it.media==='photo' && <div className="feed-media">[ FOTO · Movimento Sábado · 16:9 ]</div>}
+          <div style={{ marginTop:12,fontSize:11,color:'var(--gold-2)',display:'flex',alignItems:'center',gap:6 }}><Icon name="sparkle" size={11}/> {it.aiReason}</div>
+          <div className="feed-tags">{it.tags.map(t=><span key={t}>#{t}</span>)}</div>
+          <div className="feed-actions">
+            <button className={it.liked?'liked':''} onClick={()=>toggle(it.id,'liked')}><Icon name="heart" size={14}/> {it.likes}</button>
+            <button><Icon name="message" size={14}/> {it.comments}</button>
+            <button className={it.saved?'saved':''} onClick={()=>toggle(it.id,'saved')}><Icon name="bookmark" size={14}/> {it.saved?'Salvo':'Salvar'}</button>
+            <button style={{ marginLeft:'auto' }}><Icon name="send" size={14}/> Compartilhar</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── NEW REQUEST ── */
+function NewRequest({ go, mobile, onSubmit }) {
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState({ type:'', title:'', desc:'', priority:'Normal', location:'', date:'' });
+  const steps = [{ label:'Tipo de serviço' }, { label:'Detalhes' }, { label:'Localização & prazo' }, { label:'Revisão' }];
+  const next=()=>setStep(s=>Math.min(s+1,steps.length-1));
+  const prev=()=>setStep(s=>Math.max(s-1,0));
+  const set=(k,v)=>setData(d=>({...d,[k]:v}));
+  const typeLabel=(serviceTypes.find(t=>t.id===data.type)||{}).label||'—';
+  return (
+    <div className="main-pad">
+      <div className="page-title-row"><div className="page-title"><h2>Nova solicitação</h2><p>Self-service em 4 etapas · status em tempo real</p></div></div>
+      <div className="stepper-shell">
+        <aside className="stepper-aside">
+          <h3>Solicitação</h3><h2>Conte o que precisa</h2>
+          <div className="step-list">{steps.map((s,i)=><div key={i} className={`step-item ${i===step?'active':''} ${i<step?'done':''}`}><div className="step-num">{i<step?<Icon name="check" size={12}/>:i+1}</div><div className="step-label">{s.label}</div></div>)}</div>
+          <div className="footer-tip">Roteamento automático · notificações em tempo real · auditoria criptografada.</div>
+        </aside>
+        <div className="stepper-main">
+          {step===0 && <div><h3>Que tipo de serviço você precisa?</h3><p className="lead">Selecione a categoria.</p>
+            <div className="type-grid">{serviceTypes.map(t=><button key={t.id} className={`type-card ${data.type===t.id?'selected':''}`} onClick={()=>set('type',t.id)}><div className="ti"><Icon name={t.icon} size={18}/></div><div><div className="tl">{t.label}</div><div className="td">{t.desc}</div></div></button>)}</div>
+          </div>}
+          {step===1 && <div><h3>Detalhes da solicitação</h3><p className="lead">Quanto mais claro, mais rápido a equipe resolve.</p>
+            <div className="field"><label>Título <span className="req">*</span></label><input type="text" placeholder="Ex.: Troca de lâmpada queimada na vitrine" value={data.title} onChange={e=>set('title',e.target.value)}/></div>
+            <div className="field"><label>Descrição <span className="req">*</span></label><textarea rows={4} placeholder="Descreva o ocorrido..." value={data.desc} onChange={e=>set('desc',e.target.value)}/></div>
+            <div className="field"><label>Prioridade percebida</label><div className="priority-row">{['Baixa','Normal','Alta','Crítica'].map(p=><button key={p} data-p={p} className={`priority-card ${data.priority===p?'selected':''}`} onClick={()=>set('priority',p)}><div className="pl">{p}</div><div className="ps">{p==='Baixa'?'até 7 dias':p==='Normal'?'até 48h':p==='Alta'?'até 8h':'até 1h'}</div></button>)}</div></div>
+          </div>}
+          {step===2 && <div><h3>Onde e quando?</h3><p className="lead">Localização precisa ajuda a equipe a chegar mais rápido.</p>
+            <div className="field"><label>Loja / Setor <span className="req">*</span></label><select value={data.location} onChange={e=>set('location',e.target.value)}><option value="">Selecione...</option><option>Loja 142 — Praça Central</option><option>Loja 220 — Ala Leste · Piso 2</option><option>Praça de alimentação · Piso 3</option><option>Estacionamento G2</option><option>Administração · Bloco A</option></select></div>
+            <div className="field"><label>Data/hora preferida</label><input type="text" placeholder="Ex.: Hoje, após 18h" value={data.date} onChange={e=>set('date',e.target.value)}/></div>
+          </div>}
+          {step===3 && <div><h3>Revisão final</h3><p className="lead">Confirme os dados antes de enviar.</p>
+            <div className="upload-zone"><Icon name="paperclip" size={20} style={{ color:'var(--ink-3)' }}/><div className="uh">Arraste arquivos ou clique</div><div className="us">PNG, JPG, PDF · até 25MB</div></div>
+            <div className="divider"/>
+            <div className="label-eyebrow">REVISÃO</div>
+            <div className="review-row"><span className="k">Tipo</span><span className="v">{typeLabel}</span></div>
+            <div className="review-row"><span className="k">Título</span><span className="v">{data.title||'—'}</span></div>
+            <div className="review-row"><span className="k">Prioridade</span><span className="v">{data.priority}</span></div>
+            <div className="review-row"><span className="k">Localização</span><span className="v">{data.location||'—'}</span></div>
+          </div>}
+          <div className="stepper-foot">
+            <button className="btn btn-ghost" onClick={step===0?()=>go('home'):prev}><Icon name="arrow-left" size={13}/> {step===0?'Cancelar':'Voltar'}</button>
+            {step < steps.length-1
+              ? <button className="btn btn-primary" onClick={next} disabled={(step===0&&!data.type)||(step===1&&!data.title)}>Continuar <Icon name="arrow-right" size={13}/></button>
+              : <button className="btn btn-gold" onClick={()=>onSubmit(data)}><Icon name="check" size={13}/> Enviar solicitação</button>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── MY REQUESTS ── */
+function MyRequests({ go, mobile, user, onChange, onPersist }) {
+  const [filter, setFilter] = useState('Todos');
+  const filters = ['Todos','Pendente','Em andamento','Aguardando aprovação','Concluído'];
+  const allReqs = hasPerm(user,'servicos','approve') ? (DB?.requests||[]) : (DB?.requests||[]).filter(r=>r.createdBy===user.id);
+  const list = filter==='Todos' ? allReqs : allReqs.filter(r=>r.status===filter);
+  const advance = async (r) => {
+    const seq=['Pendente','Aguardando aprovação','Em andamento','Concluído'];
+    const idx=seq.indexOf(r.status), next=seq[Math.min(idx+1,seq.length-1)];
+    const prog=next==='Pendente'?10:next==='Aguardando aprovação'?25:next==='Em andamento'?70:100;
+    updateRequestStatus(r.id,next,prog); onChange&&onChange(); onPersist&&(await onPersist());
+  };
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title"><h2>{hasPerm(user,'servicos','approve')?'Solicitações':'Meus pedidos'}</h2><p>{hasPerm(user,'servicos','approve')?'Clique para avançar o status':'Acompanhe em tempo real'}</p></div>
+        {!mobile && hasPerm(user,'servicos','create') && <button className="btn btn-gold" onClick={()=>go('newreq')}><Icon name="plus" size={13}/> Nova solicitação</button>}
+      </div>
+      <div style={{ display:'flex',gap:8,marginBottom:16,flexWrap:'wrap' }}>
+        {filters.map(f=><button key={f} className={`btn btn-sm ${filter===f?'btn-primary':'btn-ghost'}`} onClick={()=>setFilter(f)}>{f}</button>)}
+      </div>
+      {list.length===0 && <div className="card" style={{ textAlign:'center',padding:32,color:'var(--ink-3)' }}>Nenhuma solicitação encontrada.</div>}
+      {list.map(r=>(
+        <div className="req-detail-card" key={r.id} onClick={()=>hasPerm(user,'servicos','approve')&&r.status!=='Concluído'?advance(r):null} style={{ cursor:hasPerm(user,'servicos','approve')&&r.status!=='Concluído'?'pointer':'default' }}>
+          <div className="req-detail-head">
+            <div style={{ flex:1,minWidth:0 }}>
+              <div className="req-detail-id">{r.id}</div>
+              <div className="req-detail-title">{r.title}</div>
+              <div className="req-detail-meta">
+                <span><Icon name="briefcase" size={11}/> {r.type}</span><span className="dot"/>
+                <span><Icon name="user" size={11}/> {r.owner}</span><span className="dot"/>
+                <span><Icon name="clock" size={11}/> {relativeTime(r.updated)}</span>
+              </div>
+            </div>
+            <StatusPill status={r.status}/>
+          </div>
+          <div className={`progress ${r.priority==='Crítica'?'crit':r.status==='Concluído'?'ok':''}`}><span style={{ width:`${r.progress}%` }}/></div>
+          <div style={{ display:'flex',justifyContent:'space-between',marginTop:8,fontSize:11,color:'var(--ink-3)' }}>
+            <span>Prioridade: <b style={{ color:r.priority==='Crítica'?'var(--err)':'var(--ink)' }}>{r.priority}</b></span>
+            <span>{r.progress}% concluído{hasPerm(user,'servicos','approve')&&r.status!=='Concluído'?' · clique para avançar':''}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MÓDULO USUÁRIOS
+   ════════════════════════════════════════════════════════════════ */
+const MODULES = [
+  { id:'home',       label:'Início' },
+  { id:'feed',       label:'Comunicados' },
+  { id:'servicos',   label:'Solicitações' },
+  { id:'usuarios',   label:'Usuários' },
+  { id:'relatorios', label:'Relatórios' },
+];
+const ACTIONS = ['view','create','edit','delete','approve'];
+const ACTION_LABELS = { view:'Ver', create:'Criar', edit:'Editar', delete:'Excluir', approve:'Aprovar' };
+
+function UserModal({ user: editUser, currentUser, onSave, onClose }) {
+  const isNew = !editUser;
+  const [login, setLogin] = useState(editUser?.login||'');
+  const [nome, setNome] = useState(editUser?.nome||'');
+  const [cargo, setCargo] = useState(editUser?.cargo||'');
+  const [store, setStore] = useState(editUser?.store||'');
+  const [role, setRole] = useState(editUser?.role||'colaborador');
+  const [pwd, setPwd] = useState('');
+  const [pwd2, setPwd2] = useState('');
+  const [permissions, setPermissions] = useState(editUser?.permissions||null);
+  const [useCustom, setUseCustom] = useState(!!editUser?.permissions);
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const effectivePerms = useCustom
+    ? (permissions || JSON.parse(JSON.stringify(DEFAULT_PERMISSIONS[role]||DEFAULT_PERMISSIONS.colaborador)))
+    : JSON.parse(JSON.stringify(DEFAULT_PERMISSIONS[role]||DEFAULT_PERMISSIONS.colaborador));
+
+  const togglePerm = (mod, action) => {
+    const base = permissions || JSON.parse(JSON.stringify(DEFAULT_PERMISSIONS[role]||DEFAULT_PERMISSIONS.colaborador));
+    const updated = JSON.parse(JSON.stringify(base));
+    updated[mod] = updated[mod] || {};
+    updated[mod][action] = !updated[mod][action];
+    setPermissions(updated);
+    setUseCustom(true);
+  };
+
+  const submit = async () => {
+    if (!login.trim()) { setErr('Informe o login.'); return; }
+    if (!nome.trim()) { setErr('Informe o nome.'); return; }
+    if (isNew && !pwd) { setErr('Informe a senha.'); return; }
+    if (pwd && pwd.length < 4) { setErr('Senha mínimo 4 caracteres.'); return; }
+    if (pwd && pwd !== pwd2) { setErr('As senhas não coincidem.'); return; }
+    // Check duplicate login
+    const dup = (DB?.users||[]).find(u => u.login===login.trim() && u.id!==(editUser?.id));
+    if (dup) { setErr('Login já existe.'); return; }
+    setBusy(true);
+    const hash = pwd ? await hashPassword(pwd) : editUser?.passwordHash;
+    const u = {
+      id: editUser?.id || ('u_'+Date.now()),
+      login: login.trim(),
+      nome: nome.trim(),
+      cargo: cargo.trim(),
+      store: store.trim(),
+      role,
+      passwordHash: hash,
+      forcePasswordChange: isNew && true,
+      permissions: useCustom ? permissions : null,
+    };
+    onSave(u);
+    setBusy(false);
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-card" style={{ maxWidth:580 }}>
+        <button className="close-x" onClick={onClose}><Icon name="x" size={16}/></button>
+        <h3>{isNew?'➕ Novo Usuário':'✏️ Editar Usuário'}</h3>
+        <div style={{ fontSize:12,color:'var(--ink-3)',marginBottom:16 }}>{isNew?'Cadastre um novo colaborador no sistema.':'Altere os dados e permissões do usuário.'}</div>
+        <div className="divider"/>
+        <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:12 }}>
+          <div className="field"><label>Login <span className="req">*</span></label><input type="text" value={login} onChange={e=>setLogin(e.target.value)} placeholder="ex: joao.silva" autoComplete="off"/></div>
+          <div className="field"><label>Nome Completo <span className="req">*</span></label><input type="text" value={nome} onChange={e=>setNome(e.target.value)} placeholder="ex: João da Silva"/></div>
+          <div className="field"><label>Cargo</label><input type="text" value={cargo} onChange={e=>setCargo(e.target.value)} placeholder="ex: Atendimento"/></div>
+          <div className="field"><label>Loja / Setor</label><input type="text" value={store} onChange={e=>setStore(e.target.value)} placeholder="ex: Loja 142"/></div>
+          <div className="field"><label>Perfil</label>
+            <select value={role} onChange={e=>{setRole(e.target.value);setUseCustom(false);setPermissions(null);}}>
+              <option value="admin">Administrador</option>
+              <option value="gestor">Gestor</option>
+              <option value="colaborador">Colaborador</option>
+            </select>
+          </div>
+          <div className="field"><label>{isNew?'Senha':'Nova Senha (deixe vazio para manter)'}</label><input type="password" value={pwd} onChange={e=>setPwd(e.target.value)} placeholder={isNew?'Mínimo 4 caracteres':'••••••••'} autoComplete="new-password"/></div>
+          {pwd && <div className="field"><label>Confirmar Senha</label><input type="password" value={pwd2} onChange={e=>setPwd2(e.target.value)} autoComplete="new-password"/></div>}
+        </div>
+
+        <div className="divider"/>
+        <div style={{ display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12 }}>
+          <div style={{ fontSize:13,fontWeight:600 }}>Permissões por módulo</div>
+          <button className="btn btn-ghost btn-sm" onClick={()=>{setUseCustom(!useCustom);if(useCustom)setPermissions(null);}}>
+            {useCustom?'↩ Usar padrão do perfil':'✎ Personalizar'}
+          </button>
+        </div>
+        {MODULES.map(mod => (
+          <div key={mod.id} style={{ marginBottom:12 }}>
+            <div style={{ fontSize:12,fontWeight:600,color:'var(--ink-2)',marginBottom:6 }}>{mod.label}</div>
+            <div style={{ display:'flex',gap:8,flexWrap:'wrap' }}>
+              {ACTIONS.map(action => {
+                const enabled = effectivePerms[mod.id]?.[action];
+                return (
+                  <label key={action} className="perm-item" style={{ opacity:useCustom?1:0.6,cursor:useCustom?'pointer':'not-allowed' }}>
+                    <input type="checkbox" checked={!!enabled} disabled={!useCustom} onChange={()=>useCustom&&togglePerm(mod.id,action)}/>
+                    {ACTION_LABELS[action]}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        {!useCustom && <div style={{ fontSize:11,color:'var(--ink-3)',marginTop:4 }}>Permissões padrão do perfil "{role}". Clique em "Personalizar" para ajustar.</div>}
+
+        {err && <div style={{ color:'var(--err)',fontSize:12,marginTop:12,padding:'8px 12px',background:'var(--err-bg)',borderRadius:8 }}>{err}</div>}
+        <div style={{ display:'flex',gap:8,marginTop:20,justifyContent:'flex-end' }}>
+          <button className="btn btn-ghost" onClick={onClose}>Cancelar</button>
+          <button className="btn btn-primary" onClick={submit} disabled={busy}><Icon name="check" size={13}/> {busy?'Salvando...':'Salvar usuário'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChangePasswordModal({ target, onDone, onClose }) {
+  const [pwd, setPwd] = useState('');
+  const [pwd2, setPwd2] = useState('');
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  const submit = async () => {
+    if (pwd.length < 4) { setErr('Mínimo 4 caracteres.'); return; }
+    if (pwd !== pwd2) { setErr('As senhas não coincidem.'); return; }
+    setBusy(true);
+    const hash = await hashPassword(pwd);
+    const idx = DB.users.findIndex(u=>u.id===target.id);
+    if (idx>=0) { DB.users[idx].passwordHash=hash; DB.users[idx].forcePasswordChange=false; }
+    onDone();
+    setBusy(false);
+  };
+  return (
+    <div className="modal-overlay" style={{ zIndex:2100 }}>
+      <div className="modal-card" style={{ maxWidth:380 }}>
+        <button className="close-x" onClick={onClose}><Icon name="x" size={16}/></button>
+        <h3>🔑 Redefinir Senha</h3>
+        <p style={{ fontSize:12,color:'var(--ink-3)',marginBottom:16 }}>Defina uma nova senha para <b>{target.nome}</b>.</p>
+        <div className="field"><label>Nova Senha</label><input type="password" value={pwd} onChange={e=>setPwd(e.target.value)} placeholder="Mínimo 4 caracteres"/></div>
+        <div className="field"><label>Confirmar</label><input type="password" value={pwd2} onChange={e=>setPwd2(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/></div>
+        {err && <div style={{ color:'var(--err)',fontSize:12,marginBottom:8 }}>{err}</div>}
+        <div style={{ display:'flex',gap:8,justifyContent:'flex-end',marginTop:16 }}>
+          <button className="btn btn-ghost" onClick={onClose}>Cancelar</button>
+          <button className="btn btn-primary" onClick={submit} disabled={busy}><Icon name="check" size={13}/> {busy?'Salvando...':'Salvar'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UsersScreen({ user: currentUser, onPersist, onChange }) {
+  const [users, setUsers] = useState(DB?.users||[]);
+  const [modalUser, setModalUser] = useState(null); // null=closed, false=new, {..}=edit
+  const [pwdTarget, setPwdTarget] = useState(null);
+  const [search, setSearch] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
+
+  if (!hasPerm(currentUser,'usuarios','view')) {
+    return <div className="main-pad"><div className="card" style={{ textAlign:'center',padding:40,color:'var(--ink-3)' }}><Icon name="shield" size={32} style={{ margin:'0 auto 12px',display:'block' }}/><p>Você não tem permissão para acessar este módulo.</p></div></div>;
+  }
+
+  const filtered = users.filter(u => {
+    const q = search.toLowerCase();
+    const matchQ = !q || u.nome?.toLowerCase().includes(q) || u.login?.toLowerCase().includes(q) || u.cargo?.toLowerCase().includes(q);
+    const matchR = !roleFilter || u.role===roleFilter;
+    return matchQ && matchR;
+  });
+
+  const saveUser = async (u) => {
+    const idx = DB.users.findIndex(x=>x.id===u.id);
+    if (idx>=0) DB.users[idx]=u; else DB.users.push(u);
+    setUsers([...DB.users]);
+    setModalUser(null);
+    onChange&&onChange();
+    await onPersist&&onPersist();
+  };
+
+  const deleteUser = async (id) => {
+    if (id===currentUser.id) { alert('Você não pode excluir seu próprio usuário.'); return; }
+    if (!confirm('Excluir este usuário?')) return;
+    DB.users = DB.users.filter(u=>u.id!==id);
+    setUsers([...DB.users]);
+    onChange&&onChange();
+    await onPersist&&onPersist();
+  };
+
+  const toggleActive = async (id) => {
+    const u = DB.users.find(x=>x.id===id); if(!u) return;
+    u.active = u.active===false ? true : false;
+    setUsers([...DB.users]);
+    onChange&&onChange();
+    await onPersist&&onPersist();
+  };
+
+  const roleLabel = r => r==='admin'?'Administrador':r==='gestor'?'Gestor':'Colaborador';
+
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title"><h2>Usuários</h2><p>{users.length} usuário{users.length!==1?'s':''} cadastrado{users.length!==1?'s':''}</p></div>
+        {hasPerm(currentUser,'usuarios','create') && <button className="btn btn-gold" onClick={()=>setModalUser(false)}><Icon name="plus" size={13}/> Novo usuário</button>}
+      </div>
+
+      {/* Filters */}
+      <div style={{ display:'flex',gap:10,marginBottom:16,flexWrap:'wrap',alignItems:'center' }}>
+        <div style={{ position:'relative',flex:1,minWidth:200 }}>
+          <span style={{ position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:'var(--ink-3)' }}><Icon name="search" size={14}/></span>
+          <input type="text" placeholder="Buscar por nome, login ou cargo..." value={search} onChange={e=>setSearch(e.target.value)} style={{ paddingLeft:32,height:36,width:'100%',background:'var(--surface)',border:'1px solid var(--line)',borderRadius:8,fontSize:13,color:'var(--ink)',outline:'none',fontFamily:'inherit' }}/>
+        </div>
+        <select value={roleFilter} onChange={e=>setRoleFilter(e.target.value)} style={{ height:36,padding:'0 12px',background:'var(--surface)',border:'1px solid var(--line)',borderRadius:8,fontSize:13,color:'var(--ink)',outline:'none',fontFamily:'inherit' }}>
+          <option value="">Todos os perfis</option>
+          <option value="admin">Administrador</option>
+          <option value="gestor">Gestor</option>
+          <option value="colaborador">Colaborador</option>
+        </select>
+      </div>
+
+      {/* Table */}
+      <div className="card" style={{ padding:0,overflow:'hidden' }}>
+        <div style={{ overflowX:'auto' }}>
+          <table className="users-table">
+            <thead>
+              <tr><th>Usuário</th><th>Login</th><th>Cargo / Loja</th><th>Perfil</th><th>Status</th><th>Ações</th></tr>
+            </thead>
+            <tbody>
+              {filtered.length===0 && <tr><td colSpan={6} style={{ textAlign:'center',padding:32,color:'var(--ink-3)' }}>Nenhum usuário encontrado.</td></tr>}
+              {filtered.map(u=>(
+                <tr key={u.id}>
+                  <td>
+                    <div style={{ display:'flex',alignItems:'center',gap:10 }}>
+                      <div style={{ width:32,height:32,borderRadius:'50%',background:'var(--navy)',color:'white',fontSize:11,fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
+                        {(u.nome||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()}
+                      </div>
+                      <div>
+                        <div style={{ fontWeight:600,fontSize:13 }}>{u.nome||'—'}</div>
+                        {u.forcePasswordChange && <span style={{ fontSize:10,color:'var(--warn)',background:'var(--warn-bg)',padding:'1px 6px',borderRadius:4,fontWeight:600 }}>⚠ Troca de senha pendente</span>}
+                      </div>
+                    </div>
+                  </td>
+                  <td><code style={{ fontSize:12,background:'var(--surface-2)',padding:'2px 6px',borderRadius:4 }}>{u.login}</code></td>
+                  <td><div style={{ fontSize:12 }}>{u.cargo||'—'}</div><div style={{ fontSize:11,color:'var(--ink-3)' }}>{u.store||'—'}</div></td>
+                  <td><span className={`role-badge ${u.role}`}>{roleLabel(u.role)}</span></td>
+                  <td>
+                    <button onClick={()=>toggleActive(u.id)} style={{ background:'transparent',border:0,cursor:'pointer',fontSize:11,fontWeight:600,padding:'3px 8px',borderRadius:6,color:u.active===false?'var(--err)':'var(--ok)',background:u.active===false?'var(--err-bg)':'var(--ok-bg)' }}>
+                      {u.active===false?'⛔ Inativo':'✅ Ativo'}
+                    </button>
+                  </td>
+                  <td>
+                    <div style={{ display:'flex',gap:6 }}>
+                      {hasPerm(currentUser,'usuarios','edit') && <button className="btn btn-ghost btn-sm" onClick={()=>setModalUser(u)} title="Editar"><Icon name="edit" size={13}/></button>}
+                      {hasPerm(currentUser,'usuarios','edit') && <button className="btn btn-ghost btn-sm" onClick={()=>setPwdTarget(u)} title="Redefinir senha"><Icon name="key" size={13}/></button>}
+                      {hasPerm(currentUser,'usuarios','delete') && u.id!==currentUser.id && <button className="btn btn-danger btn-sm" onClick={()=>deleteUser(u.id)} title="Excluir"><Icon name="trash" size={13}/></button>}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Modals */}
+      {modalUser !== null && <UserModal user={modalUser||null} currentUser={currentUser} onSave={saveUser} onClose={()=>setModalUser(null)}/>}
+      {pwdTarget && <ChangePasswordModal target={pwdTarget} onDone={async()=>{saveDBLocal(DB);onChange&&onChange();await onPersist&&onPersist();setPwdTarget(null);}} onClose={()=>setPwdTarget(null)}/>}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ROOT APP
+   ════════════════════════════════════════════════════════════════ */
+function App() {
+  const [screen, setScreen] = useState('home');
+  const [authed, setAuthed] = useState(false);
+  const [user, setUser] = useState(null);
+  const [dbReady, setDbReady] = useState(false);
+  const [syncMsg, setSyncMsg] = useState('Inicializando...');
+  const [syncTone, setSyncTone] = useState('muted');
+  const [, force] = useState(0);
+  const refresh = () => force(x=>x+1);
+  const [ghOpen, setGhOpen] = useState(false);
+  const [forceChangePwd, setForceChangePwd] = useState(false);
+
+  useEffect(() => {
+    initDB((m,t)=>{setSyncMsg(m);setSyncTone(t);}).then(async()=>{await migratePasswords();setDbReady(true);});
+  }, []);
+
+  const go = (s) => setScreen(s);
+
+  const handleLogin = async (login, password) => {
+    let u = await findUserByLogin(login, password);
+    if (!u) {
+      // Se não achou, pode ser que o localStorage tenha dados de outra versão.
+      // Limpa e re-seed para garantir os usuários padrão.
+      const stored = loadDBLocal();
+      const hasOldFormat = stored && Array.isArray(stored.users) && stored.users.some(x => x.password && !x.passwordHash);
+      if (hasOldFormat) {
+        await migratePasswords();
+        u = await findUserByLogin(login, password);
+      }
+      if (!u && stored && Array.isArray(stored.users) && !stored.users.some(x=>x.login===login)) {
+        // usuário não existe mesmo
+      }
+    }
+    if (u) {
+      setUser(u); setAuthed(true); setScreen('home');
+      if (u.forcePasswordChange) setForceChangePwd(true);
+      return true;
+    }
+    return false;
+  };
+
+  const handleLogout = () => { setUser(null); setAuthed(false); setScreen('home'); };
+
+  const handleNewRequest = async (payload) => {
+    addRequest(payload, user);
+    await persistDB((m,t)=>{setSyncMsg(m);setSyncTone(t);});
+    refresh(); go('mine');
+  };
+
+  const handleConfigSave = async (cfg) => {
+    GH.saveCfg(cfg);
+    setSyncMsg('Testando...'); setSyncTone('loading');
+    const t = await GH.test();
+    if (t.ok) {
+      setSyncMsg('Sincronizando...'); setSyncTone('loading');
+      await persistDB((m,tone)=>{setSyncMsg(m);setSyncTone(tone);});
+      return { ok:true };
+    }
+    setSyncMsg(t.msg); setSyncTone('warn');
+    return { ok:false, msg:t.msg };
+  };
+
+  if (!dbReady) {
+    return <div className="app-shell" style={{ alignItems:'center',justifyContent:'center',display:'flex' }}>
+      <div style={{ textAlign:'center' }}>
+        <div className="skel" style={{ width:120,height:120,borderRadius:24,margin:'0 auto 16px' }}/>
+        <div style={{ fontSize:13,color:'var(--ink-3)' }}>{syncMsg}</div>
+      </div>
+    </div>;
+  }
+
+  if (!authed) return <LoginScreen onLogin={handleLogin} ghOpen={ghOpen} setGhOpen={setGhOpen} onConfigSave={handleConfigSave}/>;
+
+  return (
+    <div className="app-shell">
+      {forceChangePwd && <ForcePasswordModal user={user} onDone={()=>{setForceChangePwd(false);saveDBLocal(DB);}}/>}
+      <TopBar user={user} syncMsg={syncMsg} syncTone={syncTone} onConfig={()=>setGhOpen(true)} onLogout={handleLogout}/>
+      <div className="layout-row">
+        <Sidebar active={screen} onNav={go} user={user}/>
+        <div className="main">
+          {screen==='home'    && <Dashboard go={go} mobile={false} user={user}/>}
+          {screen==='feed'    && <Feed mobile={false}/>}
+          {screen==='newreq'  && hasPerm(user,'servicos','create') && <NewRequest go={go} mobile={false} onSubmit={handleNewRequest}/>}
+          {screen==='mine'    && <MyRequests go={go} mobile={false} user={user} onChange={refresh} onPersist={()=>persistDB((m,t)=>{setSyncMsg(m);setSyncTone(t);})}/>}
+          {screen==='usuarios'&& <UsersScreen user={user} onPersist={()=>persistDB((m,t)=>{setSyncMsg(m);setSyncTone(t);})} onChange={refresh}/>}
+          {screen==='newreq'  && !hasPerm(user,'servicos','create') && <div className="main-pad"><div className="card" style={{ textAlign:'center',padding:40,color:'var(--ink-3)' }}><Icon name="shield" size={32} style={{ margin:'0 auto 12px',display:'block' }}/><p>Você não tem permissão para criar solicitações.</p></div></div>}
+        </div>
+      </div>
+      {ghOpen && <GitHubConfigModal onClose={()=>setGhOpen(false)} onSave={handleConfigSave}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
