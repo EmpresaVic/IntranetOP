@@ -138,7 +138,58 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .status-pill.err { background:var(--err-bg); color:var(--err); } .status-pill.err .ind { background:var(--err); }
 .status-pill.muted { background:var(--surface-2); color:var(--ink-3); } .status-pill.muted .ind { background:var(--ink-4); }
 
-/* ── CAROUSEL ── */
+/* ── GIS — DECLARAÇÃO DE VENDAS DIÁRIAS ── */
+.gis-shell { padding:24px 28px; max-width:1100px; margin:0 auto; }
+.gis-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.gis-nav-month { display:flex; align-items:center; gap:10px; }
+.gis-nav-month button { width:32px; height:32px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:all 0.15s; }
+.gis-nav-month button:hover { background:var(--surface-2); }
+.gis-month-label { font-size:20px; font-weight:700; letter-spacing:-0.02em; color:var(--navy); min-width:200px; text-align:center; }
+.gis-month-adj { font-size:12px; color:var(--ink-3); font-weight:500; cursor:pointer; padding:4px 8px; border-radius:6px; transition:background 0.15s; }
+.gis-month-adj:hover { background:var(--surface-2); }
+.gis-alert-banner { display:flex; align-items:center; gap:10px; background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:10px 16px; font-size:12px; color:#856404; font-weight:500; margin-bottom:16px; }
+.gis-calendar { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow); }
+.gis-cal-head { display:grid; grid-template-columns:repeat(7,1fr) 140px; background:var(--navy); color:white; }
+.gis-cal-head-cell { padding:10px 8px; text-align:center; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
+.gis-cal-head-cell.total-col { background:rgba(0,0,0,0.2); }
+.gis-week-row { display:grid; grid-template-columns:repeat(7,1fr) 140px; border-bottom:1px solid var(--line); }
+.gis-week-row:last-child { border-bottom:0; }
+.gis-day-cell { border-right:1px solid var(--line); padding:6px 8px; min-height:72px; display:flex; flex-direction:column; position:relative; }
+.gis-day-cell:last-child { border-right:0; }
+.gis-day-cell.weekend { background:var(--surface-2); }
+.gis-day-cell.outside { background:#f8f9fb; opacity:0.5; pointer-events:none; }
+.gis-day-cell.today { background:rgba(201,169,97,0.08); border-top:2px solid var(--gold); }
+.gis-day-cell.future { background:var(--surface); }
+.gis-day-cell.has-value { background:rgba(22,163,74,0.04); }
+.gis-day-num { font-size:13px; font-weight:600; color:var(--ink-3); margin-bottom:4px; line-height:1; }
+.gis-day-cell.today .gis-day-num { color:var(--gold-2); font-weight:700; }
+.gis-day-cell.past .gis-day-num { color:var(--ink); }
+.gis-day-input { width:100%; height:30px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:0 6px; font-size:12px; color:var(--ink); outline:none; font-family:'JetBrains Mono',monospace; font-weight:500; text-align:right; transition:all 0.15s; margin-top:auto; }
+.gis-day-input:focus { background:var(--surface); border-color:var(--navy); box-shadow:0 0 0 2px rgba(30,58,95,0.1); }
+.gis-day-input.filled { border-color:var(--ok); background:var(--ok-bg); color:var(--ok); }
+.gis-day-input.filled:focus { border-color:var(--ok); box-shadow:0 0 0 2px rgba(22,163,74,0.15); }
+.gis-day-input:disabled { opacity:0.35; cursor:not-allowed; }
+.gis-total-cell { display:flex; flex-direction:column; justify-content:center; align-items:flex-end; padding:8px 14px; background:var(--surface-2); border-right:0; min-height:72px; }
+.gis-total-cell .total-label { font-size:10px; color:var(--ink-4); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+.gis-total-cell .total-value { font-size:15px; font-weight:700; color:var(--navy); font-family:'JetBrains Mono',monospace; }
+.gis-total-cell .total-value.has-value { color:var(--ok); }
+.gis-total-cell .total-value.empty { color:var(--ink-4); font-size:12px; font-weight:400; }
+.gis-week-action { margin-top:6px; }
+.gis-week-action button { font-size:10px; padding:3px 8px; height:24px; border-radius:5px; }
+.gis-footer-bar { display:flex; align-items:center; justify-content:space-between; background:var(--surface-2); padding:14px 20px; border-top:1px solid var(--line); flex-wrap:wrap; gap:12px; }
+.gis-footer-bar .gis-hint { font-size:11px; color:var(--ink-3); display:flex; align-items:center; gap:6px; }
+.gis-month-total { text-align:right; }
+.gis-month-total .mt-label { font-size:11px; color:var(--ink-3); font-weight:500; }
+.gis-month-total .mt-value { font-size:20px; font-weight:700; color:var(--navy); font-family:'JetBrains Mono',monospace; letter-spacing:-0.02em; }
+.gis-status-panel { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.gis-stat-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 20px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow); }
+.gis-stat-card .gis-stat-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.gis-stat-card .gis-stat-num { font-size:20px; font-weight:700; letter-spacing:-0.02em; font-family:'JetBrains Mono',monospace; }
+.gis-stat-card .gis-stat-lbl { font-size:11px; color:var(--ink-3); margin-top:1px; }
+.gis-week-sent-badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:600; padding:3px 7px; border-radius:999px; background:var(--ok-bg); color:var(--ok); margin-top:4px; }
+.gis-week-sent-badge.pending { background:var(--warn-bg); color:var(--warn); }
+.gis-week-sent-badge.overdue { background:var(--err-bg); color:var(--err); }
+
 @keyframes progress-bar { from { transform:scaleX(0); } to { transform:scaleX(1); } }
 @keyframes slide-in-up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
 
@@ -288,7 +339,9 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .priority-card[data-p="Crítica"].selected { border-color:var(--err); background:var(--err-bg); }
 .pl { font-size:13px; font-weight:600; color:var(--ink); }
 .ps { font-size:11px; color:var(--ink-3); margin-top:2px; }
-.upload-zone { border:2px dashed var(--line-2); border-radius:10px; padding:28px; text-align:center; cursor:pointer; }
+.upload-zone { border:2px dashed var(--line-2); border-radius:10px; padding:28px; text-align:center; cursor:pointer; transition:all 0.18s; }
+.upload-zone:hover { border-color:var(--navy); background:var(--surface-2); }
+.upload-zone-active { border-color:var(--navy) !important; background:#f0f4ff !important; }
 .upload-zone .uh { font-size:13px; font-weight:500; color:var(--ink-2); margin-top:8px; }
 .upload-zone .us { font-size:11px; color:var(--ink-3); margin-top:4px; }
 .review-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
@@ -513,6 +566,7 @@ const DEFAULT_PERMISSIONS = {
     vagas:     { view:true, create:true, edit:true, delete:true, approve:true },
     curriculos:{ view:true, create:true, edit:true, delete:true, approve:true },
     painel:    { view:true, create:true, edit:true, delete:true, approve:true },
+    gis:       { view:true, create:true, edit:true, delete:true, approve:true },
   },
   gestor: {
     home:      { view:true, create:false, edit:false, delete:false, approve:false },
@@ -523,6 +577,7 @@ const DEFAULT_PERMISSIONS = {
     vagas:     { view:true, create:true,  edit:true,  delete:false, approve:true },
     curriculos:{ view:true, create:false, edit:false, delete:false, approve:false },
     painel:    { view:true, create:true,  edit:true,  delete:false, approve:true },
+    gis:       { view:true, create:true,  edit:true,  delete:false, approve:true },
   },
   colaborador: {
     home:      { view:true,  create:false, edit:false, delete:false, approve:false },
@@ -533,6 +588,7 @@ const DEFAULT_PERMISSIONS = {
     vagas:     { view:true,  create:true,  edit:true,  delete:false, approve:false },
     curriculos:{ view:false, create:false, edit:false, delete:false, approve:false },
     painel:    { view:true,  create:true,  edit:false, delete:false, approve:false },
+    gis:       { view:true,  create:true,  edit:true,  delete:false, approve:false },
   },
 };
 
@@ -562,6 +618,10 @@ async function seedDB() {
     feed:          [],
     vagas:         [],
     curriculos:    [],
+    miniComunicados: [
+      { id:'mc-1', titulo:'Festival Gastronômico', mensagem:'Inscreva sua loja como parceira até 08/05.', ativo:true, createdAt: Date.now() }
+    ],
+    gisVendas:     [],
     counters:      { reqSeq:1000 }
   };
 }
@@ -813,23 +873,28 @@ function relativeTime(ts) {
 }
 
 const serviceTypes = [
-  { id:'maintenance', label:'Manutenção',    icon:'wrench',    desc:'Reparos, infraestrutura, elétrica' },
-  { id:'cleaning',    label:'Limpeza',       icon:'broom',     desc:'Solicitações de limpeza extra' },
-  { id:'security',    label:'Segurança',     icon:'shield',    desc:'Acesso, vigilância, ocorrências' },
-  { id:'it',          label:'TI & Sistemas', icon:'bolt',      desc:'Equipamentos, sistemas, redes' },
-  { id:'logistics',   label:'Logística',     icon:'truck',     desc:'Entregas, doca, fornecedores' },
-  { id:'other',       label:'Outro',         icon:'lightbulb', desc:'Solicitações diversas' },
+  { id:'maintenance', label:'Manutenção',              icon:'wrench',     desc:'Reparos, infraestrutura, elétrica' },
+  { id:'cleaning',    label:'Limpeza',                 icon:'broom',      desc:'Solicitações de limpeza extra' },
+  { id:'security',    label:'Segurança',               icon:'shield',     desc:'Acesso, vigilância, ocorrências' },
+  { id:'it',          label:'TI & Sistemas',           icon:'bolt',       desc:'Equipamentos, sistemas, redes' },
+  { id:'logistics',   label:'Logística',               icon:'truck',      desc:'Entregas, doca, fornecedores' },
+  { id:'marketing',   label:'Marketing',               icon:'megaphone',  desc:'Solicitações e outros - Marketing' },
+  { id:'rh_financeiro', label:'RH / Financeiro',       icon:'briefcase',  desc:'Solicitações e outros - RH/Financeiro' },
+  { id:'other',       label:'Outro',                   icon:'lightbulb',  desc:'Solicitações diversas' },
 ];
 const navItems = [
-  { id:'home',        icon:'home',      label:'Início',               section:'principal' },
-  { id:'feed',        icon:'megaphone', label:'Comunicados',          section:'principal' },
-  { id:'newreq',      icon:'plus',      label:'Nova solicitação',     section:'principal' },
-  { id:'mine',        icon:'list',      label:'Meus pedidos',         section:'principal' },
-  { id:'usuarios',    icon:'shield',    label:'Usuários',             section:'principal' },
-  { id:'vagas',       icon:'briefcase', label:'Cadastrar Vaga',       section:'rh' },
-  { id:'curriculos',  icon:'user',      label:'Consultar Currículos', section:'rh' },
-  { id:'vagas-lista', icon:'search',    label:'Consultar Vagas',      section:'painel' },
-  { id:'candidatar',  icon:'send',      label:'Candidatar a Vaga',    section:'painel' },
+  { id:'home',             icon:'home',      label:'Início',               section:'principal' },
+  { id:'feed',             icon:'megaphone', label:'Comunicados',          section:'principal' },
+  { id:'mini-comunicado',  icon:'bell',      label:'Mini Comunicado',      section:'principal', sub:true },
+  { id:'newreq',           icon:'plus',      label:'Nova solicitação',     section:'principal' },
+  { id:'mine',             icon:'list',      label:'Meus pedidos',         section:'principal' },
+  { id:'usuarios',         icon:'shield',    label:'Usuários',             section:'principal' },
+  { id:'vagas',            icon:'briefcase', label:'Cadastrar Vaga',       section:'rh' },
+  { id:'curriculos',       icon:'user',      label:'Consultar Currículos', section:'rh' },
+  { id:'vagas-lista',      icon:'search',    label:'Consultar Vagas',      section:'painel' },
+  { id:'candidatar',       icon:'send',      label:'Candidatar a Vaga',    section:'painel' },
+  { id:'gis',              icon:'chart-bar', label:'GIS · Vendas Diárias', section:'gis' },
+  { id:'gis-admin',        icon:'key',       label:'Adm. GIS',             section:'gis', sub:true },
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -866,7 +931,10 @@ const Icon = ({ name, size=18, stroke=1.6, style }) => {
     case 'menu':        return <svg {...p}><path d="M4 7h16M4 12h16M4 17h16"/></svg>;
     case 'logout':      return <svg {...p}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>;
     case 'chart':       return <svg {...p}><path d="M3 21V3M3 21h18"/><rect x="7" y="11" width="3" height="7"/><rect x="13" y="7" width="3" height="11"/><rect x="19" y="14" width="3" height="4"/></svg>;
+    case 'chart-bar':   return <svg {...p}><rect x="3" y="14" width="4" height="7"/><rect x="10" y="9" width="4" height="12"/><rect x="17" y="4" width="4" height="17"/><path d="M3 21h18"/></svg>;
     case 'wrench':      return <svg {...p}><path d="M14 7a4 4 0 0 0-4 4l-7 7 3 3 7-7a4 4 0 0 0 5-5l-2 2-2-2 2-2a4 4 0 0 0-2 0z"/></svg>;
+    case 'unlock':      return <svg {...p}><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>;
+    case 'refresh':     return <svg {...p}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>;
     case 'broom':       return <svg {...p}><path d="M14 4l6 6-3 3-3-3M11 7l6 6-7 7H4v-6z"/></svg>;
     case 'truck':       return <svg {...p}><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>;
     case 'lightbulb':   return <svg {...p}><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5V16H8v-2.5A6 6 0 0 1 12 3z"/></svg>;
@@ -1060,6 +1128,7 @@ function Sidebar({ active, onNav, user }) {
   const myReqs = ((DB?.requests)||[]).filter(r=>r.createdBy===user.id&&r.status!=='Concluído').length;
   const principal = navItems.filter(n => {
     if (n.section !== 'principal') return false;
+    if (n.sub) return false; // sub-items handled separately
     if (n.id==='newreq'   && !hasPerm(user,'servicos','create'))  return false;
     if (n.id==='usuarios' && !hasPerm(user,'usuarios','view'))    return false;
     return true;
@@ -1075,18 +1144,31 @@ function Sidebar({ active, onNav, user }) {
     if (!hasPerm(user,'painel','view')) return false;
     return true;
   });
+  const gisItems = navItems.filter(n => n.section === 'gis' && hasPerm(user,'gis','view'));
+
+  // Mini comunicado ativo para o footer
+  const miniAtivo = (DB?.miniComunicados||[]).find(m => m.ativo);
+  const canEditMini = hasPerm(user,'feed','create');
+
   return (
     <div className="sidebar">
       <div className="sidebar-section">Principal</div>
       {principal.map(n => (
-        <button key={n.id} className={`nav-link ${active===n.id?'active':''}`} onClick={()=>onNav(n.id)}>
-          <Icon name={n.icon} size={16}/>
-          <span>{n.label}</span>
-          {n.id==='mine' && myReqs>0 && <span className="badge">{myReqs}</span>}
-        </button>
+        <React.Fragment key={n.id}>
+          <button className={`nav-link ${active===n.id?'active':''}`} onClick={()=>onNav(n.id)}>
+            <Icon name={n.icon} size={16}/>
+            <span>{n.label}</span>
+            {n.id==='mine' && myReqs>0 && <span className="badge">{myReqs}</span>}
+          </button>
+          {/* Sub-item: Mini Comunicado abaixo de Comunicados */}
+          {n.id==='feed' && canEditMini && (
+            <button className={`nav-link nav-sub ${active==='mini-comunicado'?'active':''}`} onClick={()=>onNav('mini-comunicado')}>
+              <Icon name="bell" size={14}/>
+              <span>Mini Comunicado</span>
+            </button>
+          )}
+        </React.Fragment>
       ))}
-      <div className="sidebar-section">Espaço</div>
-      <button className="nav-link"><Icon name="building" size={16}/> Lojas & operações</button>
       {rh.length > 0 && <>
         <div className="sidebar-section" style={{ display:'flex',alignItems:'center',gap:6 }}>
           <Icon name="briefcase" size={11}/> RH &amp; Carreira
@@ -1109,13 +1191,217 @@ function Sidebar({ active, onNav, user }) {
           </button>
         ))}
       </>}
+      {gisItems.length > 0 && <>
+        <div className="sidebar-section" style={{ display:'flex',alignItems:'center',gap:6 }}>
+          <Icon name="chart-bar" size={11}/> Comercial
+        </div>
+        {gisItems.filter(n => !n.sub).map(n => (
+          <button key={n.id} className={`nav-link ${active===n.id?'active':''}`} onClick={()=>onNav(n.id)}>
+            <Icon name={n.icon} size={15}/>
+            <span>{n.label}</span>
+          </button>
+        ))}
+        {hasPerm(user,'gis','approve') && gisItems.filter(n => n.sub).map(n => (
+          <button key={n.id} className={`nav-link ${active===n.id?'active':''}`} onClick={()=>onNav(n.id)}>
+            <Icon name={n.icon} size={15}/>
+            <span>Auditoria - GIS</span>
+          </button>
+        ))}
+      </>}
       {hasPerm(user,'relatorios','read') && <button className="nav-link"><Icon name="chart" size={16}/> Relatórios</button>}
-      <div className="sidebar-footer">
-        <Icon name="sparkle" size={14} style={{ color:'var(--gold-2)' }}/>
-        <h4>Festival Gastronômico</h4>
-        <p>Inscreva sua loja como parceira até 08/05.</p>
-        <button>Saiba mais</button>
+      {miniAtivo && (
+        <div className="sidebar-footer">
+          <Icon name="sparkle" size={14} style={{ color:'var(--gold-2)' }}/>
+          <h4>{miniAtivo.titulo}</h4>
+          <p>{miniAtivo.mensagem}</p>
+          {canEditMini && <button onClick={()=>onNav('mini-comunicado')}>Gerenciar</button>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MINI COMUNICADO SCREEN
+   ════════════════════════════════════════════════════════════════ */
+function MiniComunicadoScreen({ user, onPersist, onChange }) {
+  const [lista, setLista]       = useState([]);
+  const [modal, setModal]       = useState(null); // null | 'new' | objeto
+  const [deleteTarget, setDel]  = useState(null);
+  const [titulo, setTitulo]     = useState('');
+  const [mensagem, setMensagem] = useState('');
+  const [ativo, setAtivo]       = useState(true);
+  const [err, setErr]           = useState('');
+  const [busy, setBusy]         = useState(false);
+
+  const refresh = () => setLista([...(DB.miniComunicados||[])]);
+
+  useEffect(() => { refresh(); }, []);
+
+  const openNew = () => {
+    setTitulo(''); setMensagem(''); setAtivo(true); setErr(''); setModal('new');
+  };
+  const openEdit = (mc) => {
+    setTitulo(mc.titulo); setMensagem(mc.mensagem); setAtivo(mc.ativo); setErr(''); setModal(mc);
+  };
+
+  const save = async () => {
+    if (!titulo.trim())   { setErr('Informe o título.'); return; }
+    if (!mensagem.trim()) { setErr('Informe a mensagem.'); return; }
+    setBusy(true);
+    DB.miniComunicados = DB.miniComunicados || [];
+    const now = Date.now();
+    if (modal === 'new') {
+      // Se ativando este, desativa os outros
+      if (ativo) DB.miniComunicados.forEach(m => { m.ativo = false; });
+      DB.miniComunicados.unshift({ id:'mc-'+now, titulo:titulo.trim(), mensagem:mensagem.trim(), ativo, createdAt:now });
+    } else {
+      if (ativo) DB.miniComunicados.forEach(m => { if (m.id !== modal.id) m.ativo = false; });
+      const idx = DB.miniComunicados.findIndex(m => m.id===modal.id);
+      if (idx>=0) DB.miniComunicados[idx] = { ...DB.miniComunicados[idx], titulo:titulo.trim(), mensagem:mensagem.trim(), ativo, updatedAt:now };
+    }
+    await onPersist();
+    refresh();
+    onChange && onChange();
+    setBusy(false);
+    setModal(null);
+  };
+
+  const toggleAtivo = async (mc) => {
+    DB.miniComunicados = DB.miniComunicados || [];
+    // Desativa todos, então ativa só este se estava inativo
+    const eraAtivo = mc.ativo;
+    DB.miniComunicados.forEach(m => { m.ativo = false; });
+    const idx = DB.miniComunicados.findIndex(m => m.id===mc.id);
+    if (idx>=0) DB.miniComunicados[idx].ativo = !eraAtivo;
+    await onPersist();
+    refresh();
+    onChange && onChange();
+  };
+
+  const confirmDelete = async () => {
+    DB.miniComunicados = (DB.miniComunicados||[]).filter(m=>m.id!==deleteTarget.id);
+    await onPersist();
+    refresh();
+    onChange && onChange();
+    setDel(null);
+  };
+
+  const canEdit = hasPerm(user,'feed','create');
+
+  return (
+    <div className="main-pad">
+      {/* Modal novo/editar */}
+      {modal !== null && (
+        <div className="modal-overlay" onClick={()=>setModal(null)}>
+          <div className="modal" onClick={e=>e.stopPropagation()} style={{maxWidth:480}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}}>
+              <h3 style={{margin:0,fontSize:16}}>{modal==='new'?'Novo Mini Comunicado':'Editar Mini Comunicado'}</h3>
+              <button className="icon-btn" onClick={()=>setModal(null)}><Icon name="x" size={16}/></button>
+            </div>
+            <p style={{fontSize:12,color:'var(--ink-3)',marginBottom:18}}>
+              {modal==='new'?'Crie uma mensagem de destaque para o canto inferior esquerdo da sidebar.':'Edite o mini comunicado existente.'}
+            </p>
+            <div className="field">
+              <label>Título <span className="req">*</span></label>
+              <input value={titulo} onChange={e=>setTitulo(e.target.value)} placeholder="Ex.: Festival Gastronômico" maxLength={60} autoFocus/>
+            </div>
+            <div className="field">
+              <label>Mensagem <span className="req">*</span></label>
+              <textarea rows={3} value={mensagem} onChange={e=>setMensagem(e.target.value)} placeholder="Ex.: Inscreva sua loja como parceira até 08/05." maxLength={160}/>
+              <div className="hint">{mensagem.length}/160 caracteres</div>
+            </div>
+            <div className="field" style={{display:'flex',alignItems:'center',gap:10,marginBottom:0}}>
+              <input type="checkbox" id="mc-ativo" checked={ativo} onChange={e=>setAtivo(e.target.checked)} style={{width:'auto',height:'auto'}}/>
+              <label htmlFor="mc-ativo" style={{margin:0,cursor:'pointer'}}>✅ Exibir na sidebar (desativa os demais)</label>
+            </div>
+            {err && <div style={{color:'var(--err)',fontSize:12,margin:'12px 0',padding:'8px 12px',background:'var(--err-bg)',borderRadius:8}}>{err}</div>}
+            <div style={{display:'flex',gap:8,justifyContent:'flex-end',marginTop:20}}>
+              <button className="btn btn-ghost" onClick={()=>setModal(null)}>Cancelar</button>
+              <button className="btn btn-primary" onClick={save} disabled={busy}>{busy?'Salvando...':'Salvar'}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal excluir */}
+      {deleteTarget && (
+        <div className="modal-overlay" onClick={()=>setDel(null)}>
+          <div className="modal" onClick={e=>e.stopPropagation()} style={{maxWidth:380}}>
+            <h3 style={{marginBottom:10}}>Excluir mini comunicado?</h3>
+            <p style={{fontSize:13,color:'var(--ink-2)',marginBottom:20}}>
+              "<strong>{deleteTarget.titulo}</strong>" será removido permanentemente.
+            </p>
+            <div style={{display:'flex',gap:8,justifyContent:'flex-end'}}>
+              <button className="btn btn-ghost" onClick={()=>setDel(null)}>Cancelar</button>
+              <button className="btn btn-danger" onClick={confirmDelete}>Excluir</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="page-title-row">
+        <div className="page-title">
+          <h2>Mini Comunicado</h2>
+          <p>Gerencie a mensagem de destaque exibida no canto inferior esquerdo da sidebar.</p>
+        </div>
+        {canEdit && <button className="btn btn-primary" onClick={openNew}><Icon name="plus" size={14}/>Novo Mini Comunicado</button>}
       </div>
+
+      {lista.length === 0 ? (
+        <div className="card" style={{textAlign:'center',padding:40,color:'var(--ink-3)'}}>
+          <Icon name="bell" size={32} style={{margin:'0 auto 12px',display:'block',opacity:0.3}}/>
+          <div style={{fontWeight:600,color:'var(--ink-2)',marginBottom:6}}>Nenhum mini comunicado cadastrado.</div>
+          {canEdit && <p style={{fontSize:13}}>Clique em <strong>Novo Mini Comunicado</strong> para criar um.</p>}
+        </div>
+      ) : (
+        <div style={{display:'flex',flexDirection:'column',gap:10}}>
+          {lista.map(mc => (
+            <div key={mc.id} className="card" style={{display:'flex',alignItems:'center',gap:16,padding:'14px 18px'}}>
+              {/* Preview */}
+              <div style={{width:10,height:10,borderRadius:'50%',background:mc.ativo?'var(--ok)':'var(--ink-4)',flexShrink:0}}/>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontWeight:600,fontSize:14,color:'var(--ink)',marginBottom:2}}>{mc.titulo}</div>
+                <div style={{fontSize:12,color:'var(--ink-3)',lineHeight:1.4,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{mc.mensagem}</div>
+                <div style={{fontSize:10,color:'var(--ink-4)',marginTop:4,fontFamily:'JetBrains Mono,monospace'}}>
+                  {mc.createdAt ? new Date(mc.createdAt).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}) : ''}
+                </div>
+              </div>
+              <div style={{display:'flex',alignItems:'center',gap:6,flexShrink:0}}>
+                <span className={`status-pill ${mc.ativo?'ok':'muted'}`}>
+                  <span className="ind"/>
+                  {mc.ativo ? 'Ativo' : 'Inativo'}
+                </span>
+                {canEdit && <>
+                  <button className="btn btn-ghost btn-sm" title={mc.ativo?'Desativar':'Ativar'} onClick={()=>toggleAtivo(mc)}>
+                    <Icon name={mc.ativo?'x':'check'} size={13}/>
+                    {mc.ativo ? 'Desativar' : 'Ativar'}
+                  </button>
+                  <button className="btn btn-ghost btn-sm" onClick={()=>openEdit(mc)}>
+                    <Icon name="edit" size={13}/> Editar
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={()=>setDel(mc)}>
+                    <Icon name="trash" size={13}/>
+                  </button>
+                </>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Preview da sidebar */}
+      {lista.some(m=>m.ativo) && (
+        <div className="card" style={{marginTop:20}}>
+          <div className="card-head"><h3>Preview — como aparece na sidebar</h3></div>
+          <div style={{background:'var(--gold-soft)',borderRadius:12,padding:12,display:'flex',flexDirection:'column',gap:6,maxWidth:220}}>
+            <Icon name="sparkle" size={14} style={{color:'var(--gold-2)'}}/>
+            <h4 style={{fontSize:12,fontWeight:600,margin:0,color:'#5e4a16'}}>{lista.find(m=>m.ativo)?.titulo}</h4>
+            <p style={{fontSize:11,color:'#7c6326',margin:0,lineHeight:1.4}}>{lista.find(m=>m.ativo)?.mensagem}</p>
+            <button style={{marginTop:4,padding:'6px 10px',background:'var(--navy)',color:'var(--gold)',border:0,borderRadius:6,fontSize:11,fontWeight:600,cursor:'pointer',fontFamily:'inherit',alignSelf:'flex-start'}}>Gerenciar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1716,6 +2002,31 @@ function NewRequest({ go, mobile, onSubmit, user }) {
   });
   const [cpfAutoFill, setCpfAutoFill] = useState(false);
   const [cpfErr, setCpfErr] = useState('');
+  const [files, setFiles] = useState([]);
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = React.useRef(null);
+
+  const ALLOWED_TYPES = ['image/png','image/jpeg','image/jpg','application/pdf'];
+  const MAX_SIZE_MB = 25;
+  const MAX_FILES = 10;
+
+  const addFiles = (incoming) => {
+    const valid = Array.from(incoming).filter(f => {
+      if (!ALLOWED_TYPES.includes(f.type)) return false;
+      if (f.size > MAX_SIZE_MB * 1024 * 1024) return false;
+      return true;
+    });
+    setFiles(prev => {
+      const merged = [...prev];
+      for (const f of valid) {
+        if (merged.length >= MAX_FILES) break;
+        if (!merged.find(x => x.name === f.name && x.size === f.size)) merged.push(f);
+      }
+      return merged;
+    });
+  };
+  const removeFile = (idx) => setFiles(prev => prev.filter((_,i) => i !== idx));
+  const fmtSize = (bytes) => bytes < 1024*1024 ? (bytes/1024).toFixed(0)+'KB' : (bytes/(1024*1024)).toFixed(1)+'MB';
 
   const steps = [
     { label:'Tipo de serviço' },
@@ -1731,11 +2042,8 @@ function NewRequest({ go, mobile, onSubmit, user }) {
   const minDate = fmtDateInput(calcMinDate());
 
   const handleCpf = (raw) => {
-    const digits = raw.replace(/\D/g,'').slice(0,11);
-    let fmt = digits;
-    if (digits.length > 9)      fmt = digits.slice(0,3)+'.'+digits.slice(3,6)+'.'+digits.slice(6,9)+'-'+digits.slice(9);
-    else if (digits.length > 6) fmt = digits.slice(0,3)+'.'+digits.slice(3,6)+'.'+digits.slice(6);
-    else if (digits.length > 3) fmt = digits.slice(0,3)+'.'+digits.slice(3);
+    const fmt = maskCpf(raw);
+    const digits = fmt.replace(/\D/g,'');
     set('cpf', fmt);
     if (digits.length === 11) {
       if (!validarCPF(digits)) { setCpfErr('CPF inválido. Verifique os dígitos.'); return; }
@@ -1755,12 +2063,79 @@ function NewRequest({ go, mobile, onSubmit, user }) {
     }
   };
 
+  // ── Validação de prazo x prioridade ── (hooks sempre no topo, sem condicional)
+  const [prioAlertConfirmed, setPrioAlertConfirmed] = useState(false);
+  const prevPrioKeyRef = React.useRef('');
+
   // Valida datas do período
   const periodoAteOk = !data.periodoAteData || (
     data.periodoAteData >= data.periodoDeData &&
     data.periodoAteData <= fmtDateInput(calcMaxDate(new Date(data.periodoDeData || minDate)))
   );
-  const step2ok = data.periodoDeData && periodoAteOk && validarCPF(data.cpf.replace(/\D/g,'')) && !cpfErr && data.nomeProfissional && data.telefone;
+
+  // ── Validação de prazo a partir do MOMENTO ATUAL do cadastro ──
+  // Crítica (SLA 1h): "Período até" não pode ultrapassar agora + 1h
+  // Alta    (SLA 8h): "Período até" não pode ultrapassar agora + 8h
+  // A comparação é sempre de AGORA até o fim informado, não entre as duas datas.
+  const prioAlert = (() => {
+    if (!data.periodoAteData) return null;
+    if (data.priority !== 'Crítica' && data.priority !== 'Alta') return null;
+
+    const agora = new Date();
+    const ateStr = data.periodoAteData + 'T' + (data.periodoAteHora || '23:59') + ':00';
+    const ate = new Date(ateStr);
+    const horasAteAte = (ate - agora) / (1000 * 60 * 60); // horas de agora até o fim
+
+    // Formata label legível do fim informado
+    const [ay, am, ad] = data.periodoAteData.split('-');
+    const fimLabel = `${ad}/${am}/${ay}${data.periodoAteHora ? ' às ' + data.periodoAteHora : ''}`;
+
+    if (data.priority === 'Crítica' && horasAteAte > 1) {
+      const limiteStr = (() => {
+        const lim = new Date(agora.getTime() + 60 * 60 * 1000);
+        return lim.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+      })();
+      return {
+        level: 'err',
+        title: '⚠ Prazo incompatível com prioridade Crítica',
+        body: `Prioridade Crítica exige atendimento em até 1 hora. O prazo máximo permitido agora é até ${limiteStr} de hoje. A data/hora informada (${fimLabel}) ultrapassa esse limite. Corrija o prazo ou altere a prioridade.`,
+        needsConfirm: false,
+      };
+    }
+    if (data.priority === 'Alta' && horasAteAte > 8) {
+      const limiteStr = (() => {
+        const lim = new Date(agora.getTime() + 8 * 60 * 60 * 1000);
+        const [ld, lm, lh, lmin] = [
+          String(lim.getDate()).padStart(2,'0'),
+          String(lim.getMonth()+1).padStart(2,'0'),
+          String(lim.getHours()).padStart(2,'0'),
+          String(lim.getMinutes()).padStart(2,'0'),
+        ];
+        return `${ld}/${lm} às ${lh}:${lmin}`;
+      })();
+      return {
+        level: 'warn',
+        title: '⚠ Prazo estendido para prioridade Alta',
+        body: `Prioridade Alta exige atendimento em até 8 horas. O prazo máximo seria até ${limiteStr}. A data/hora informada (${fimLabel}) ultrapassa esse limite. Confirme para prosseguir ou ajuste as datas / prioridade.`,
+        needsConfirm: true,
+      };
+    }
+    return null;
+  })();
+
+  // Reseta confirmação via useEffect quando datas, horas ou prioridade mudam
+  const prioKey = data.priority + '|' + data.periodoAteData + '|' + data.periodoAteHora;
+  React.useEffect(() => {
+    if (prevPrioKeyRef.current && prevPrioKeyRef.current !== prioKey) {
+      setPrioAlertConfirmed(false);
+    }
+    prevPrioKeyRef.current = prioKey;
+  }, [prioKey]);
+
+  // Bloqueia avanço se: Crítica fora do prazo (erro) OU Alta fora do prazo não confirmada
+  const prioBlock = prioAlert && (prioAlert.level === 'err' || (prioAlert.needsConfirm && !prioAlertConfirmed));
+
+  const step2ok = data.periodoDeData && periodoAteOk && validarCPF(data.cpf.replace(/\D/g,'')) && !cpfErr && data.nomeProfissional && data.telefone && !prioBlock;
 
   return (
     <div className="main-pad">
@@ -1812,7 +2187,6 @@ function NewRequest({ go, mobile, onSubmit, user }) {
             <h3>Quem e Quando?</h3>
             <p className="lead">Informe o profissional e o período da solicitação.</p>
 
-
             {/* Loja/Setor vem do cadastro do usuário */}
             <div style={{ display:"flex", alignItems:"center", gap:10, background:"var(--info-bg)", border:"1px solid rgba(37,99,235,0.25)", borderRadius:8, padding:"10px 14px", marginBottom:18, fontSize:12, color:"var(--info)" }}>
               <Icon name="map-pin" size={14}/>
@@ -1848,6 +2222,34 @@ function NewRequest({ go, mobile, onSubmit, user }) {
               </div>
             </div>
 
+            {/* ── Banner de alerta: prioridade x prazo ── */}
+            {prioAlert && (
+              <div style={{
+                display:'flex', flexDirection:'column', gap:8,
+                background: prioAlert.level==='err' ? 'var(--err-bg)' : 'var(--warn-bg)',
+                border: `1.5px solid ${prioAlert.level==='err' ? 'var(--err)' : 'var(--warn)'}`,
+                borderRadius:10, padding:'14px 16px', marginTop:4, marginBottom:4,
+                fontSize:13, color: prioAlert.level==='err' ? 'var(--err)' : 'var(--warn)',
+              }}>
+                <div style={{ fontWeight:700, fontSize:13 }}>{prioAlert.title}</div>
+                <div style={{ fontWeight:400, lineHeight:1.6, marginTop:2, color: prioAlert.level==='err' ? '#7f1d1d' : '#78350f' }}>{prioAlert.body}</div>
+                {prioAlert.needsConfirm && !prioAlertConfirmed && (
+                  <div style={{ marginTop:8, display:'flex', gap:10, alignItems:'center', flexWrap:'wrap' }}>
+                    <button className="btn btn-sm" onClick={()=>setPrioAlertConfirmed(true)}
+                      style={{ background:'var(--warn)', color:'white', borderColor:'var(--warn)', fontWeight:600 }}>
+                      Sim, confirmar mesmo assim
+                    </button>
+                    <span style={{ fontSize:11, color:'#92400e' }}>Ou ajuste as datas / prioridade acima.</span>
+                  </div>
+                )}
+                {prioAlert.needsConfirm && prioAlertConfirmed && (
+                  <div style={{ display:'flex', alignItems:'center', gap:6, marginTop:4, fontWeight:600, color:'var(--ok)', fontSize:12 }}>
+                    <Icon name="check-circle" size={14}/> Confirmado — você pode continuar.
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Dados do profissional */}
             <div style={{ borderTop:'1px solid var(--line)', margin:'18px 0 16px', paddingTop:16 }}>
               <div className="label-eyebrow" style={{ marginBottom:12 }}>DADOS DO PROFISSIONAL</div>
@@ -1879,7 +2281,7 @@ function NewRequest({ go, mobile, onSubmit, user }) {
               </div>
               <div className="field">
                 <label>Telefone <span className="req">*</span></label>
-                <input type="text" placeholder="(11) 90000-0000" value={data.telefone} onChange={e=>set('telefone', maskPhone(e.target.value))} maxLength={15}/>
+                <input type="text" placeholder="(XX) XXXXX-XXXX" value={data.telefone} onChange={e=>set('telefone', maskPhone(e.target.value))} maxLength={15}/>
               </div>
             </div>
           </div>}
@@ -1888,7 +2290,38 @@ function NewRequest({ go, mobile, onSubmit, user }) {
           {step===3 && <div>
             <h3>Revisão final</h3>
             <p className="lead">Confirme os dados antes de enviar.</p>
-            <div className="upload-zone"><Icon name="paperclip" size={20} style={{ color:'var(--ink-3)' }}/><div className="uh">Arraste arquivos ou clique</div><div className="us">PNG, JPG, PDF · até 25MB</div></div>
+            {/* ── Upload de arquivos ── */}
+            <input ref={fileInputRef} type="file" multiple
+              accept=".png,.jpg,.jpeg,.pdf"
+              style={{ display:'none' }}
+              onChange={e=>{ addFiles(e.target.files); e.target.value=''; }}/>
+
+            <div className={`upload-zone${dragOver?' upload-zone-active':''}`}
+              onClick={()=>fileInputRef.current.click()}
+              onDragOver={e=>{ e.preventDefault(); setDragOver(true); }}
+              onDragLeave={()=>setDragOver(false)}
+              onDrop={e=>{ e.preventDefault(); setDragOver(false); addFiles(e.dataTransfer.files); }}>
+              <Icon name="paperclip" size={22} style={{ color: dragOver ? 'var(--navy)' : 'var(--ink-3)' }}/>
+              <div className="uh">{dragOver ? 'Solte para anexar' : 'Arraste arquivos ou clique para selecionar'}</div>
+              <div className="us">PNG, JPG, PDF · até 25 MB por arquivo · máx. 10 arquivos</div>
+            </div>
+
+            {files.length > 0 && (
+              <div style={{ marginTop:10, display:'flex', flexDirection:'column', gap:6 }}>
+                {files.map((f,i) => (
+                  <div key={i} style={{ display:'flex', alignItems:'center', gap:10, background:'var(--surface-2)', border:'1px solid var(--line)', borderRadius:8, padding:'8px 12px', fontSize:12 }}>
+                    <Icon name="paperclip" size={14} style={{ color:'var(--ink-3)', flexShrink:0 }}/>
+                    <span style={{ flex:1, color:'var(--ink)', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{f.name}</span>
+                    <span style={{ color:'var(--ink-4)', flexShrink:0 }}>{fmtSize(f.size)}</span>
+                    <button onClick={e=>{ e.stopPropagation(); removeFile(i); }}
+                      style={{ background:'transparent', border:'none', cursor:'pointer', color:'var(--ink-4)', padding:'2px 4px', borderRadius:4, display:'flex', alignItems:'center' }}
+                      title="Remover arquivo">
+                      <Icon name="x" size={13}/>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="divider"/>
             <div className="label-eyebrow">SERVIÇO</div>
             <div className="review-row"><span className="k">Tipo</span><span className="v">{typeLabel}</span></div>
@@ -1914,7 +2347,7 @@ function NewRequest({ go, mobile, onSubmit, user }) {
                   disabled={(step===0&&!data.type)||(step===1&&!data.title)||(step===2&&!step2ok)}>
                   Continuar <Icon name="arrow-right" size={13}/>
                 </button>
-              : <button className="btn btn-gold" onClick={()=>onSubmit(data)}><Icon name="check" size={13}/> Enviar solicitação</button>}
+              : <button className="btn btn-gold" onClick={()=>onSubmit({...data, files})}><Icon name="check" size={13}/> Enviar solicitação</button>}
           </div>
         </div>
       </div>
@@ -2058,6 +2491,7 @@ const MODULES = [
   { id:'vagas',      label:'Vagas de Emprego (RH)' },
   { id:'curriculos', label:'Banco de Currículos (RH)' },
   { id:'painel',     label:'Painel de Vagas (Candidatos)' },
+  { id:'gis',        label:'GIS · Vendas Diárias' },
 ];
 const ACTIONS = ['view','create','edit','delete','approve'];
 const ACTION_LABELS = { view:'Ver', create:'Criar', edit:'Editar', delete:'Excluir', approve:'Aprovar' };
@@ -2503,7 +2937,7 @@ function CadastrarVagaScreen({ user, onPersist, onChange }) {
                 <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:12 }}>
                   <div className="field">
                     <label>Telefone para Contato</label>
-                    <input type="text" value={form.telefone} onChange={e=>set('telefone',e.target.value)} placeholder="(11) 9 0000-0000"/>
+                    <input type="text" value={form.telefone} onChange={e=>set('telefone', maskPhone(e.target.value))} placeholder="(XX) XXXXX-XXXX" maxLength={15}/>
                   </div>
                   <div className="field">
                     <label>E-mail</label>
@@ -3222,14 +3656,19 @@ function maskCep(v) {
   return d;
 }
 function maskPhone(v) {
+  // Padrão único: (XX) XXXXX-XXXX  (11 dígitos — celular)
   const d = v.replace(/\D/g,'').slice(0,11);
   if (d.length === 0) return '';
   if (d.length <= 2)  return '(' + d;
-  if (d.length <= 6)  return '(' + d.slice(0,2) + ') ' + d.slice(2);
-  // 9 dígitos ou menos após DDD → fixo (XXXX-XXXX)
-  if (d.length <= 10) return '(' + d.slice(0,2) + ') ' + d.slice(2,6) + '-' + d.slice(6);
-  // 11 dígitos → celular (XXXXX-XXXX)
+  if (d.length <= 7)  return '(' + d.slice(0,2) + ') ' + d.slice(2);
   return '(' + d.slice(0,2) + ') ' + d.slice(2,7) + '-' + d.slice(7);
+}
+function maskCpf(v) {
+  const d = v.replace(/\D/g,'').slice(0,11);
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return d.slice(0,3) + '.' + d.slice(3);
+  if (d.length <= 9) return d.slice(0,3) + '.' + d.slice(3,6) + '.' + d.slice(6);
+  return d.slice(0,3) + '.' + d.slice(3,6) + '.' + d.slice(6,9) + '-' + d.slice(9);
 }
 
 /* ── Step 1: Endereço com CEP automático ── */
@@ -3316,19 +3755,19 @@ function StepContato({ form, set }) {
           <label>Celular</label>
           <input type="text" value={form.celular}
             onChange={e=>set('celular', maskPhone(e.target.value))}
-            placeholder="(11) 99999-9999" maxLength={15}/>
+            placeholder="(XX) XXXXX-XXXX" maxLength={15}/>
         </div>
         <div className="field">
           <label>Tel. residencial</label>
           <input type="text" value={form.telResidencial}
             onChange={e=>set('telResidencial', maskPhone(e.target.value))}
-            placeholder="(11) 9999-9999" maxLength={14}/>
+            placeholder="(XX) XXXXX-XXXX" maxLength={15}/>
         </div>
         <div className="field">
           <label>Tel. outro</label>
           <input type="text" value={form.telOutro}
             onChange={e=>set('telOutro', maskPhone(e.target.value))}
-            placeholder="(11) 9999-9999" maxLength={15}/>
+            placeholder="(XX) XXXXX-XXXX" maxLength={15}/>
         </div>
         <div className="field"><label>Instagram</label><input type="text" value={form.instagram} onChange={e=>set('instagram',e.target.value)} placeholder="@seuinstagram"/></div>
         <div className="field"><label>Facebook</label><input type="text" value={form.facebook} onChange={e=>set('facebook',e.target.value)} placeholder="facebook.com/seuperfil"/></div>
@@ -3448,14 +3887,7 @@ function CandidatarVagaScreen({ user, onPersist, onChange }) {
                 <div className="field">
                 <label>CPF <span className="req">*</span></label>
                 <input type="text" value={form.cpf}
-                  onChange={e => {
-                    const digits = e.target.value.replace(/\D/g,'').slice(0,11);
-                    let fmt = digits;
-                    if (digits.length > 9) fmt = digits.slice(0,3)+'.'+digits.slice(3,6)+'.'+digits.slice(6,9)+'-'+digits.slice(9);
-                    else if (digits.length > 6) fmt = digits.slice(0,3)+'.'+digits.slice(3,6)+'.'+digits.slice(6);
-                    else if (digits.length > 3) fmt = digits.slice(0,3)+'.'+digits.slice(3);
-                    set('cpf', fmt);
-                  }}
+                  onChange={e => set('cpf', maskCpf(e.target.value))}
                   placeholder="000.000.000-00" maxLength={14}
                   style={{ borderColor: form.cpf.replace(/\D/g,'').length===11 ? (validarCPF(form.cpf.replace(/\D/g,'')) ? 'var(--ok)' : 'var(--err)') : undefined }}/>
                 {form.cpf.replace(/\D/g,'').length===11 && !validarCPF(form.cpf.replace(/\D/g,'')) && (
@@ -3599,6 +4031,876 @@ function CandidatarVagaScreen({ user, onPersist, onChange }) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MÓDULO GIS — ADMINISTRAÇÃO (Desbloqueio de Períodos)
+   ════════════════════════════════════════════════════════════════ */
+function GISAdminScreen({ user, onPersist, onChange }) {
+  if (!hasPerm(user, 'gis', 'approve')) return <Blocked/>;
+
+  const today   = new Date();
+  const [viewYear,  setViewYear]  = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+
+  /* Combo: lista de usuários que têm perfil lojista (todos exceto admins sem loja) */
+  const storeUsers = (DB?.users || []).filter(u => u.store && u.store.trim() !== '');
+  const [selectedUserId, setSelectedUserId] = useState(storeUsers[0]?.id || '');
+
+  /* Load encrypted GIS record for selected user */
+  const [vendas,    setVendas]    = useState({});
+  const [sentWeeks, setSentWeeks] = useState({});
+  const [loading,   setLoading]   = useState(false);
+  const [feedback,  setFeedback]  = useState(null); // { msg, tone }
+  const [confirm,   setConfirm]   = useState(null); // { type, label, payload }
+
+  const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const DAY_NAMES   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
+
+  /* ── Load & decrypt selected user's GIS data ── */
+  const loadUserData = async (uid) => {
+    setLoading(true); setFeedback(null);
+    setVendas({}); setSentWeeks({});
+    try {
+      const rec = (DB.gisVendas || []).find(r => r.userId === uid);
+      if (!rec) { setLoading(false); return; }
+      const [dataStr, sentStr] = await Promise.all([
+        decryptField(rec.encData || '{}'),
+        decryptField(rec.encSent || '{}'),
+      ]);
+      setVendas(JSON.parse(dataStr   || '{}'));
+      setSentWeeks(JSON.parse(sentStr || '{}'));
+    } catch(e) { setFeedback({ msg:'Erro ao descriptografar dados.', tone:'err' }); }
+    setLoading(false);
+  };
+
+  useEffect(() => { if (selectedUserId) loadUserData(selectedUserId); }, [selectedUserId, viewYear, viewMonth]);
+
+  /* ── Persist unlocked sentWeeks back encrypted ── */
+  const persistUnlock = async (newSent, label) => {
+    try {
+      if (!DB.gisVendas) DB.gisVendas = [];
+      const idx = DB.gisVendas.findIndex(r => r.userId === selectedUserId);
+      if (idx < 0) return;
+      const rec = DB.gisVendas[idx];
+      // Re-encrypt sentWeeks; leave encData untouched
+      const [encSentNew, encPeriodo] = await Promise.all([
+        encryptField(JSON.stringify(newSent)),
+        encryptField(`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`),
+      ]);
+      DB.gisVendas[idx] = { ...rec, encSent: encSentNew, encPeriodo, updatedAt: Date.now() };
+      // Also update user's own localStorage key if same browser
+      const userSentKey = `gis_s_${btoa(selectedUserId).replace(/=/g,'')}`;
+      const encForLS = await encryptField(JSON.stringify(newSent));
+      localStorage.setItem(userSentKey, encForLS);
+      saveDBLocal(DB);
+      onPersist && onPersist();
+      setSentWeeks(newSent);
+      setFeedback({ msg:`✅ ${label} desbloqueado com sucesso.`, tone:'ok' });
+      setTimeout(() => setFeedback(null), 4000);
+    } catch(e) { setFeedback({ msg:'Erro ao salvar desbloqueio.', tone:'err' }); }
+    setConfirm(null);
+  };
+
+  /* ── Unlock handlers ── */
+  const unlockDay = (dayKey) => {
+    const label = `Dia ${dayKey}`;
+    setConfirm({ type:'day', label, payload: dayKey });
+  };
+  const unlockWeek = (weekIdx) => {
+    const wk = getWeekKey(viewYear, viewMonth, weekIdx);
+    setConfirm({ type:'week', label: `Semana ${weekIdx + 1} de ${MONTH_NAMES[viewMonth]}/${viewYear}`, payload: wk });
+  };
+  const unlockMonth = () => {
+    setConfirm({ type:'month', label: `Mês inteiro de ${MONTH_NAMES[viewMonth]}/${viewYear}`, payload: null });
+  };
+
+  const executeUnlock = async () => {
+    if (!confirm) return;
+    let newSent = { ...sentWeeks };
+    if (confirm.type === 'day') {
+      // Remove sent flag from any week that contains this day
+      const dayDate = new Date(confirm.payload);
+      Object.keys(newSent).forEach(wk => {
+        // Rebuild week to check if day belongs to it
+        const parts = wk.split('_'); // gis_YEAR_MM_wN
+        if (parts.length < 4) return;
+        const yr = parseInt(parts[1]); const mo = parseInt(parts[2]) - 1; const wi = parseInt(parts[3].slice(1));
+        if (yr !== dayDate.getFullYear() || mo !== dayDate.getMonth()) return;
+        const cal = buildCalendar(yr, mo);
+        const week = cal[wi];
+        if (!week) return;
+        const hasDay = week.some(c => !c.outside && c.month === mo && getDayKey(yr, mo, c.day) === confirm.payload);
+        if (hasDay) delete newSent[wk];
+      });
+      // Mark day as unlocked individually
+      newSent[`day_unlock_${confirm.payload}`] = { unlockedAt: Date.now(), by: user.nome };
+    } else if (confirm.type === 'week') {
+      delete newSent[confirm.payload];
+    } else if (confirm.type === 'month') {
+      const prefix = `gis_${viewYear}_${String(viewMonth+1).padStart(2,'0')}`;
+      newSent = Object.fromEntries(Object.entries(newSent).filter(([k]) => !k.startsWith(prefix)));
+    }
+    await persistUnlock(newSent, confirm.label);
+  };
+
+  /* ── Calendar helpers ── */
+  const weeks = buildCalendar(viewYear, viewMonth);
+  const isSentWeek = (wi) => !!sentWeeks[getWeekKey(viewYear, viewMonth, wi)];
+  const isDayUnlocked = (dayKey) => !!sentWeeks[`day_unlock_${dayKey}`];
+  const monthHasSent = weeks.some((_, wi) => isSentWeek(wi));
+  const getDayVal = (dayKey) => {
+    const v = vendas[dayKey];
+    return (v && v.value !== null && v.value !== undefined) ? v.value : null;
+  };
+
+  const selectedUser = storeUsers.find(u => u.id === selectedUserId);
+
+  return (
+    <div className="gis-shell">
+
+      {/* Confirm modal */}
+      {confirm && (
+        <div className="modal-overlay">
+          <div className="modal-card" style={{ maxWidth:440 }}>
+            <button className="close-x" onClick={() => setConfirm(null)}><Icon name="x" size={16}/></button>
+            <div style={{ fontSize:32, textAlign:'center', marginBottom:12 }}>🔓</div>
+            <h3 style={{ textAlign:'center' }}>Confirmar Desbloqueio</h3>
+            <p style={{ fontSize:13, color:'var(--ink-2)', margin:'12px 0 20px', textAlign:'center', lineHeight:1.55 }}>
+              Deseja reabilitar o envio de <strong>{confirm.label}</strong> para a loja <strong>{selectedUser?.store || selectedUser?.nome}</strong>?<br/>
+              <span style={{ fontSize:12, color:'var(--ink-3)' }}>O lojista poderá editar e reenviar o período.</span>
+            </p>
+            <div style={{ display:'flex', gap:10, justifyContent:'center' }}>
+              <button className="btn btn-ghost" onClick={() => setConfirm(null)}>Cancelar</button>
+              <button className="btn btn-gold" onClick={executeUnlock}><Icon name="unlock" size={14}/> Desbloquear</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="gis-topbar">
+        <div className="page-title">
+          <h2 style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <Icon name="key" size={22} style={{ color:'var(--navy)' }}/>
+            Administração GIS · Desbloqueio de Períodos
+          </h2>
+          <p>Reabilite dias, semanas ou meses enviados por lojistas</p>
+        </div>
+        <div className="gis-nav-month">
+          <span className="gis-month-adj" onClick={() => { if(viewMonth===0){setViewYear(y=>y-1);setViewMonth(11);}else setViewMonth(m=>m-1); }}>
+            ‹ {MONTH_NAMES[viewMonth===0?11:viewMonth-1].slice(0,3)}
+          </span>
+          <div className="gis-month-label">{MONTH_NAMES[viewMonth]} / {viewYear}</div>
+          <span className="gis-month-adj" onClick={() => { if(viewMonth===11){setViewYear(y=>y+1);setViewMonth(0);}else setViewMonth(m=>m+1); }}>
+            {MONTH_NAMES[viewMonth===11?0:viewMonth+1].slice(0,3)} ›
+          </span>
+        </div>
+      </div>
+
+      {/* Loja selector */}
+      <div className="card" style={{ marginBottom:20 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:16, flexWrap:'wrap' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8, flex:1, minWidth:260 }}>
+            <Icon name="building" size={16} style={{ color:'var(--navy)', flexShrink:0 }}/>
+            <div style={{ flex:1 }}>
+              <div style={{ fontSize:11, fontWeight:600, color:'var(--ink-3)', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:4 }}>Selecionar Loja / Responsável</div>
+              <select
+                value={selectedUserId}
+                onChange={e => setSelectedUserId(e.target.value)}
+                style={{ width:'100%', height:38, background:'var(--surface-2)', border:'1px solid var(--line)', borderRadius:8, padding:'0 12px', fontSize:13, color:'var(--ink)', outline:'none', fontFamily:'inherit' }}
+              >
+                {storeUsers.length === 0 && <option value="">Nenhum lojista cadastrado</option>}
+                {storeUsers.map(u => (
+                  <option key={u.id} value={u.id}>{u.store} — {u.nome}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {selectedUser && (
+            <div style={{ display:'flex', gap:8 }}>
+              <div style={{ background:'var(--surface-2)', borderRadius:8, padding:'8px 14px', fontSize:12 }}>
+                <div style={{ color:'var(--ink-3)', marginBottom:2 }}>Cargo</div>
+                <div style={{ fontWeight:600 }}>{selectedUser.cargo || '—'}</div>
+              </div>
+              <div style={{ background:'var(--surface-2)', borderRadius:8, padding:'8px 14px', fontSize:12 }}>
+                <div style={{ color:'var(--ink-3)', marginBottom:2 }}>Perfil</div>
+                <div style={{ fontWeight:600 }}>{selectedUser.role === 'admin' ? 'Admin' : selectedUser.role === 'gestor' ? 'Gestor' : 'Colaborador'}</div>
+              </div>
+            </div>
+          )}
+          {monthHasSent && (
+            <button className="btn btn-danger" onClick={unlockMonth} title="Desbloquear todo o mês">
+              <Icon name="unlock" size={14}/> Desbloquear Mês Inteiro
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Feedback banner */}
+      {feedback && (
+        <div style={{ padding:'10px 16px', borderRadius:8, fontSize:13, marginBottom:16,
+          background: feedback.tone==='ok' ? 'var(--ok-bg)' : 'var(--err-bg)',
+          color:      feedback.tone==='ok' ? 'var(--ok)'    : 'var(--err)',
+          border: `1px solid ${feedback.tone==='ok' ? 'var(--ok)' : 'var(--err)'}`,
+          display:'flex', alignItems:'center', gap:8 }}>
+          <Icon name={feedback.tone==='ok'?'check-circle':'x'} size={15}/>
+          {feedback.msg}
+        </div>
+      )}
+
+      {loading ? (
+        <div style={{ textAlign:'center', padding:60, color:'var(--ink-3)' }}>
+          <Icon name="shield" size={28} style={{ display:'block', margin:'0 auto 12px', color:'var(--navy)' }}/>
+          <div style={{ fontSize:13 }}>Descriptografando dados da loja…</div>
+        </div>
+      ) : storeUsers.length === 0 ? (
+        <div className="card" style={{ textAlign:'center', padding:48 }}>
+          <Icon name="building" size={32} style={{ display:'block', margin:'0 auto 12px', color:'var(--ink-4)' }}/>
+          <div style={{ fontWeight:600, color:'var(--ink-2)', marginBottom:6 }}>Nenhum lojista cadastrado</div>
+          <p style={{ fontSize:13, color:'var(--ink-3)' }}>Cadastre usuários com o campo "Loja" preenchido no módulo Usuários.</p>
+        </div>
+      ) : (
+        <>
+          {/* Calendar */}
+          <div className="gis-calendar">
+            {/* Header */}
+            <div className="gis-cal-head">
+              {DAY_NAMES.map(d => (
+                <div key={d} className="gis-cal-head-cell">{d}</div>
+              ))}
+              <div className="gis-cal-head-cell total-col">Semana</div>
+            </div>
+
+            {weeks.map((week, wi) => {
+              const sent = isSentWeek(wi);
+              const wTotal = (() => {
+                let t = 0; let any = false;
+                week.forEach(c => {
+                  if (!c.outside && c.month === viewMonth) {
+                    const v = getDayVal(getDayKey(viewYear, viewMonth, c.day));
+                    if (v !== null) { t += v; any = true; }
+                  }
+                });
+                return any ? t : null;
+              })();
+
+              return (
+                <div key={wi} className="gis-week-row">
+                  {week.map((cell, di) => {
+                    const outside = cell.outside;
+                    const isWE = di === 0 || di === 6;
+                    const dayKey = !outside ? getDayKey(viewYear, cell.month, cell.day) : null;
+                    const val = dayKey ? getDayVal(dayKey) : null;
+                    const dayUnlocked = dayKey ? isDayUnlocked(dayKey) : false;
+                    const todayCell = !outside && new Date(viewYear, viewMonth, cell.day).toDateString() === today.toDateString();
+
+                    let cellClass = 'gis-day-cell';
+                    if (isWE)     cellClass += ' weekend';
+                    if (outside)  cellClass += ' outside';
+                    if (todayCell) cellClass += ' today';
+                    if (val !== null) cellClass += ' has-value';
+
+                    return (
+                      <div key={di} className={cellClass} style={{ position:'relative' }}>
+                        {!outside && (
+                          <>
+                            <div className="gis-day-num" style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+                              <span>{cell.day}</span>
+                              {sent && val !== null && !dayUnlocked && cell.month === viewMonth && (
+                                <button
+                                  title="Desbloquear este dia"
+                                  onClick={() => unlockDay(dayKey)}
+                                  style={{ background:'transparent', border:'none', cursor:'pointer', padding:'1px 3px', borderRadius:4, color:'var(--warn)', lineHeight:1 }}
+                                >
+                                  <Icon name="unlock" size={11}/>
+                                </button>
+                              )}
+                              {dayUnlocked && (
+                                <span title="Dia desbloqueado" style={{ color:'var(--ok)', fontSize:10 }}>🔓</span>
+                              )}
+                            </div>
+                            {val !== null && cell.month === viewMonth && (
+                              <div style={{
+                                marginTop:'auto', fontSize:11, fontFamily:'JetBrains Mono,monospace', fontWeight:600,
+                                textAlign:'right', padding:'3px 4px', borderRadius:5,
+                                background: sent && !dayUnlocked ? 'var(--warn-bg)' : 'var(--ok-bg)',
+                                color:      sent && !dayUnlocked ? 'var(--warn)'    : 'var(--ok)',
+                                border:    `1px solid ${sent && !dayUnlocked ? '#fcd34d' : 'rgba(22,163,74,0.2)'}`,
+                              }}>
+                                {fmtBRL(val)}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {/* Total + unlock week */}
+                  <div className="gis-day-cell gis-total-cell">
+                    <div className="total-label">Semana {wi+1}</div>
+                    {wTotal !== null ? (
+                      <div className="total-value has-value">{fmtBRL(wTotal)}</div>
+                    ) : (
+                      <div className="total-value empty">—</div>
+                    )}
+                    {sent ? (
+                      <div style={{ marginTop:6, display:'flex', flexDirection:'column', gap:4 }}>
+                        <span className="gis-week-sent-badge"><Icon name="check" size={10}/> Enviada</span>
+                        <button className="btn btn-sm" style={{ fontSize:10, height:22, padding:'0 8px', background:'var(--warn-bg)', border:'1px solid var(--warn)', color:'var(--warn)' }}
+                          onClick={() => unlockWeek(wi)}>
+                          <Icon name="unlock" size={11}/> Desbloquear
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="gis-week-sent-badge pending">Pendente</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Footer */}
+            <div className="gis-footer-bar">
+              <div className="gis-hint">
+                <Icon name="shield" size={13}/>
+                <span>Dados criptografados AES-GCM 256-bit. Desbloqueios ficam registrados com data e responsável.</span>
+              </div>
+              <div className="gis-month-total">
+                <div className="mt-label">Total {MONTH_NAMES[viewMonth]}</div>
+                <div className="mt-value">
+                  {(() => { let t = 0; let any = false;
+                    Object.keys(vendas).forEach(k => {
+                      const d = new Date(k);
+                      if (d.getFullYear()===viewYear && d.getMonth()===viewMonth && vendas[k]?.value !== null) { t += vendas[k].value||0; any=true; }
+                    });
+                    return any ? fmtBRL(t) : '—';
+                  })()}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Unlock log */}
+          {Object.keys(sentWeeks).some(k => k.startsWith('day_unlock_')) && (
+            <div className="card" style={{ marginTop:20 }}>
+              <div className="card-head"><h3>🔓 Histórico de Desbloqueios</h3></div>
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                {Object.entries(sentWeeks)
+                  .filter(([k]) => k.startsWith('day_unlock_'))
+                  .sort(([,a],[,b]) => (b.unlockedAt||0) - (a.unlockedAt||0))
+                  .map(([k, v]) => (
+                    <div key={k} style={{ display:'flex', alignItems:'center', gap:12, padding:'8px 12px', background:'var(--surface-2)', borderRadius:8, fontSize:12 }}>
+                      <Icon name="unlock" size={14} style={{ color:'var(--warn)', flexShrink:0 }}/>
+                      <div style={{ flex:1 }}>
+                        <strong>Dia {k.replace('day_unlock_', '')}</strong>
+                        {v.by && <span style={{ color:'var(--ink-3)' }}> · desbloqueado por {v.by}</span>}
+                      </div>
+                      <span style={{ color:'var(--ink-4)', fontFamily:'JetBrains Mono,monospace' }}>
+                        {v.unlockedAt ? new Date(v.unlockedAt).toLocaleString('pt-BR') : ''}
+                      </span>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MÓDULO GIS — DECLARAÇÃO DE VENDAS DIÁRIAS (Lojista)
+   ════════════════════════════════════════════════════════════════ */
+
+function fmtBRL(val) {
+  if (val === null || val === undefined || val === '') return '';
+  const n = parseFloat(String(val).replace(',', '.'));
+  if (isNaN(n)) return '';
+  return n.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+}
+
+function parseBRL(str) {
+  if (!str || str.trim() === '') return null;
+  const cleaned = str.replace(/[R$\s]/g,'').replace('.','').replace(',','.');
+  const n = parseFloat(cleaned);
+  return isNaN(n) ? null : n;
+}
+
+function getWeekKey(year, month, weekIdx) {
+  return `gis_${year}_${String(month+1).padStart(2,'0')}_w${weekIdx}`;
+}
+
+function getDayKey(year, month, day) {
+  return `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+}
+
+function buildCalendar(year, month) {
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrev  = new Date(year, month, 0).getDate();
+  const weeks = [];
+  let day = 1;
+  let prevDay = daysInPrev - firstDay + 1;
+
+  while (day <= daysInMonth) {
+    const week = [];
+    for (let d = 0; d < 7; d++) {
+      if (weeks.length === 0 && d < firstDay) {
+        week.push({ day: prevDay + d, outside: true, month: month - 1 });
+      } else if (day > daysInMonth) {
+        week.push({ day: day - daysInMonth, outside: true, month: month + 1 });
+        day++;
+      } else {
+        week.push({ day, outside: false, month });
+        day++;
+      }
+    }
+    weeks.push(week);
+  }
+  return weeks;
+}
+
+function GISScreen({ user, onPersist, onChange }) {
+  if (!hasPerm(user, 'gis', 'view')) return <Blocked/>;
+
+  const today = new Date();
+  const [viewYear,  setViewYear]  = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+
+  // vendas: { [dayKey]: { value: number|null, savedAt: timestamp } }  — plaintext in memory only
+  const [vendas,    setVendas]    = useState({});
+  // sentWeeks: { [weekKey]: { sentAt, user, store } }                 — plaintext in memory only
+  const [sentWeeks, setSentWeeks] = useState({});
+  const [cryptoReady, setCryptoReady] = useState(false);
+  const [editValues, setEditValues] = useState({});
+  const [saved, setSaved] = useState({});
+
+  /* ── Encrypted localStorage keys (opaque, no PII in key name) ── */
+  const storageKey = `gis_v_${btoa(user.id).replace(/=/g,'')}`;
+  const sentKey    = `gis_s_${btoa(user.id).replace(/=/g,'')}`;
+
+  /* ── Load & decrypt on mount ── */
+  useEffect(() => {
+    (async () => {
+      try {
+        const rawV = localStorage.getItem(storageKey);
+        if (rawV) {
+          const dec = await decryptField(rawV);
+          if (dec && dec !== '***') setVendas(JSON.parse(dec));
+        }
+        const rawS = localStorage.getItem(sentKey);
+        if (rawS) {
+          const dec = await decryptField(rawS);
+          if (dec && dec !== '***') setSentWeeks(JSON.parse(dec));
+        }
+      } catch(e) { /* first use or key mismatch — start fresh */ }
+      setCryptoReady(true);
+    })();
+  }, []);
+
+  /* ── Encrypt & persist vendas + full GIS record to DB ── */
+  const saveToStorage = async (newVendas, newSent) => {
+    const vendasToSave = newVendas !== undefined ? newVendas : vendas;
+    const sentToSave   = newSent   !== undefined ? newSent   : sentWeeks;
+
+    // Encrypt each sensitive piece separately before localStorage
+    const encVendas = await encryptField(JSON.stringify(vendasToSave));
+    const encSent   = await encryptField(JSON.stringify(sentToSave));
+    localStorage.setItem(storageKey, encVendas);
+    localStorage.setItem(sentKey,    encSent);
+
+    // Build encrypted DB record — no plaintext PII stored
+    if (!DB.gisVendas) DB.gisVendas = [];
+    const [encStore, encPeriodo, encData, encSentDB] = await Promise.all([
+      encryptField(user.store || user.nome),
+      encryptField(`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`),
+      encryptField(JSON.stringify(vendasToSave)),
+      encryptField(JSON.stringify(sentToSave)),
+    ]);
+    const rec = {
+      userId:    user.id,          // non-sensitive identifier only
+      encStore,
+      encPeriodo,
+      encData,
+      encSent:   encSentDB,
+      updatedAt: Date.now(),
+    };
+    const idx = DB.gisVendas.findIndex(r => r.userId === user.id);
+    if (idx >= 0) DB.gisVendas[idx] = rec; else DB.gisVendas.push(rec);
+    saveDBLocal(DB);
+    onPersist && onPersist();
+  };
+
+  const weeks = buildCalendar(viewYear, viewMonth);
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewYear(y => y-1); setViewMonth(11); }
+    else setViewMonth(m => m-1);
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewYear(y => y+1); setViewMonth(0); }
+    else setViewMonth(m => m+1);
+  };
+
+  const isWeekend = (dayOfWeek) => dayOfWeek === 0 || dayOfWeek === 6;
+  const isPast = (d) => {
+    const dc = new Date(viewYear, viewMonth, d); dc.setHours(0,0,0,0);
+    const td = new Date(); td.setHours(0,0,0,0);
+    return dc <= td;
+  };
+  const isToday = (d) => {
+    const dc = new Date(viewYear, viewMonth, d);
+    return dc.toDateString() === today.toDateString();
+  };
+
+  const handleInput = (dayKey, val) => {
+    // Allow only digits, comma and dot
+    const clean = val.replace(/[^0-9.,]/g, '');
+    setEditValues(prev => ({ ...prev, [dayKey]: clean }));
+  };
+
+  const handleBlur = async (dayKey, rawVal) => {
+    const n = parseBRL(rawVal);
+    const newVendas = { ...vendas, [dayKey]: { value: n, savedAt: Date.now() } };
+    setVendas(newVendas);
+    await saveToStorage(newVendas, undefined);
+    setSaved(prev => ({ ...prev, [dayKey]: true }));
+    setTimeout(() => setSaved(prev => ({ ...prev, [dayKey]: false })), 1200);
+    setEditValues(prev => { const c = {...prev}; delete c[dayKey]; return c; });
+  };
+
+  const getVal = (dayKey) => {
+    if (dayKey in editValues) return editValues[dayKey];
+    const stored = vendas[dayKey];
+    if (!stored || stored.value === null || stored.value === undefined) return '';
+    return stored.value.toLocaleString('pt-BR', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  };
+
+  const getNumVal = (dayKey) => {
+    const stored = vendas[dayKey];
+    return (stored && stored.value !== null && stored.value !== undefined) ? stored.value : null;
+  };
+
+  const weekTotal = (week) => {
+    let total = 0; let hasAny = false;
+    week.forEach((cell, di) => {
+      if (!cell.outside && cell.month === viewMonth) {
+        const dk = getDayKey(viewYear, viewMonth, cell.day);
+        const v = getNumVal(dk);
+        if (v !== null) { total += v; hasAny = true; }
+      }
+    });
+    return hasAny ? total : null;
+  };
+
+  const monthTotal = () => {
+    let total = 0; let hasAny = false;
+    weeks.forEach(week => {
+      const wt = weekTotal(week);
+      if (wt !== null) { total += wt; hasAny = true; }
+    });
+    return hasAny ? total : null;
+  };
+
+  const sendWeek = async (weekIdx, week) => {
+    const wk = getWeekKey(viewYear, viewMonth, weekIdx);
+    const newSent = { ...sentWeeks, [wk]: { sentAt: Date.now(), user: user.nome, store: user.store || '' } };
+    setSentWeeks(newSent);
+    await saveToStorage(undefined, newSent);
+  };
+
+  const isSent = (weekIdx) => {
+    const wk = getWeekKey(viewYear, viewMonth, weekIdx);
+    return !!sentWeeks[wk];
+  };
+
+  const weekHasData = (week) => {
+    return week.some((cell, di) => {
+      if (cell.outside || cell.month !== viewMonth) return false;
+      return getNumVal(getDayKey(viewYear, viewMonth, cell.day)) !== null;
+    });
+  };
+
+  // Alert: check if any past week has not been sent
+  const overdueWeeks = weeks.filter((week, wi) => {
+    const lastCellInWeek = week.filter(c => !c.outside && c.month === viewMonth).pop();
+    if (!lastCellInWeek) return false;
+    const lastDate = new Date(viewYear, viewMonth, lastCellInWeek.day);
+    lastDate.setHours(23,59,59,999);
+    return lastDate < today && !isSent(wi) && weekHasData(week);
+  });
+
+  const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const DAY_NAMES   = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
+
+  const mt = monthTotal();
+  // stats
+  const diasPreenchidos = Object.keys(vendas).filter(k => {
+    const d = new Date(k); return d.getFullYear()===viewYear && d.getMonth()===viewMonth && vendas[k]?.value !== null;
+  }).length;
+  const diasDoMes = new Date(viewYear, viewMonth+1, 0).getDate();
+  const semanaEnviadas = Object.keys(sentWeeks).filter(k => k.startsWith(`gis_${viewYear}_${String(viewMonth+1).padStart(2,'0')}`)).length;
+
+  return (
+    <div className="gis-shell">
+      {!cryptoReady && (
+        <div style={{ textAlign:'center', padding:60, color:'var(--ink-3)' }}>
+          <Icon name="shield" size={28} style={{ display:'block', margin:'0 auto 12px', color:'var(--navy)' }}/>
+          <div style={{ fontSize:13 }}>Descriptografando dados…</div>
+        </div>
+      )}
+      {cryptoReady && (<>
+      {/* Header */}
+      <div className="gis-topbar">
+        <div className="page-title">
+          <h2 style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <Icon name="chart-bar" size={22} style={{ color:'var(--navy)' }}/>
+            GIS · Declaração de Vendas Diárias
+          </h2>
+          <p style={{ marginTop:2 }}>{user.store || user.nome} · {MONTH_NAMES[viewMonth]} de {viewYear}</p>
+        </div>
+        <div className="gis-nav-month">
+          <span className="gis-month-adj" onClick={prevMonth}>‹ {MONTH_NAMES[viewMonth===0?11:viewMonth-1].slice(0,3)}</span>
+          <div style={{ textAlign:'center' }}>
+            <div className="gis-month-label">{MONTH_NAMES[viewMonth]} / {viewYear}</div>
+          </div>
+          <span className="gis-month-adj" onClick={nextMonth}>{MONTH_NAMES[viewMonth===11?0:viewMonth+1].slice(0,3)} ›</span>
+        </div>
+      </div>
+
+      {/* Stat cards */}
+      <div className="gis-status-panel">
+        <div className="gis-stat-card">
+          <div className="gis-stat-icon" style={{ background:'var(--info-bg)' }}><Icon name="calendar" size={18} style={{ color:'var(--info)' }}/></div>
+          <div>
+            <div className="gis-stat-num" style={{ color:'var(--info)' }}>{diasPreenchidos}/{diasDoMes}</div>
+            <div className="gis-stat-lbl">Dias do mês preenchidos</div>
+          </div>
+        </div>
+        <div className="gis-stat-card">
+          <div className="gis-stat-icon" style={{ background:'var(--ok-bg)' }}><Icon name="send" size={18} style={{ color:'var(--ok)' }}/></div>
+          <div>
+            <div className="gis-stat-num" style={{ color:'var(--ok)' }}>{semanaEnviadas}</div>
+            <div className="gis-stat-lbl">Semanas enviadas</div>
+          </div>
+        </div>
+        <div className="gis-stat-card">
+          <div className="gis-stat-icon" style={{ background:'var(--gold-soft)' }}><Icon name="chart-bar" size={18} style={{ color:'var(--gold-2)' }}/></div>
+          <div>
+            <div className="gis-stat-num" style={{ color:'var(--gold-2)', fontSize:16 }}>{mt !== null ? fmtBRL(mt) : '—'}</div>
+            <div className="gis-stat-lbl">Total do mês</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Alert banners */}
+      {overdueWeeks.length > 0 && (
+        <div className="gis-alert-banner">
+          ⚠️ <span>Enviar semana atual até: <strong>IMEDIATO</strong>, o envio desta semana está atrasado. Clique em <strong>Enviar semana</strong> nas linhas pendentes.</span>
+        </div>
+      )}
+
+      {/* Calendar */}
+      <div className="gis-calendar">
+        {/* Header row */}
+        <div className="gis-cal-head">
+          {DAY_NAMES.map(d => (
+            <div key={d} className={`gis-cal-head-cell${d==='DOM'||d==='SÁB'?' total-col':''}`}>{d}</div>
+          ))}
+          <div className="gis-cal-head-cell total-col">Total da semana</div>
+        </div>
+
+        {/* Week rows */}
+        {weeks.map((week, wi) => {
+          const wTotal = weekTotal(week);
+          const sent = isSent(wi);
+          const hasData = weekHasData(week);
+          const wk = getWeekKey(viewYear, viewMonth, wi);
+          const sentInfo = sentWeeks[wk];
+          // Is this week in the past?
+          const lastCell = week.filter(c => !c.outside && c.month === viewMonth).pop();
+          const weekPast = lastCell ? new Date(viewYear, viewMonth, lastCell.day) < today : false;
+
+          return (
+            <div key={wi} className="gis-week-row">
+              {week.map((cell, di) => {
+                const isWE = isWeekend(di);
+                const outside = cell.outside;
+                const past = !outside && isPast(cell.day) && cell.month === viewMonth;
+                const dayKey = !outside ? getDayKey(viewYear, cell.month, cell.day) : null;
+                const filled = dayKey && getNumVal(dayKey) !== null;
+                const todayCell = !outside && isToday(cell.day) && cell.month === viewMonth;
+                // A day is editable if: week not sent, OR admin unlocked this specific day
+                const dayUnlocked = dayKey ? !!sentWeeks[`day_unlock_${dayKey}`] : false;
+                const inputDisabled = sent && !dayUnlocked;
+
+                let cellClass = 'gis-day-cell';
+                if (isWE)    cellClass += ' weekend';
+                if (outside) cellClass += ' outside';
+                if (todayCell) cellClass += ' today';
+                if (!outside && !isWE && past) cellClass += ' past';
+                if (!outside && !isWE && !past && !outside && cell.month === viewMonth) cellClass += ' future';
+                if (filled)  cellClass += ' has-value';
+
+                return (
+                  <div key={di} className={cellClass}>
+                    {!outside && (
+                      <>
+                        <div className="gis-day-num" style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+                          <span>{!outside && cell.day}</span>
+                          {dayUnlocked && <span title="Dia desbloqueado pelo administrador" style={{ fontSize:10 }}>🔓</span>}
+                        </div>
+                        {cell.month === viewMonth && (
+                          <input
+                            type="text"
+                            className={`gis-day-input${filled ? ' filled' : ''}`}
+                            value={getVal(dayKey)}
+                            onChange={e => handleInput(dayKey, e.target.value)}
+                            onBlur={e => handleBlur(dayKey, e.target.value)}
+                            onKeyDown={e => {
+                              if(e.key==='Enter') { e.target.blur(); return; }
+                              // Allow: backspace, delete, tab, arrows, home, end
+                              const allow = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End'];
+                              if (allow.includes(e.key)) return;
+                              // Allow: digits, comma, dot
+                              if (/^[0-9.,]$/.test(e.key)) return;
+                              e.preventDefault();
+                            }}
+                            inputMode="decimal"                            placeholder="0,00"
+                            disabled={inputDisabled}
+                            title={inputDisabled ? 'Semana já enviada. Solicite desbloqueio ao administrador.' : filled ? `R$ ${getNumVal(dayKey)?.toLocaleString('pt-BR',{minimumFractionDigits:2})}` : 'Clique para inserir o valor'}
+                          />
+                        )}
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Total + Enviar */}
+              <div className="gis-day-cell gis-total-cell">
+                <div className="total-label">Semana {wi+1}</div>
+                {wTotal !== null ? (
+                  <div className="total-value has-value">{fmtBRL(wTotal)}</div>
+                ) : (
+                  <div className="total-value empty">—</div>
+                )}
+                {sent ? (
+                  <span className="gis-week-sent-badge">
+                    <Icon name="check" size={10}/> Enviado {sentInfo?.sentAt ? new Date(sentInfo.sentAt).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}) : ''}
+                  </span>
+                ) : hasData && hasPerm(user,'gis','create') ? (
+                  <div className="gis-week-action">
+                    <button
+                      className={`btn btn-sm ${weekPast ? 'btn-danger' : 'btn-primary'}`}
+                      onClick={() => sendWeek(wi, week)}
+                      title="Marcar esta semana como enviada"
+                    >
+                      <Icon name="send" size={11}/>
+                      {weekPast ? 'Enviar (atrasado)' : 'Enviar semana'}
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Footer */}
+        <div className="gis-footer-bar">
+          <div className="gis-hint">
+            <Icon name="lightbulb" size={13}/>
+            <span>Se houver centavos, utilize ponto ou vírgula na digitação do valor.</span>
+          </div>
+          <div className="gis-month-total">
+            <div className="mt-label">Total {MONTH_NAMES[viewMonth]}</div>
+            <div className="mt-value">{mt !== null ? fmtBRL(mt) : '—'}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Admin view: all stores summary */}
+      {hasPerm(user,'gis','approve') && (DB.gisVendas||[]).length > 0 && (
+        <GISAdminPanel viewYear={viewYear} viewMonth={viewMonth} MONTH_NAMES={MONTH_NAMES}/>
+      )}
+      </>)}
+    </div>
+  );
+}
+
+/* ── GIS Admin Panel — decrypts all store records ── */
+function GISAdminPanel({ viewYear, viewMonth, MONTH_NAMES }) {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const result = [];
+      for (const rec of (DB.gisVendas || [])) {
+        try {
+          const [store, periodo, dataStr, sentStr] = await Promise.all([
+            decryptField(rec.encStore   || rec.store || ''),
+            decryptField(rec.encPeriodo || ''),
+            decryptField(rec.encData    || '{}'),
+            decryptField(rec.encSent    || '{}'),
+          ]);
+          const data = JSON.parse(dataStr || '{}');
+          const sent = JSON.parse(sentStr  || '{}');
+          let total = 0; let dias = 0;
+          Object.keys(data).forEach(k => {
+            const d = new Date(k);
+            if (d.getFullYear() === viewYear && d.getMonth() === viewMonth && data[k]?.value !== null && data[k]?.value !== undefined) {
+              total += data[k].value || 0; dias++;
+            }
+          });
+          const semanas = Object.keys(sent).filter(k => k.startsWith(`gis_${viewYear}_${String(viewMonth+1).padStart(2,'0')}`)).length;
+          result.push({ store, periodo, total, dias, semanas, updatedAt: rec.updatedAt });
+        } catch(e) { result.push({ store:'—', periodo:'—', total:0, dias:0, semanas:0, updatedAt: rec.updatedAt }); }
+      }
+      setRows(result);
+      setLoading(false);
+    })();
+  }, [viewYear, viewMonth]);
+
+  return (
+    <div className="card" style={{ marginTop:24 }}>
+      <div className="card-head">
+        <h3>📊 Resumo Geral — Todas as Lojas ({MONTH_NAMES[viewMonth]}/{viewYear})</h3>
+        <span className="status-pill ok"><span className="ind"/>Dados criptografados AES-GCM 256-bit</span>
+      </div>
+      {loading ? (
+        <div style={{ textAlign:'center', padding:24, color:'var(--ink-3)', fontSize:13 }}>
+          <Icon name="shield" size={16} style={{ verticalAlign:'middle', marginRight:6 }}/>Descriptografando registros…
+        </div>
+      ) : (
+        <div style={{ overflowX:'auto' }}>
+          <table className="users-table">
+            <thead>
+              <tr><th>Loja / Responsável</th><th>Período</th><th>Dias preenchidos</th><th>Semanas enviadas</th><th>Total do mês</th><th>Última atualização</th></tr>
+            </thead>
+            <tbody>
+              {rows.length === 0 && <tr><td colSpan={6} style={{ textAlign:'center', padding:24, color:'var(--ink-3)' }}>Nenhum registro encontrado.</td></tr>}
+              {rows.map((r, i) => (
+                <tr key={i}>
+                  <td><div style={{ fontWeight:600 }}>{r.store || '—'}</div></td>
+                  <td><div style={{ fontSize:12, color:'var(--ink-3)' }}>{r.periodo || '—'}</div></td>
+                  <td>{r.dias}</td>
+                  <td>{r.semanas}</td>
+                  <td><strong style={{ color:'var(--ok)' }}>{r.total > 0 ? fmtBRL(r.total) : '—'}</strong></td>
+                  <td style={{ fontSize:11, color:'var(--ink-3)' }}>{r.updatedAt ? new Date(r.updatedAt).toLocaleString('pt-BR') : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -3859,6 +5161,12 @@ function App() {
           {screen==='curriculos'  && <ConsultarCurriculosScreen user={user}/>}
           {screen==='vagas-lista' && <ConsultarVagasScreen user={user} onNav={go}/>}
           {screen==='candidatar'  && <CandidatarVagaScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='mini-comunicado' && hasPerm(user,'feed','create') && <MiniComunicadoScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='mini-comunicado' && !hasPerm(user,'feed','create') && <Blocked/>}
+          {screen==='gis'             && hasPerm(user,'gis','view')     && <GISScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='gis'             && !hasPerm(user,'gis','view')    && <Blocked/>}
+          {screen==='gis-admin'       && hasPerm(user,'gis','approve')  && <GISAdminScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='gis-admin'       && !hasPerm(user,'gis','approve') && <Blocked/>}
             </>
           )}
           {isMobile && <BottomTabs active={screen} onNav={go} user={user}/>}
