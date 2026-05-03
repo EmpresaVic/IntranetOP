@@ -1407,14 +1407,91 @@ function MiniComunicadoScreen({ user, onPersist, onChange }) {
 }
 
 function BottomTabs({ active, onNav, user }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const mainTabs = [
+    { id:'home',   icon:'home',      label:'Início' },
+    { id:'feed',   icon:'megaphone', label:'Feed' },
+    { id:'mine',   icon:'list',      label:'Pedidos' },
+  ];
+
+  // Extra items shown in "Mais" drawer — filtered by permission
+  const extras = [
+    hasPerm(user,'servicos','create')  && { id:'newreq',      icon:'plus',      label:'Nova Solicitação' },
+    hasPerm(user,'usuarios','view')    && { id:'usuarios',     icon:'shield',    label:'Usuários' },
+    hasPerm(user,'vagas','view')       && { id:'vagas',        icon:'briefcase', label:'Cadastrar Vaga' },
+    hasPerm(user,'curriculos','view')  && { id:'curriculos',   icon:'user',      label:'Consultar Currículos' },
+    hasPerm(user,'painel','view')      && { id:'vagas-lista',  icon:'search',    label:'Consultar Vagas' },
+    hasPerm(user,'painel','view')      && { id:'candidatar',   icon:'send',      label:'Candidatar a Vaga' },
+    hasPerm(user,'gis','view')         && { id:'gis',          icon:'chart-bar', label:'GIS · Vendas Diárias' },
+    hasPerm(user,'gis','approve')      && { id:'gis-admin',    icon:'key',       label:'Auditoria - GIS' },
+    hasPerm(user,'feed','create')      && { id:'mini-comunicado', icon:'bell',   label:'Mini Comunicado' },
+  ].filter(Boolean);
+
+  const goTo = (id) => { setDrawerOpen(false); onNav(id); };
+
   return (
-    <div className="bottom-tabs">
-      <button className={active==='home'?'active':''} onClick={()=>onNav('home')}><Icon name="home" size={18}/><span>Início</span></button>
-      <button className={active==='feed'?'active':''} onClick={()=>onNav('feed')}><Icon name="megaphone" size={18}/><span>Feed</span></button>
-      {hasPerm(user,'servicos','create') && <button className="fab" onClick={()=>onNav('newreq')}><Icon name="plus" size={20}/><span>Nova</span></button>}
-      <button className={active==='mine'?'active':''} onClick={()=>onNav('mine')}><Icon name="list" size={18}/><span>Pedidos</span></button>
-      <button onClick={()=>onNav('profile')}><Icon name="user" size={18}/><span>Você</span></button>
-    </div>
+    <>
+      {/* Drawer overlay */}
+      {drawerOpen && (
+        <div
+          onClick={() => setDrawerOpen(false)}
+          style={{ position:'fixed', inset:0, background:'rgba(15,23,42,0.45)', zIndex:199, backdropFilter:'blur(2px)' }}
+        />
+      )}
+
+      {/* Drawer panel */}
+      <div style={{
+        position:'fixed', left:0, right:0, bottom: drawerOpen ? 64 : '-100%',
+        background:'var(--surface)', borderRadius:'16px 16px 0 0',
+        boxShadow:'0 -8px 32px rgba(0,0,0,0.15)', zIndex:200,
+        transition:'bottom 0.3s cubic-bezier(0.16,1,0.3,1)',
+        padding:'16px 16px 8px',
+        maxHeight:'70vh', overflowY:'auto',
+      }}>
+        <div style={{ width:36, height:4, background:'var(--line-2)', borderRadius:2, margin:'0 auto 16px' }}/>
+        <div style={{ fontSize:11, fontWeight:700, color:'var(--ink-4)', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:10 }}>
+          Menu completo
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+          {extras.map(item => (
+            <button
+              key={item.id}
+              onClick={() => goTo(item.id)}
+              style={{
+                display:'flex', alignItems:'center', gap:10, padding:'12px 14px',
+                borderRadius:10, border:'1px solid var(--line)', background: active===item.id ? 'var(--navy)' : 'var(--surface)',
+                color: active===item.id ? 'white' : 'var(--ink-2)',
+                fontSize:13, fontWeight:500, fontFamily:'inherit', cursor:'pointer', textAlign:'left',
+              }}
+            >
+              <Icon name={item.icon} size={16}/>
+              <span style={{ lineHeight:1.3 }}>{item.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="bottom-tabs">
+        {mainTabs.map(tab => (
+          <button key={tab.id} className={active===tab.id?'active':''} onClick={() => goTo(tab.id)}>
+            <Icon name={tab.icon} size={18}/><span>{tab.label}</span>
+          </button>
+        ))}
+        {hasPerm(user,'servicos','create') && (
+          <button className="fab" onClick={() => goTo('newreq')}>
+            <Icon name="plus" size={20}/><span>Nova</span>
+          </button>
+        )}
+        <button
+          className={drawerOpen ? 'active' : ''}
+          onClick={() => setDrawerOpen(o => !o)}
+        >
+          <Icon name="menu" size={18}/><span>Mais</span>
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -2215,7 +2292,13 @@ function NewRequest({ go, mobile, onSubmit, user }) {
                     min={data.periodoDeData || minDate}
                     max={fmtDateInput(calcMaxDate(new Date(data.periodoDeData || minDate)))}
                     style={{ flex:2 }}
-                    onChange={e=>set('periodoAteData', e.target.value)}/>
+                    onChange={e => {
+                      const val = e.target.value;
+                      const maxAllowed = fmtDateInput(calcMaxDate(new Date(data.periodoDeData || minDate)));
+                      // iOS/Safari ignora max — forçar via JS
+                      if (val > maxAllowed) { set('periodoAteData', maxAllowed); }
+                      else { set('periodoAteData', val); }
+                    }}/>
                   <TimeSelect value={data.periodoAteHora} onChange={v=>set("periodoAteHora",v)}/>
                 </div>
                 {!periodoAteOk && <div className="hint" style={{ color:'var(--err)' }}>Máximo 15 dias a partir da data de início.</div>}
