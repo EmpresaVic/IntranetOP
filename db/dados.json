@@ -111,5 +111,14 @@
   "curriculos": [],
   "counters": {
     "reqSeq": 1001
-  }
+  },
+  "miniComunicados": [
+    {
+      "id": "mc-1777850003243",
+      "titulo": "Festival Gastronomico",
+      "mensagem": ";inscreva sua loja como parceira ate 08.05",
+      "ativo": true,
+      "createdAt": 1777850003243
+    }
+  ]
 }
