@@ -3,17 +3,89 @@
     {
       "id": "u1",
       "login": "admin",
-      "passwordHash": "3129ccfbd7c678b625faa7779878bda416afa77071c0867126e7f68b0b8ed657",
+      "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
       "role": "admin",
       "nome": "Administrador",
       "cargo": "TI",
       "store": "Administração",
       "forcePasswordChange": false
+    },
+    {
+      "id": "u_1777779687350",
+      "login": "intranet",
+      "nome": "intranet",
+      "cargo": "intranet",
+      "store": "loja 280",
+      "setor": "Administração",
+      "role": "admin",
+      "passwordHash": "088282c5a834543d60d8635aa16113a8f647a2a52b753d3a4f1d24a8c94f6918",
+      "forcePasswordChange": true,
+      "permissions": null
     }
   ],
   "requests": [],
   "announcements": [],
-  "feed": [],
+  "feed": [
+    {
+      "id": "com-1777778323267",
+      "title": "Vagas internas — Coord. de visual merchandising",
+      "body": "2 posições abertas para colaboradores com ≥1 ano de casa. Inscrições até 15/05.",
+      "categ": "Geral",
+      "tags": [
+        "Carreira",
+        "Vagas"
+      ],
+      "fixado": false,
+      "exibicao": "ambos",
+      "author": "Administrador",
+      "authorId": "u1",
+      "role": "TI",
+      "when": 1777778323267,
+      "editedAt": null,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "id": "com-1777778280605",
+      "title": "Movimento do final de semana bate recorde de 2026",
+      "body": "127 mil visitantes no sábado. Lojas-âncora reportam crescimento médio de 18% vs. mesma semana de 2025.",
+      "categ": "Geral",
+      "tags": [
+        "Resultados",
+        "Operações"
+      ],
+      "fixado": false,
+      "exibicao": "ambos",
+      "author": "Administrador",
+      "authorId": "u1",
+      "role": "TI",
+      "when": 1777778280605,
+      "editedAt": 1777778341291,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "id": "com-1777778244583",
+      "title": "Resultados da pesquisa de clima 2026",
+      "body": "NPS interno de 72 — alta de 9 pontos vs. 2025. Engajamento mais forte em \"propósito\" e \"liderança próxima\".",
+      "categ": "Geral",
+      "tags": [
+        "Pessoas",
+        "Cultura"
+      ],
+      "fixado": false,
+      "exibicao": "feed",
+      "author": "Administrador",
+      "authorId": "u1",
+      "role": "TI",
+      "when": 1777778244583,
+      "editedAt": null,
+      "likes": 0,
+      "comments": 0
+    }
+  ],
+  "vagas": [],
+  "curriculos": [],
   "counters": {
     "reqSeq": 1000
   }
