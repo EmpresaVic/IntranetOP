@@ -9,80 +9,13 @@
       "cargo": "TI",
       "store": "Administração",
       "forcePasswordChange": false
-    },
-    {
-      "id": "u_1777691571176",
-      "login": "lj280_01",
-      "nome": "Loja 280 - Montana Grill",
-      "cargo": "Administrador",
-      "store": "Loja 280",
-      "role": "colaborador",
-      "passwordHash": "539d73dfa6e8d55e5296278a5d34647059c55d522e4a22db0d6d8f4db2dd2f1b",
-      "forcePasswordChange": true,
-      "permissions": null
-    },
-    {
-      "id": "u_1777691695604",
-      "login": "Sg_chef_01",
-      "nome": "Mauricio Segurança",
-      "cargo": "Chefe Segurança",
-      "store": "Segurança",
-      "role": "gestor",
-      "passwordHash": "485603a3dbe7861255a875de5370825cb02db121128f6e0d4e7c64916a17a6d5",
-      "forcePasswordChange": true,
-      "permissions": {
-        "home": {
-          "view": true,
-          "create": false,
-          "edit": false,
-          "delete": false,
-          "approve": false
-        },
-        "feed": {
-          "view": true,
-          "create": true,
-          "edit": true,
-          "delete": false,
-          "approve": false
-        },
-        "servicos": {
-          "view": true,
-          "create": true,
-          "edit": true,
-          "delete": true,
-          "approve": true
-        },
-        "usuarios": {
-          "view": true,
-          "create": false,
-          "edit": false,
-          "delete": false,
-          "approve": false
-        },
-        "relatorios": {
-          "view": true,
-          "create": true,
-          "edit": true,
-          "delete": true,
-          "approve": true
-        }
-      }
-    },
-    {
-      "id": "u_1777691782902",
-      "login": "Seg_Doca_1",
-      "nome": "Segurança Doca1",
-      "cargo": "Seguranca",
-      "store": "Doca1",
-      "role": "colaborador",
-      "passwordHash": "ed5d15588b7a396239fa8e211ec77d7777d6a7de0e97b03a8350f492ccf73c6e",
-      "forcePasswordChange": true,
-      "permissions": null
     }
   ],
   "requests": [],
   "announcements": [],
   "feed": [],
+  "vagas": [],
+  "curriculos": [],
   "counters": {
     "reqSeq": 1000
   }
