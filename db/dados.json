@@ -120,5 +120,15 @@
       "ativo": true,
       "createdAt": 1777850003243
     }
+  ],
+  "gisVendas": [
+    {
+      "userId": "u1",
+      "encStore": "__enc__45CinwOLWnuivHt9KXX/zAF+LGFH2n8Z8ltwuHegJbllLX7POWs+Zkg/6g==",
+      "encPeriodo": "__enc__qvfDSL5karQE8nHwo3OvWAlZpShfi/N0eB+6AkpO1TjXGyU=",
+      "encData": "__enc__n6yM9vlbVKwy00i3Dv5cPmm0YDCK2/qzlSbaLj7li3/tMpc+JEDZCbZAGN0/LHtJvRclFOSM4xQaA05ozhTFAkJ34gqXIhXdJm0KZBAbBnCz0xHTitHO7fE3Fk+TrdWzeu1CGUSUIKB2hipvWHmMP2n9q0SRYoAdq5WvUsKBaPe9pfJi6Q==",
+      "encSent": "__enc__GjwysJ7h5ImqKNmHVt41B85FUK9fFpysKRJuj/ib",
+      "updatedAt": 1777850474879
+    }
   ]
 }
