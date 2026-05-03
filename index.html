@@ -138,7 +138,21 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .status-pill.err { background:var(--err-bg); color:var(--err); } .status-pill.err .ind { background:var(--err); }
 .status-pill.muted { background:var(--surface-2); color:var(--ink-3); } .status-pill.muted .ind { background:var(--ink-4); }
 
-/* ── GIS — DECLARAÇÃO DE VENDAS DIÁRIAS ── */
+/* ── PERMISSIONS TABLE ── */
+.perm-table { width:100%; border-collapse:collapse; font-size:12px; }
+.perm-table th { padding:8px 10px; text-align:center; font-size:10px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.08em; border-bottom:2px solid var(--line); background:var(--surface-2); }
+.perm-table th.mod-col { text-align:left; min-width:160px; }
+.perm-table td { padding:0; border-bottom:1px solid var(--line); vertical-align:middle; }
+.perm-table td.mod-cell { padding:0; }
+.perm-table tr:last-child td { border-bottom:0; }
+.perm-table tr:hover td { background:rgba(30,58,95,0.02); }
+.perm-group-row td { background:var(--surface-2); padding:5px 10px; font-size:10px; font-weight:700; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.1em; }
+.perm-mod-label { display:flex; align-items:center; gap:8px; padding:10px 12px; color:var(--ink-2); font-weight:500; font-size:12px; }
+.perm-check-cell { text-align:center; width:72px; }
+.perm-check-cell label { display:flex; align-items:center; justify-content:center; height:44px; cursor:pointer; }
+.perm-check-cell label.disabled { cursor:not-allowed; opacity:0.4; }
+.perm-check-cell input[type=checkbox] { width:16px; height:16px; accent-color:var(--navy); cursor:pointer; }
+
 .gis-shell { padding:24px 28px; max-width:1100px; margin:0 auto; }
 .gis-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
 .gis-nav-month { display:flex; align-items:center; gap:10px; }
@@ -562,33 +576,33 @@ const DEFAULT_PERMISSIONS = {
     feed:      { view:true, create:true, edit:true, delete:true, approve:true },
     servicos:  { view:true, create:true, edit:true, delete:true, approve:true },
     usuarios:  { view:true, create:true, edit:true, delete:true, approve:true },
-    relatorios:{ view:true, create:true, edit:true, delete:true, approve:true },
     vagas:     { view:true, create:true, edit:true, delete:true, approve:true },
     curriculos:{ view:true, create:true, edit:true, delete:true, approve:true },
     painel:    { view:true, create:true, edit:true, delete:true, approve:true },
     gis:       { view:true, create:true, edit:true, delete:true, approve:true },
+    'gis-admin':{ view:true, create:true, edit:true, delete:true, approve:true },
   },
   gestor: {
     home:      { view:true, create:false, edit:false, delete:false, approve:false },
     feed:      { view:true, create:true,  edit:true,  delete:false, approve:false },
     servicos:  { view:true, create:true,  edit:true,  delete:false, approve:true },
     usuarios:  { view:true, create:false, edit:false, delete:false, approve:false },
-    relatorios:{ view:true, create:false, edit:false, delete:false, approve:false },
     vagas:     { view:true, create:true,  edit:true,  delete:false, approve:true },
     curriculos:{ view:true, create:false, edit:false, delete:false, approve:false },
     painel:    { view:true, create:true,  edit:true,  delete:false, approve:true },
     gis:       { view:true, create:true,  edit:true,  delete:false, approve:true },
+    'gis-admin':{ view:true, create:true, edit:true,  delete:false, approve:true },
   },
   colaborador: {
     home:      { view:true,  create:false, edit:false, delete:false, approve:false },
     feed:      { view:true,  create:false, edit:false, delete:false, approve:false },
     servicos:  { view:true,  create:true,  edit:false, delete:false, approve:false },
     usuarios:  { view:false, create:false, edit:false, delete:false, approve:false },
-    relatorios:{ view:false, create:false, edit:false, delete:false, approve:false },
     vagas:     { view:true,  create:true,  edit:true,  delete:false, approve:false },
     curriculos:{ view:false, create:false, edit:false, delete:false, approve:false },
     painel:    { view:true,  create:true,  edit:false, delete:false, approve:false },
     gis:       { view:true,  create:true,  edit:true,  delete:false, approve:false },
+    'gis-admin':{ view:false, create:false, edit:false, delete:false, approve:false },
   },
 };
 
@@ -894,7 +908,7 @@ const navItems = [
   { id:'vagas-lista',      icon:'search',    label:'Consultar Vagas',      section:'painel' },
   { id:'candidatar',       icon:'send',      label:'Candidatar a Vaga',    section:'painel' },
   { id:'gis',              icon:'chart-bar', label:'GIS · Vendas Diárias', section:'gis' },
-  { id:'gis-admin',        icon:'key',       label:'Adm. GIS',             section:'gis', sub:true },
+  { id:'gis-admin',        icon:'key',       label:'GIS - Auditoria',      section:'gis', sub:true },
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -1204,7 +1218,7 @@ function Sidebar({ active, onNav, user }) {
         {hasPerm(user,'gis','approve') && gisItems.filter(n => n.sub).map(n => (
           <button key={n.id} className={`nav-link ${active===n.id?'active':''}`} onClick={()=>onNav(n.id)}>
             <Icon name={n.icon} size={15}/>
-            <span>Auditoria - GIS</span>
+            <span>GIS - Auditoria</span>
           </button>
         ))}
       </>}
@@ -2566,15 +2580,15 @@ function MyRequests({ go, mobile, user, onChange, onPersist }) {
    MÓDULO USUÁRIOS
    ════════════════════════════════════════════════════════════════ */
 const MODULES = [
-  { id:'home',       label:'Início' },
-  { id:'feed',       label:'Comunicados' },
-  { id:'servicos',   label:'Solicitações' },
-  { id:'usuarios',   label:'Usuários' },
-  { id:'relatorios', label:'Relatórios' },
-  { id:'vagas',      label:'Vagas de Emprego (RH)' },
-  { id:'curriculos', label:'Banco de Currículos (RH)' },
-  { id:'painel',     label:'Painel de Vagas (Candidatos)' },
-  { id:'gis',        label:'GIS · Vendas Diárias' },
+  { id:'feed',       label:'Comunicados',          icon:'megaphone',  group:'Principal',    sub:false },
+  { id:'servicos',   label:'Nova Solicitação',     icon:'plus',       group:'Principal',    sub:false },
+  { id:'usuarios',   label:'Usuários',             icon:'shield',     group:'Principal',    sub:false },
+  { id:'vagas',      label:'Cadastrar Vaga',       icon:'briefcase',  group:'RH & Carreira', sub:true },
+  { id:'curriculos', label:'Consultar Currículos', icon:'user',       group:'RH & Carreira', sub:true },
+  { id:'vagas-lista',label:'Consultar Vagas',      icon:'search',     group:'Painel de Vagas', sub:true },
+  { id:'painel',     label:'Candidatar a Vaga',    icon:'send',       group:'Painel de Vagas', sub:true },
+  { id:'gis',        label:'GIS - Vendas Diárias', icon:'chart-bar',  group:'Comercial',    sub:true },
+  { id:'gis-admin',  label:'GIS - Auditoria',      icon:'key',        group:'Comercial',    sub:true },
 ];
 const ACTIONS = ['view','create','edit','delete','approve'];
 const ACTION_LABELS = { view:'Ver', create:'Criar', edit:'Editar', delete:'Excluir', approve:'Aprovar' };
@@ -2680,23 +2694,58 @@ function UserModal({ user: editUser, currentUser, onSave, onClose }) {
             {useCustom?'↩ Usar padrão do perfil':'✎ Personalizar'}
           </button>
         </div>
-        {MODULES.map(mod => (
-          <div key={mod.id} style={{ marginBottom:12 }}>
-            <div style={{ fontSize:12,fontWeight:600,color:'var(--ink-2)',marginBottom:6 }}>{mod.label}</div>
-            <div style={{ display:'flex',gap:8,flexWrap:'wrap' }}>
-              {ACTIONS.map(action => {
-                const enabled = effectivePerms[mod.id]?.[action];
-                return (
-                  <label key={action} className="perm-item" style={{ opacity:useCustom?1:0.6,cursor:useCustom?'pointer':'not-allowed' }}>
-                    <input type="checkbox" checked={!!enabled} disabled={!useCustom} onChange={()=>useCustom&&togglePerm(mod.id,action)}/>
-                    {ACTION_LABELS[action]}
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-        {!useCustom && <div style={{ fontSize:11,color:'var(--ink-3)',marginTop:4 }}>Permissões padrão do perfil "{role}". Clique em "Personalizar" para ajustar.</div>}
+
+        <div style={{ border:'1px solid var(--line)', borderRadius:10, overflow:'hidden' }}>
+          <table className="perm-table">
+            <thead>
+              <tr>
+                <th className="mod-col">Módulo</th>
+                {ACTIONS.map(a => <th key={a}>{ACTION_LABELS[a]}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                const groups = [...new Set(MODULES.map(m => m.group))];
+                return groups.map(group => (
+                  <React.Fragment key={group}>
+                    <tr className="perm-group-row">
+                      <td colSpan={ACTIONS.length + 1}>{group}</td>
+                    </tr>
+                    {MODULES.filter(m => m.group === group).map(mod => (
+                      <tr key={mod.id}>
+                        <td className="mod-cell">
+                          <div className="perm-mod-label" style={{ paddingLeft: mod.sub ? 28 : 12 }}>
+                            <Icon name={mod.icon} size={14} style={{ color: mod.sub ? 'var(--ink-3)' : 'var(--navy)', flexShrink:0 }}/>
+                            <span style={{ color: mod.sub ? 'var(--ink-2)' : 'var(--ink)' }}>{mod.label}</span>
+                          </div>
+                        </td>
+                        {ACTIONS.map(action => {
+                          const enabled = effectivePerms[mod.id]?.[action];
+                          return (
+                            <td key={action} className="perm-check-cell">
+                              <label className={useCustom ? '' : 'disabled'}>
+                                <input
+                                  type="checkbox"
+                                  checked={!!enabled}
+                                  disabled={!useCustom}
+                                  onChange={() => useCustom && togglePerm(mod.id, action)}
+                                />
+                              </label>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ));
+              })()}
+            </tbody>
+          </table>
+        </div>
+
+        {!useCustom && <div style={{ fontSize:11,color:'var(--ink-3)',marginTop:8,display:'flex',alignItems:'center',gap:6 }}>
+          <Icon name="shield" size={12}/> Permissões padrão do perfil <strong>{role}</strong>. Clique em "Personalizar" para ajustar individualmente.
+        </div>}
 
         {err && <div style={{ color:'var(--err)',fontSize:12,marginTop:12,padding:'8px 12px',background:'var(--err-bg)',borderRadius:8 }}>{err}</div>}
         <div style={{ display:'flex',gap:8,marginTop:20,justifyContent:'flex-end' }}>
@@ -4268,7 +4317,7 @@ function GISAdminScreen({ user, onPersist, onChange }) {
         <div className="page-title">
           <h2 style={{ display:'flex', alignItems:'center', gap:10 }}>
             <Icon name="key" size={22} style={{ color:'var(--navy)' }}/>
-            Administração GIS · Desbloqueio de Períodos
+            Auditoria - Gestão de Períodos
           </h2>
           <p>Reabilite dias, semanas ou meses enviados por lojistas</p>
         </div>
