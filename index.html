@@ -157,7 +157,7 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .slide-overlay-bottom { position:absolute; inset:0; background:linear-gradient(to top, rgba(10,20,40,0.55) 0%, transparent 50%); }
 
 /* Conteúdo do slide com animação de entrada */
-.slide-content { position:absolute; left:0; bottom:0; padding:36px 44px; max-width:62%; color:white; z-index:2; }
+.slide-content { position:absolute; left:0; bottom:0; padding:36px 44px; max-width:62%; color:white; z-index:6; }
 .carousel-slide.is-active .slide-content > * { animation: slide-in-up 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .carousel-slide.is-active .slide-tag   { animation-delay: 0.05s; }
 .carousel-slide.is-active h3           { animation-delay: 0.12s; }
@@ -377,7 +377,6 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .mobile .slide-content { max-width:100%; padding:18px 20px; }
 .mobile .slide-content h3 { font-size:19px; }
 .mobile .carousel-arrow { display:none; }
-.mobile .slide-cta { display:none; }
 .mobile .dash-grid { grid-template-columns:1fr; }
 .mobile .tile-grid { grid-template-columns:1fr 1fr; gap:10px; }
 .mobile .stepper-shell { flex-direction:column; }
@@ -900,7 +899,7 @@ function PhotoPlaceholder({ label, hue=0 }) {
 
 const AUTOPLAY_MS = 6000;
 
-function Carousel({ slides, mobile=false }) {
+function Carousel({ slides, mobile=false, onSaibaMais }) {
   const [idx, setIdx]       = useState(0);
   const [paused, setPaused] = useState(false);
   const [progKey, setProgKey] = useState(0); // força re-mount da barra
@@ -960,10 +959,10 @@ function Carousel({ slides, mobile=false }) {
               <span className="slide-tag"><span className="tag-dot"/>{s.tag}</span>
               <h3>{s.title}</h3>
               <p>{s.body}</p>
-              {!mobile && <button className="slide-cta">
+              <button className="slide-cta" onClick={(e) => { e.stopPropagation(); onSaibaMais && onSaibaMais(s); }}>
                 Saiba mais
                 <Icon name="arrow-right" size={13}/>
-              </button>}
+              </button>
             </div>
           </div>
         ))}
@@ -1373,7 +1372,7 @@ function Dashboard({ go, mobile, user }) {
         </div>
   
       </div>
-      {slides.length > 0 && <Carousel slides={slides} mobile={mobile}/>}
+      {slides.length > 0 && <Carousel slides={slides} mobile={mobile} onSaibaMais={() => go('feed')}/>}
       <div className="dash-grid" style={{ marginTop:20 }}>
         <div>
           <div className="card" style={{ marginBottom:16 }}>
@@ -3732,6 +3731,13 @@ function App() {
   const [forceChangePwd, setForceChangePwd] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const sessionTimer = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
 
   /* Timeout de sessão: 8 horas de inatividade */
   const SESSION_TIMEOUT = 8 * 60 * 60 * 1000;
@@ -3821,21 +3827,21 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${isMobile ? ' mobile' : ''}`}>
       {forceChangePwd && <ForcePasswordModal user={user} onDone={() => { setForceChangePwd(false); saveDBLocal(DB); }}/>}
       <TopBar user={user} syncMsg={syncMsg} syncTone={syncTone} onConfig={() => setGhOpen(true)} onLogout={handleLogout} searchQuery={searchQuery} onSearch={q => { setSearchQuery(q); }}/>
       <div className="layout-row">
-        <Sidebar active={screen} onNav={go} user={user}/>
+        {!isMobile && <Sidebar active={screen} onNav={go} user={user}/>}
         <div className="main">
           {searchQuery.trim() ? (
             <SearchResults query={searchQuery} user={user} onClear={() => setSearchQuery('')} go={go}/>
           ) : (
             <>
-          {screen==='home'        && <Dashboard go={go} mobile={false} user={user}/>}
-          {screen==='feed'        && <Feed mobile={false} user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })}/>}
-          {screen==='newreq'      && hasPerm(user,'servicos','create')  && <NewRequest go={go} mobile={false} onSubmit={handleNewRequest} user={user}/>}
+          {screen==='home'        && <Dashboard go={go} mobile={isMobile} user={user}/>}
+          {screen==='feed'        && <Feed mobile={isMobile} user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })}/>}
+          {screen==='newreq'      && hasPerm(user,'servicos','create')  && <NewRequest go={go} mobile={isMobile} onSubmit={handleNewRequest} user={user}/>}
           {screen==='newreq'      && !hasPerm(user,'servicos','create') && <Blocked/>}
-          {screen==='mine'        && <MyRequests go={go} mobile={false} user={user} onChange={refresh} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })}/>}
+          {screen==='mine'        && <MyRequests go={go} mobile={isMobile} user={user} onChange={refresh} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })}/>}
           {screen==='usuarios'    && <UsersScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
           {screen==='vagas'       && <CadastrarVagaScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
           {screen==='curriculos'  && <ConsultarCurriculosScreen user={user}/>}
@@ -3843,6 +3849,7 @@ function App() {
           {screen==='candidatar'  && <CandidatarVagaScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
             </>
           )}
+          {isMobile && <BottomTabs active={screen} onNav={go} user={user}/>}
         </div>
       </div>
       {ghOpen && <GitHubConfigModal onClose={() => setGhOpen(false)} onSave={handleConfigSave}/>}
