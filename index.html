@@ -467,6 +467,43 @@ body { background:#1e3a5f; display:flex; align-items:center; justify-content:cen
 .mobile .stepper-main { padding:20px; }
 .mobile .type-grid { grid-template-columns:1fr 1fr; }
 .mobile .priority-row { grid-template-columns:1fr 1fr 1fr; }
+
+/* ── SEGURANÇA MODULE ── */
+.seg-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+.seg-asset-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:18px; box-shadow:var(--shadow); transition:box-shadow 0.15s,transform 0.15s; cursor:pointer; }
+.seg-asset-card:hover { box-shadow:var(--shadow-2); transform:translateY(-1px); }
+.seg-asset-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; gap:10px; }
+.seg-asset-id { font-size:11px; font-weight:700; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px; }
+.seg-asset-name { font-size:15px; font-weight:600; color:var(--ink); }
+.seg-asset-loc { font-size:12px; color:var(--ink-3); margin-top:2px; display:flex; align-items:center; gap:4px; }
+.seg-asset-meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; border-top:1px solid var(--line); padding-top:12px; }
+.seg-meta-pill { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:3px 8px; border-radius:999px; background:var(--surface-2); color:var(--ink-3); font-weight:500; }
+.seg-meta-pill.group { background:#eef2ff; color:#4338ca; }
+.seg-due-pill { font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; white-space:nowrap; }
+.seg-due-pill.ok   { background:var(--ok-bg);   color:var(--ok); }
+.seg-due-pill.warn { background:var(--warn-bg); color:var(--warn); }
+.seg-due-pill.err  { background:var(--err-bg);  color:var(--err); }
+.seg-photo-preview { width:100%; border-radius:8px; max-height:180px; object-fit:cover; margin-top:10px; border:1px solid var(--line); }
+.seg-photo-placeholder { width:100%; height:100px; background:var(--surface-2); border:1.5px dashed var(--line-2); border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-3); font-size:12px; margin-top:10px; cursor:pointer; transition:all 0.15s; }
+.seg-photo-placeholder:hover { border-color:var(--navy); color:var(--navy); }
+.seg-tabs { display:flex; gap:2px; background:var(--surface-2); border-radius:10px; padding:3px; margin-bottom:20px; }
+.seg-tab { flex:1; height:34px; border:0; border-radius:8px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; color:var(--ink-3); background:transparent; transition:all 0.15s; }
+.seg-tab.active { background:var(--surface); color:var(--navy); box-shadow:var(--shadow); font-weight:600; }
+.seg-insp-row { padding:14px 0; border-bottom:1px solid var(--line); display:flex; flex-direction:column; gap:6px; }
+.seg-insp-row:last-child { border-bottom:0; }
+.seg-insp-header { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.seg-insp-who { font-size:13px; font-weight:600; color:var(--ink); }
+.seg-insp-when { font-size:11px; color:var(--ink-3); }
+.seg-insp-obs { font-size:12px; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 10px; margin-top:4px; }
+.seg-insp-thumb { width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid var(--line); cursor:pointer; }
+.seg-stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+.seg-stat-box { background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px; box-shadow:var(--shadow); }
+.seg-stat-box .sv { font-size:26px; font-weight:700; font-family:'JetBrains Mono',monospace; letter-spacing:-0.02em; }
+.seg-stat-box .sl { font-size:11px; color:var(--ink-3); margin-top:2px; }
+@media(max-width:700px){
+  .seg-stat-row { grid-template-columns:1fr 1fr; }
+  .seg-grid { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
@@ -581,6 +618,7 @@ const DEFAULT_PERMISSIONS = {
     painel:    { view:true, create:true, edit:true, delete:true, approve:true },
     gis:       { view:true, create:true, edit:true, delete:true, approve:true },
     'gis-admin':{ view:true, create:true, edit:true, delete:true, approve:true },
+    seguranca:  { view:true, create:true, edit:true, delete:true, approve:true },
   },
   gestor: {
     home:      { view:true, create:false, edit:false, delete:false, approve:false },
@@ -592,6 +630,7 @@ const DEFAULT_PERMISSIONS = {
     painel:    { view:true, create:true,  edit:true,  delete:false, approve:true },
     gis:       { view:true, create:true,  edit:true,  delete:false, approve:true },
     'gis-admin':{ view:true, create:true, edit:true,  delete:false, approve:true },
+    seguranca:  { view:true, create:true, edit:true,  delete:false, approve:true },
   },
   colaborador: {
     home:      { view:true,  create:false, edit:false, delete:false, approve:false },
@@ -603,6 +642,7 @@ const DEFAULT_PERMISSIONS = {
     painel:    { view:true,  create:true,  edit:false, delete:false, approve:false },
     gis:       { view:true,  create:true,  edit:true,  delete:false, approve:false },
     'gis-admin':{ view:false, create:false, edit:false, delete:false, approve:false },
+    seguranca:  { view:true,  create:true, edit:false, delete:false, approve:false },
   },
 };
 
@@ -636,6 +676,22 @@ async function seedDB() {
       { id:'mc-1', titulo:'Festival Gastronômico', mensagem:'Inscreva sua loja como parceira até 08/05.', ativo:true, createdAt: Date.now() }
     ],
     gisVendas:     [],
+    segAtivos:     [],
+    segTiposAtivo: [
+      { id:'tip-1', nome:'Extintor', icone:'🔴', descricao:'Extintores de incêndio de todos os tipos' },
+      { id:'tip-2', nome:'Sensor de Fumaça', icone:'🌫️', descricao:'Detectores e sensores de fumaça' },
+      { id:'tip-3', nome:'Hidrante', icone:'💧', descricao:'Hidrantes e pontos de combate a incêndio' },
+      { id:'tip-4', nome:'Saída de Emergência', icone:'🚪', descricao:'Portas e rotas de emergência' },
+      { id:'tip-5', nome:'Sprinkler', icone:'💦', descricao:'Sistema de chuveiros automáticos' },
+      { id:'tip-6', nome:'Câmera', icone:'📷', descricao:'Câmeras de segurança e CFTV' },
+      { id:'tip-7', nome:'Iluminação de Emergência', icone:'💡', descricao:'Luminárias e sinalizações de emergência' },
+    ],
+    segGrupos:     [
+      { id:'grp-1', nome:'Bombeiros', responsavel:'Cel. João Silva', email:'bombeiros@shoppingosascoplaza.com.br', cor:'#dc2626', prazoMeses:12 },
+      { id:'grp-2', nome:'Segurança', responsavel:'Insp. Maria Santos', email:'seguranca@shoppingosascoplaza.com.br', cor:'#2563eb', prazoMeses:6 },
+      { id:'grp-3', nome:'Manutenção', responsavel:'Eng. Pedro Costa', email:'manutencao@shoppingosascoplaza.com.br', cor:'#d97706', prazoMeses:3 },
+    ],
+    segVistorias:  [],
     counters:      { reqSeq:1000 }
   };
 }
@@ -909,6 +965,11 @@ const navItems = [
   { id:'candidatar',       icon:'send',      label:'Candidatar a Vaga',    section:'painel' },
   { id:'gis',              icon:'chart-bar', label:'GIS · Vendas Diárias', section:'gis' },
   { id:'gis-admin',        icon:'key',       label:'GIS - Auditoria',      section:'gis', sub:true },
+  { id:'seg-ativos',        icon:'shield',    label:'Ativos',               section:'seguranca' },
+  { id:'seg-grupos',        icon:'user',      label:'Grupos de Controle',   section:'seguranca', sub:true },
+  { id:'seg-tipos',         icon:'list',      label:'Tipos de Ativo',       section:'seguranca', sub:true },
+  { id:'seg-vistorias',     icon:'check-circle', label:'Nova Vistoria',     section:'seguranca' },
+  { id:'seg-dashboard',     icon:'chart-bar', label:'Dashboard',            section:'seguranca', sub:true },
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -961,6 +1022,14 @@ const Icon = ({ name, size=18, stroke=1.6, style }) => {
     case 'briefcase':   return <svg {...p}><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>;
     case 'edit':        return <svg {...p}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
     case 'trash':       return <svg {...p}><path d="M3 6h18M19 6l-1 14H6L5 6M9 6V4h6v2"/></svg>;
+    case 'fire':         return <svg {...p}><path d="M12 2c0 0-5 5-5 10a5 5 0 0 0 10 0c0-5-5-10-5-10z"/><path d="M12 12c0 0-2 2-2 4a2 2 0 0 0 4 0c0-2-2-4-2-4z"/></svg>;
+    case 'camera':       return <svg {...p}><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>;
+    case 'mail':         return <svg {...p}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>;
+    case 'map-pin':      return <svg {...p}><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2"/></svg>;
+    case 'alert':        return <svg {...p}><path d="M10.3 3.3 2 21h20L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>;
+    case 'image':        return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>;
+    case 'users':        return <svg {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+    case 'file-text':    return <svg {...p}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="m14 2 6 6h-6M16 13H8M16 17H8M10 9H8"/></svg>;
     default:            return <svg {...p}><circle cx="12" cy="12" r="9"/></svg>;
   }
 };
@@ -1159,6 +1228,7 @@ function Sidebar({ active, onNav, user }) {
     return true;
   });
   const gisItems = navItems.filter(n => n.section === 'gis' && hasPerm(user,'gis','view'));
+  const segItems = hasPerm(user,'seguranca','view') ? navItems.filter(n => n.section === 'seguranca') : [];
 
   // Mini comunicado ativo para o footer
   const miniAtivo = (DB?.miniComunicados||[]).find(m => m.ativo);
@@ -1223,6 +1293,30 @@ function Sidebar({ active, onNav, user }) {
         ))}
       </>}
       {hasPerm(user,'relatorios','read') && <button className="nav-link"><Icon name="chart" size={16}/> Relatórios</button>}
+      {segItems.length > 0 && <>
+        <div className="sidebar-section" style={{ display:'flex',alignItems:'center',gap:6 }}>
+          <Icon name="shield" size={11}/> Segurança
+        </div>
+        <button className={`nav-link ${active==='seg-ativos'?'active':''}`} onClick={()=>onNav('seg-ativos')}>
+          <Icon name="fire" size={15}/><span>Ativos</span>
+        </button>
+        {hasPerm(user,'seguranca','edit') && (
+          <button className={`nav-link nav-sub ${active==='seg-grupos'?'active':''}`} onClick={()=>onNav('seg-grupos')}>
+            <Icon name="users" size={14}/><span>Grupos de Controle</span>
+          </button>
+        )}
+        {hasPerm(user,'seguranca','edit') && (
+          <button className={`nav-link nav-sub ${active==='seg-tipos'?'active':''}`} onClick={()=>onNav('seg-tipos')}>
+            <Icon name="list" size={14}/><span>Tipos de Ativo</span>
+          </button>
+        )}
+        <button className={`nav-link ${active==='seg-vistorias'?'active':''}`} onClick={()=>onNav('seg-vistorias')}>
+          <Icon name="camera" size={15}/><span>Nova Vistoria</span>
+        </button>
+        <button className={`nav-link nav-sub ${active==='seg-dashboard'?'active':''}`} onClick={()=>onNav('seg-dashboard')}>
+          <Icon name="chart-bar" size={14}/><span>Dashboard</span>
+        </button>
+      </>}
       {miniAtivo && (
         <div className="sidebar-footer">
           <Icon name="sparkle" size={14} style={{ color:'var(--gold-2)' }}/>
@@ -5299,6 +5393,16 @@ function App() {
           {screen==='gis'             && !hasPerm(user,'gis','view')    && <Blocked/>}
           {screen==='gis-admin'       && hasPerm(user,'gis','approve')  && <GISAdminScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
           {screen==='gis-admin'       && !hasPerm(user,'gis','approve') && <Blocked/>}
+          {screen==='seg-ativos'      && hasPerm(user,'seguranca','view')   && <SegAtivosScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='seg-ativos'      && !hasPerm(user,'seguranca','view')  && <Blocked/>}
+          {screen==='seg-grupos'      && hasPerm(user,'seguranca','edit')   && <SegGruposScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='seg-grupos'      && !hasPerm(user,'seguranca','edit')  && <Blocked/>}
+          {screen==='seg-vistorias'   && hasPerm(user,'seguranca','view')   && <SegVistoriasScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })} onChange={refresh}/>}
+          {screen==='seg-vistorias'   && !hasPerm(user,'seguranca','view')  && <Blocked/>}
+          {screen==='seg-dashboard'   && hasPerm(user,'seguranca','view')   && <SegDashboardScreen user={user}/>}
+          {screen==='seg-dashboard'   && !hasPerm(user,'seguranca','view')  && <Blocked/>}
+          {screen==='seg-tipos'       && hasPerm(user,'seguranca','edit')   && <SegTiposAtivoScreen user={user} onPersist={() => persistDB((m,t) => { setSyncMsg(m); setSyncTone(t); })}/>}
+          {screen==='seg-tipos'       && !hasPerm(user,'seguranca','edit')  && <Blocked/>}
             </>
           )}
           {isMobile && <BottomTabs active={screen} onNav={go} user={user}/>}
@@ -5314,6 +5418,874 @@ function Blocked() {
     <Icon name="shield" size={32} style={{ margin:'0 auto 12px', display:'block' }}/>
     <p>Você não tem permissão para acessar este módulo.</p>
   </div></div>;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   SEGURANÇA MODULE — Ativos, Grupos de Controle, Vistorias, Dashboard
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Helpers ── */
+function segDueStatus(asset) {
+  if (!asset.proximaVistoria) return { cls:'muted', label:'Sem data' };
+  const now = Date.now();
+  const due = new Date(asset.proximaVistoria).getTime();
+  const diff = due - now;
+  const dias = Math.ceil(diff / 86400000);
+  if (dias < 0)  return { cls:'err',  label:`Vencido há ${Math.abs(dias)}d` };
+  if (dias <= 30) return { cls:'warn', label:`Vence em ${dias}d` };
+  return { cls:'ok', label:`${dias}d restantes` };
+}
+
+function fmtDate(ts) {
+  if (!ts) return '—';
+  const d = new Date(typeof ts === 'string' ? ts : ts);
+  return d.toLocaleDateString('pt-BR');
+}
+
+function calcProxima(dataBase, prazoMeses) {
+  const d = new Date(dataBase);
+  d.setMonth(d.getMonth() + prazoMeses);
+  return d.toISOString().split('T')[0];
+}
+
+/* ── Ativos Screen ── */
+function SegAtivosScreen({ user, onPersist }) {
+  const [ativos, setAtivos] = useState([]);
+  const [grupos, setGrupos] = useState([]);
+  const [modal, setModal]   = useState(null); // null | 'new' | ativo
+  const [sel, setSel]       = useState(null); // ativo selecionado para ver vistorias
+  const [form, setForm]     = useState({ codigo:'', nome:'', localizacao:'', tipo:'', grupo:'', periodicidade:12 });
+  const [busy, setBusy]     = useState(false);
+  const [err, setErr]       = useState('');
+  const [filtro, setFiltro] = useState('todos');
+
+  const refresh = () => {
+    setAtivos([...(DB.segAtivos||[])]);
+    setGrupos([...(DB.segGrupos||[])]);
+  };
+  useEffect(() => { refresh(); }, []);
+
+  const canEdit = hasPerm(user,'seguranca','edit') || hasPerm(user,'seguranca','approve');
+
+  const openNew = () => {
+    setForm({ codigo:'', nome:'', localizacao:'', tipo: (DB.segTiposAtivo||[])[0]?.nome||'', grupo: (DB.segGrupos||[])[0]?.id||'', periodicidade:12 });
+    setErr(''); setModal('new');
+  };
+
+  const openEdit = (a) => {
+    setForm({ codigo:a.codigo, nome:a.nome, localizacao:a.localizacao, tipo:a.tipo, grupo:a.grupo, periodicidade:a.periodicidade||12 });
+    setErr(''); setModal(a);
+  };
+
+  const save = async () => {
+    if (!form.nome.trim() || !form.codigo.trim()) { setErr('Preencha código e nome.'); return; }
+    if (!form.grupo) { setErr('Selecione o grupo de controle.'); return; }
+    setBusy(true);
+    DB.segAtivos = DB.segAtivos || [];
+    if (modal === 'new') {
+      const proxV = calcProxima(new Date().toISOString().split('T')[0], form.periodicidade);
+      DB.segAtivos.unshift({ id:'atv-'+Date.now(), ...form, proximaVistoria:proxV, criadoEm:Date.now(), criadoPor:user.id });
+    } else {
+      const idx = DB.segAtivos.findIndex(a => a.id === modal.id);
+      if (idx >= 0) DB.segAtivos[idx] = { ...DB.segAtivos[idx], ...form };
+    }
+    await onPersist();
+    refresh(); setModal(null); setBusy(false);
+  };
+
+  const del = async (id) => {
+    if (!confirm('Remover este ativo?')) return;
+    DB.segAtivos = (DB.segAtivos||[]).filter(a => a.id !== id);
+    await onPersist(); refresh();
+  };
+
+  const filtered = ativos.filter(a => {
+    if (filtro === 'vencidos') return segDueStatus(a).cls === 'err';
+    if (filtro === 'proximos') return segDueStatus(a).cls === 'warn';
+    return true;
+  });
+
+  if (sel) return <SegAtivoDetalhe ativo={sel} grupos={grupos} user={user} onBack={() => { setSel(null); refresh(); }} onPersist={onPersist}/>;
+
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title">
+          <h2>🔴 Ativos de Segurança</h2>
+          <p>Gestão de extintores, sensores, saídas de emergência e demais ativos</p>
+        </div>
+        {canEdit && <button className="btn btn-primary" onClick={openNew}><Icon name="plus" size={14}/> Novo Ativo</button>}
+      </div>
+
+      {/* Estatísticas rápidas */}
+      <div className="seg-stat-row">
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--ink)'}}>{ativos.length}</div><div className="sl">Total de ativos</div></div>
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--ok)'}}>{ativos.filter(a=>segDueStatus(a).cls==='ok').length}</div><div className="sl">Em dia</div></div>
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--warn)'}}>{ativos.filter(a=>segDueStatus(a).cls==='warn').length}</div><div className="sl">Próximos do vencimento</div></div>
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--err)'}}>{ativos.filter(a=>segDueStatus(a).cls==='err').length}</div><div className="sl">Vencidos</div></div>
+      </div>
+
+      {/* Filtros */}
+      <div className="seg-tabs">
+        {[['todos','Todos'],['proximos','⚠ Próximos'],['vencidos','🔴 Vencidos']].map(([k,l]) => (
+          <button key={k} className={`seg-tab ${filtro===k?'active':''}`} onClick={()=>setFiltro(k)}>{l}</button>
+        ))}
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="card" style={{textAlign:'center',padding:40,color:'var(--ink-3)'}}>
+          <Icon name="shield" size={32} style={{margin:'0 auto 12px',display:'block'}}/>
+          <p>Nenhum ativo encontrado.</p>
+          {canEdit && <button className="btn btn-primary" style={{marginTop:16}} onClick={openNew}><Icon name="plus" size={14}/> Cadastrar primeiro ativo</button>}
+        </div>
+      ) : (
+        <div className="seg-grid">
+          {filtered.map(a => {
+            const due = segDueStatus(a);
+            const grp = grupos.find(g => g.id === a.grupo);
+            const vistorias = (DB.segVistorias||[]).filter(v => v.ativoId === a.id);
+            return (
+              <div key={a.id} className="seg-asset-card" onClick={() => setSel(a)}>
+                <div className="seg-asset-header">
+                  <div>
+                    <div className="seg-asset-id">#{a.codigo}</div>
+                    <div className="seg-asset-name">{a.nome}</div>
+                    <div className="seg-asset-loc"><Icon name="map-pin" size={11}/>{a.localizacao}</div>
+                  </div>
+                  <span className={`seg-due-pill ${due.cls}`}>{due.label}</span>
+                </div>
+                <div className="seg-asset-meta">
+                  <span className="seg-meta-pill"><Icon name="fire" size={11}/>{a.tipo}</span>
+                  {grp && <span className="seg-meta-pill group" style={{background:grp.cor+'22',color:grp.cor}}>{grp.nome}</span>}
+                  <span className="seg-meta-pill"><Icon name="file-text" size={11}/>{vistorias.length} vistoria(s)</span>
+                  {a.periodicidade && <span className="seg-meta-pill"><Icon name="clock" size={11}/>{a.periodicidade===1?'Mensal':a.periodicidade===2?'Bimestral':a.periodicidade===3?'Trimestral':a.periodicidade===6?'Semestral':a.periodicidade===12?'Anual':'A cada '+a.periodicidade+'m'}</span>}
+                  {a.proximaVistoria && <span className="seg-meta-pill"><Icon name="calendar" size={11}/>Próx: {fmtDate(a.proximaVistoria)}</span>}
+                </div>
+                {canEdit && (
+                  <div style={{display:'flex',gap:8,marginTop:12}} onClick={e=>e.stopPropagation()}>
+                    <button className="btn btn-ghost btn-sm" onClick={()=>openEdit(a)}><Icon name="edit" size={13}/></button>
+                    <button className="btn btn-danger btn-sm" onClick={()=>del(a.id)}><Icon name="trash" size={13}/></button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Modal novo/editar ativo */}
+      {modal && (
+        <div className="modal-overlay" onClick={()=>setModal(null)}>
+          <div className="modal-card" onClick={e=>e.stopPropagation()} style={{maxWidth:520}}>
+            <button className="close-x" onClick={()=>setModal(null)}><Icon name="x" size={16}/></button>
+            <h3>{modal==='new'?'Novo Ativo':'Editar Ativo'}</h3>
+            <p style={{fontSize:13,color:'var(--ink-3)',marginBottom:20}}>Preencha os dados do ativo de segurança</p>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div className="field"><label>Código / ID <span className="req">*</span></label><input value={form.codigo} onChange={e=>setForm(f=>({...f,codigo:e.target.value}))} placeholder="EXT-001"/></div>
+              <div className="field"><label>Tipo de Ativo</label>
+                <select value={form.tipo} onChange={e=>setForm(f=>({...f,tipo:e.target.value}))}>
+                  <option value="">Selecione...</option>
+                  {(DB.segTiposAtivo||[]).map(t=><option key={t.id} value={t.nome}>{t.icone} {t.nome}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="field"><label>Nome / Descrição <span className="req">*</span></label><input value={form.nome} onChange={e=>setForm(f=>({...f,nome:e.target.value}))} placeholder="Ex: Extintor CO₂ 6kg"/></div>
+            <div className="field"><label>Localização</label><input value={form.localizacao} onChange={e=>setForm(f=>({...f,localizacao:e.target.value}))} placeholder="Ex: Piso 2 — próx. escada B"/></div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div className="field"><label>Grupo de Controle <span className="req">*</span></label>
+                <select value={form.grupo} onChange={e=>setForm(f=>({...f,grupo:e.target.value}))}>
+                  <option value="">Selecione...</option>
+                  {grupos.map(g=><option key={g.id} value={g.id}>{g.nome}</option>)}
+                </select>
+              </div>
+              <div className="field"><label>Periodicidade da Vistoria</label>
+                <select value={form.periodicidade} onChange={e=>setForm(f=>({...f,periodicidade:parseInt(e.target.value)}))}>
+                  <option value={1}>Mensal (1 mês)</option>
+                  <option value={2}>Bimestral (2 meses)</option>
+                  <option value={3}>Trimestral (3 meses)</option>
+                  <option value={6}>Semestral (6 meses)</option>
+                  <option value={12}>Anual (12 meses)</option>
+                  <option value={24}>Bianual (24 meses)</option>
+                </select>
+              </div>
+            </div>
+            {err && <p style={{color:'var(--err)',fontSize:12,marginBottom:12}}>{err}</p>}
+            <div style={{display:'flex',gap:10,justifyContent:'flex-end'}}>
+              <button className="btn btn-ghost" onClick={()=>setModal(null)}>Cancelar</button>
+              <button className="btn btn-primary" onClick={save} disabled={busy}>{busy?'Salvando...':'Salvar Ativo'}</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Detalhe do Ativo + Vistorias ── */
+function SegAtivoDetalhe({ ativo, grupos, user, onBack, onPersist }) {
+  const [vistorias, setVistorias] = useState([]);
+  const [tab, setTab]             = useState('vistorias');
+  const [lightbox, setLightbox]   = useState(null);
+
+  const grp = grupos.find(g => g.id === ativo.grupo);
+  const due = segDueStatus(ativo);
+
+  const refresh = () => setVistorias((DB.segVistorias||[]).filter(v=>v.ativoId===ativo.id).sort((a,b)=>b.ts-a.ts));
+  useEffect(()=>{ refresh(); },[]);
+
+  return (
+    <div className="main-pad">
+      <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:20}}>
+        <button className="btn btn-ghost btn-sm" onClick={onBack}><Icon name="arrow-left" size={14}/> Voltar</button>
+        <div>
+          <div style={{fontSize:11,color:'var(--ink-4)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em'}}>#{ativo.codigo}</div>
+          <h2 style={{fontSize:20,fontWeight:600,margin:0}}>{ativo.nome}</h2>
+          <div style={{fontSize:12,color:'var(--ink-3)',marginTop:2,display:'flex',gap:12,flexWrap:'wrap'}}>
+            <span><Icon name="map-pin" size={11}/> {ativo.localizacao}</span>
+            <span><Icon name="fire" size={11}/> {ativo.tipo}</span>
+            {grp && <span style={{color:grp.cor,fontWeight:600}}>{grp.nome}</span>}
+          </div>
+        </div>
+        <span className={`seg-due-pill ${due.cls}`} style={{marginLeft:'auto'}}>{due.label}</span>
+      </div>
+
+      <div className="seg-tabs">
+        {[['vistorias','📋 Histórico de Vistorias'],['info','ℹ️ Informações']].map(([k,l])=>(
+          <button key={k} className={`seg-tab ${tab===k?'active':''}`} onClick={()=>setTab(k)}>{l}</button>
+        ))}
+      </div>
+
+      {tab === 'vistorias' && (
+        <div className="card">
+          <div className="card-head"><h3>Vistorias Registradas</h3><span style={{fontSize:12,color:'var(--ink-3)'}}>{vistorias.length} registro(s)</span></div>
+          {vistorias.length === 0 ? (
+            <div style={{textAlign:'center',padding:32,color:'var(--ink-3)'}}>
+              <Icon name="camera" size={28} style={{margin:'0 auto 8px',display:'block'}}/>
+              <p>Nenhuma vistoria registrada ainda.</p>
+            </div>
+          ) : vistorias.map(v => (
+            <div key={v.id} className="seg-insp-row">
+              <div className="seg-insp-header">
+                <div>
+                  <div className="seg-insp-who">{v.vistoriador}</div>
+                  <div className="seg-insp-when">{new Date(v.ts).toLocaleString('pt-BR')} — {v.grupoNome}</div>
+                </div>
+                <span className={`status-pill ${v.status==='Aprovado'?'ok':v.status==='Reprovado'?'err':'warn'}`}>
+                  <span className="ind"/>{v.status}
+                </span>
+              </div>
+              {v.obs && <div className="seg-insp-obs">💬 {v.obs}</div>}
+              {v.foto && (
+                <img src={v.foto} alt="Foto da vistoria" className="seg-insp-thumb" onClick={()=>setLightbox(v.foto)}/>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === 'info' && (
+        <div className="card">
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+            {[['Código',ativo.codigo],['Tipo',ativo.tipo],['Localização',ativo.localizacao],
+              ['Grupo',grp?.nome||'—'],['Responsável',grp?.responsavel||'—'],['Email',grp?.email||'—'],
+              ['Próxima Vistoria',fmtDate(ativo.proximaVistoria)],['Cadastrado em',fmtDate(ativo.criadoEm)]
+            ].map(([k,v])=>(
+              <div key={k}><div style={{fontSize:11,color:'var(--ink-3)',marginBottom:4,fontWeight:600}}>{k}</div><div style={{fontSize:14,color:'var(--ink)'}}>{v||'—'}</div></div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {lightbox && (
+        <div className="modal-overlay" onClick={()=>setLightbox(null)}>
+          <img src={lightbox} alt="Foto" style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,boxShadow:'0 24px 48px rgba(0,0,0,0.4)'}}/>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Grupos Screen ── */
+function SegGruposScreen({ user, onPersist }) {
+  const [grupos, setGrupos] = useState([]);
+  const [modal, setModal]   = useState(null);
+  const [form, setForm]     = useState({ nome:'', responsavel:'', email:'', cor:'#2563eb', prazoMeses:12 });
+  const [busy, setBusy]     = useState(false);
+  const [err, setErr]       = useState('');
+
+  const refresh = () => setGrupos([...(DB.segGrupos||[])]);
+  useEffect(()=>{ refresh(); },[]);
+
+  const openNew = () => { setForm({ nome:'', responsavel:'', email:'', cor:'#2563eb', prazoMeses:12 }); setErr(''); setModal('new'); };
+  const openEdit = (g) => { setForm({nome:g.nome,responsavel:g.responsavel,email:g.email,cor:g.cor,prazoMeses:g.prazoMeses}); setErr(''); setModal(g); };
+
+  const save = async () => {
+    if (!form.nome.trim())  { setErr('Informe o nome do grupo.'); return; }
+    if (!form.email.trim()) { setErr('Informe o email do responsável.'); return; }
+    setBusy(true);
+    DB.segGrupos = DB.segGrupos || [];
+    if (modal === 'new') {
+      DB.segGrupos.push({ id:'grp-'+Date.now(), ...form });
+    } else {
+      const idx = DB.segGrupos.findIndex(g=>g.id===modal.id);
+      if (idx>=0) DB.segGrupos[idx] = { ...DB.segGrupos[idx], ...form };
+    }
+    await onPersist(); refresh(); setModal(null); setBusy(false);
+  };
+
+  const del = async (id) => {
+    const emUso = (DB.segAtivos||[]).some(a=>a.grupo===id);
+    if (emUso) { alert('Grupo em uso por ativos. Remova ou transfira os ativos antes de excluir.'); return; }
+    if (!confirm('Remover grupo?')) return;
+    DB.segGrupos = (DB.segGrupos||[]).filter(g=>g.id!==id);
+    await onPersist(); refresh();
+  };
+
+  const prazoOpts = [1,2,3,6,12,24];
+
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title"><h2>👥 Grupos de Controle</h2><p>Equipes responsáveis pela vistoria de ativos</p></div>
+        <button className="btn btn-primary" onClick={openNew}><Icon name="plus" size={14}/> Novo Grupo</button>
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+        {grupos.map(g=>{
+          const total = (DB.segAtivos||[]).filter(a=>a.grupo===g.id).length;
+          const venc  = (DB.segAtivos||[]).filter(a=>a.grupo===g.id&&segDueStatus(a).cls==='err').length;
+          return (
+            <div key={g.id} className="card" style={{borderLeft:`4px solid ${g.cor}`}}>
+              <div style={{display:'flex',alignItems:'center',gap:14,flexWrap:'wrap'}}>
+                <div style={{width:40,height:40,borderRadius:10,background:g.cor+'22',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  <Icon name="users" size={20} style={{color:g.cor}}/>
+                </div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:600,fontSize:15}}>{g.nome}</div>
+                  <div style={{fontSize:12,color:'var(--ink-3)',marginTop:2}}>
+                    <span><Icon name="user" size={11}/> {g.responsavel}</span>
+                    <span style={{marginLeft:12}}><Icon name="mail" size={11}/> {g.email}</span>
+                    <span style={{marginLeft:12}}><Icon name="clock" size={11}/> Prazo: {g.prazoMeses} mês/meses</span>
+                  </div>
+                </div>
+                <div style={{display:'flex',gap:12,alignItems:'center'}}>
+                  <div style={{textAlign:'center'}}>
+                    <div style={{fontWeight:700,fontSize:18,fontFamily:"'JetBrains Mono',monospace"}}>{total}</div>
+                    <div style={{fontSize:10,color:'var(--ink-4)'}}>Ativos</div>
+                  </div>
+                  {venc > 0 && <div style={{textAlign:'center'}}>
+                    <div style={{fontWeight:700,fontSize:18,color:'var(--err)',fontFamily:"'JetBrains Mono',monospace"}}>{venc}</div>
+                    <div style={{fontSize:10,color:'var(--err)'}}>Vencidos</div>
+                  </div>}
+                  <button className="btn btn-ghost btn-sm" onClick={()=>openEdit(g)}><Icon name="edit" size={13}/></button>
+                  <button className="btn btn-danger btn-sm" onClick={()=>del(g.id)}><Icon name="trash" size={13}/></button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {modal && (
+        <div className="modal-overlay" onClick={()=>setModal(null)}>
+          <div className="modal-card" onClick={e=>e.stopPropagation()} style={{maxWidth:480}}>
+            <button className="close-x" onClick={()=>setModal(null)}><Icon name="x" size={16}/></button>
+            <h3>{modal==='new'?'Novo Grupo de Controle':'Editar Grupo'}</h3>
+            <p style={{fontSize:13,color:'var(--ink-3)',marginBottom:20}}>Defina o grupo responsável pela vistoria e o prazo de recorrência</p>
+            <div className="field"><label>Nome do Grupo <span className="req">*</span></label><input value={form.nome} onChange={e=>setForm(f=>({...f,nome:e.target.value}))} placeholder="Ex: Bombeiros"/></div>
+            <div className="field"><label>Responsável</label><input value={form.responsavel} onChange={e=>setForm(f=>({...f,responsavel:e.target.value}))} placeholder="Nome completo"/></div>
+            <div className="field"><label>Email do Responsável <span className="req">*</span></label><input type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} placeholder="responsavel@email.com.br"/></div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div className="field"><label>Cor de identificação</label><input type="color" value={form.cor} onChange={e=>setForm(f=>({...f,cor:e.target.value}))} style={{height:38,padding:'4px 8px',cursor:'pointer'}}/></div>
+              <div className="field"><label>Prazo de Vistoria</label>
+                <select value={form.prazoMeses} onChange={e=>setForm(f=>({...f,prazoMeses:parseInt(e.target.value)}))}>
+                  {prazoOpts.map(p=><option key={p} value={p}>{p===1?'Mensal':p===2?'Bimestral':p===3?'Trimestral':p===6?'Semestral':p===12?'Anual':'A cada '+p+' meses'}</option>)}
+                </select>
+              </div>
+            </div>
+            {err && <p style={{color:'var(--err)',fontSize:12,marginBottom:12}}>{err}</p>}
+            <div style={{display:'flex',gap:10,justifyContent:'flex-end'}}>
+              <button className="btn btn-ghost" onClick={()=>setModal(null)}>Cancelar</button>
+              <button className="btn btn-primary" onClick={save} disabled={busy}>{busy?'Salvando...':'Salvar Grupo'}</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Nova Vistoria Screen ── */
+function SegVistoriasScreen({ user, onPersist }) {
+  const [ativos, setAtivos]       = useState([]);
+  const [grupos, setGrupos]       = useState([]);
+  const [ativoId, setAtivoId]     = useState('');
+  const [status, setStatus]       = useState('Aprovado');
+  const [obs, setObs]             = useState('');
+  const [foto, setFoto]           = useState(null); // base64
+  const [fotoPreview, setFotoPreview] = useState(null);
+  const [proximaData, setProxima] = useState('');
+  const [busy, setBusy]           = useState(false);
+  const [done, setDone]           = useState(false);
+  const [err, setErr]             = useState('');
+  const fileRef                   = useRef();
+
+  const refresh = () => { setAtivos([...(DB.segAtivos||[])]); setGrupos([...(DB.segGrupos||[])]); };
+  useEffect(()=>{ refresh(); },[]);
+
+  const ativo = ativos.find(a=>a.id===ativoId);
+  const grupo = ativo ? grupos.find(g=>g.id===ativo.grupo) : null;
+
+  useEffect(()=>{
+    if (ativo && grupo) {
+      setProxima(calcProxima(new Date().toISOString().split('T')[0], grupo.prazoMeses));
+    }
+  },[ativoId]);
+
+  const handleFoto = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { setFoto(ev.target.result); setFotoPreview(ev.target.result); };
+    reader.readAsDataURL(file);
+  };
+
+  const submit = async () => {
+    if (!ativoId) { setErr('Selecione o ativo.'); return; }
+    setBusy(true); setErr('');
+    const v = {
+      id: 'vis-'+Date.now(),
+      ativoId,
+      ativoNome: ativo?.nome||'',
+      ativoLocalizacao: ativo?.localizacao||'',
+      grupoId: ativo?.grupo||'',
+      grupoNome: grupo?.nome||'',
+      vistoriador: user.nome||user.login,
+      vistoriadorId: user.id,
+      status,
+      obs: obs.trim(),
+      foto: foto||null,
+      ts: Date.now(),
+      proximaVistoria: proximaData,
+    };
+    DB.segVistorias = DB.segVistorias || [];
+    DB.segVistorias.unshift(v);
+    // Atualiza próxima vistoria no ativo
+    const idx = (DB.segAtivos||[]).findIndex(a=>a.id===ativoId);
+    if (idx>=0 && proximaData) DB.segAtivos[idx].proximaVistoria = proximaData;
+    await onPersist();
+    setDone(true); setBusy(false);
+  };
+
+  if (done) return (
+    <div className="main-pad">
+      <div className="card" style={{textAlign:'center',padding:48}}>
+        <Icon name="check-circle" size={48} style={{margin:'0 auto 16px',display:'block',color:'var(--ok)'}}/>
+        <h3 style={{fontSize:20,marginBottom:8}}>Vistoria registrada!</h3>
+        <p style={{color:'var(--ink-3)',fontSize:13,marginBottom:24}}>
+          {ativo?.nome} — {grupo?.nome}<br/>
+          {grupo?.email && <>Um relatório será enviado para <strong>{grupo.email}</strong></>}
+        </p>
+        <div style={{display:'flex',gap:12,justifyContent:'center'}}>
+          <button className="btn btn-ghost" onClick={()=>{setDone(false);setAtivoId('');setObs('');setFoto(null);setFotoPreview(null);refresh();}}>Nova Vistoria</button>
+          <button className="btn btn-primary" onClick={()=>{}}>Ver Ativos</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title"><h2>📷 Registrar Vistoria</h2><p>Documente a inspeção com foto e observações</p></div>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+        {/* Coluna esquerda */}
+        <div>
+          <div className="card" style={{marginBottom:16}}>
+            <h3 style={{fontSize:14,fontWeight:600,marginBottom:16}}>1. Selecione o Ativo</h3>
+            <div className="field">
+              <label>Ativo <span className="req">*</span></label>
+              <select value={ativoId} onChange={e=>setAtivoId(e.target.value)}>
+                <option value="">Selecione o ativo a ser vistoriado...</option>
+                {ativos.map(a=>{
+                  const due = segDueStatus(a);
+                  return <option key={a.id} value={a.id}>{due.cls==='err'?'🔴':due.cls==='warn'?'⚠️':'✅'} #{a.codigo} — {a.nome} ({a.localizacao})</option>;
+                })}
+              </select>
+            </div>
+            {ativo && (
+              <div style={{background:'var(--surface-2)',borderRadius:8,padding:12,fontSize:12,marginTop:8}}>
+                <div style={{fontWeight:600,marginBottom:4}}>{ativo.nome}</div>
+                <div style={{color:'var(--ink-3)'}}><Icon name="map-pin" size={11}/> {ativo.localizacao}</div>
+                {grupo && <div style={{color:grupo.cor,marginTop:4,fontWeight:600}}><Icon name="users" size={11}/> {grupo.nome} — {grupo.responsavel}</div>}
+              </div>
+            )}
+          </div>
+
+          <div className="card" style={{marginBottom:16}}>
+            <h3 style={{fontSize:14,fontWeight:600,marginBottom:16}}>2. Resultado da Vistoria</h3>
+            <div className="field">
+              <label>Status</label>
+              <div style={{display:'flex',gap:8}}>
+                {['Aprovado','Reprovado','Pendente'].map(s=>(
+                  <button key={s} onClick={()=>setStatus(s)} style={{flex:1,height:38,border:'1.5px solid',borderRadius:8,cursor:'pointer',fontFamily:'inherit',fontSize:12,fontWeight:600,
+                    borderColor:status===s?(s==='Aprovado'?'var(--ok)':s==='Reprovado'?'var(--err)':'var(--warn)'):'var(--line)',
+                    background:status===s?(s==='Aprovado'?'var(--ok-bg)':s==='Reprovado'?'var(--err-bg)':'var(--warn-bg)'):'var(--surface)',
+                    color:status===s?(s==='Aprovado'?'var(--ok)':s==='Reprovado'?'var(--err)':'var(--warn)'):'var(--ink-3)'
+                  }}>{s}</button>
+                ))}
+              </div>
+            </div>
+            <div className="field">
+              <label>Observações / Notas</label>
+              <textarea rows={4} value={obs} onChange={e=>setObs(e.target.value)} placeholder="Descreva o estado do ativo, irregularidades, ações necessárias..."/>
+            </div>
+            <div className="field">
+              <label>Próxima Vistoria</label>
+              <input type="date" value={proximaData} onChange={e=>setProxima(e.target.value)}/>
+              {grupo && <div className="hint">Prazo padrão do grupo: {grupo.prazoMeses} mês/meses</div>}
+            </div>
+          </div>
+        </div>
+
+        {/* Coluna direita — foto */}
+        <div>
+          <div className="card">
+            <h3 style={{fontSize:14,fontWeight:600,marginBottom:8}}>3. Foto da Vistoria</h3>
+            <p style={{fontSize:12,color:'var(--ink-3)',marginBottom:16}}>Use a câmera do dispositivo para registrar o estado atual do ativo. A foto usa obrigatoriamente a câmera traseira.</p>
+            <input ref={fileRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handleFoto}/>
+            {fotoPreview ? (
+              <div>
+                <img src={fotoPreview} alt="Preview" className="seg-photo-preview"/>
+                <button className="btn btn-ghost btn-sm" style={{marginTop:10,width:'100%'}} onClick={()=>{setFoto(null);setFotoPreview(null);fileRef.current.value='';}}><Icon name="x" size={13}/> Remover foto</button>
+              </div>
+            ) : (
+              <div className="seg-photo-placeholder" onClick={()=>fileRef.current.click()}>
+                <Icon name="camera" size={28}/>
+                <span>Toque para abrir a câmera</span>
+                <span style={{fontSize:11}}>Câmera traseira automática</span>
+              </div>
+            )}
+            <button className="btn btn-gold" style={{width:'100%',marginTop:16,height:42}} onClick={()=>fileRef.current.click()}>
+              <Icon name="camera" size={16}/> {fotoPreview?'Refazer Foto':'Tirar Foto'}
+            </button>
+          </div>
+
+          {/* Envio */}
+          <div className="card" style={{marginTop:16}}>
+            <h3 style={{fontSize:14,fontWeight:600,marginBottom:8}}>4. Finalizar</h3>
+            {grupo && (
+              <div style={{background:'var(--info-bg)',borderRadius:8,padding:12,fontSize:12,color:'var(--info)',marginBottom:16,display:'flex',gap:8}}>
+                <Icon name="mail" size={14} style={{flexShrink:0,marginTop:1}}/>
+                <span>Ao confirmar, um relatório será gerado e enviado para <strong>{grupo.email}</strong></span>
+              </div>
+            )}
+            {err && <p style={{color:'var(--err)',fontSize:12,marginBottom:12}}>{err}</p>}
+            <button className="btn btn-primary btn-lg" style={{width:'100%'}} onClick={submit} disabled={busy}>
+              {busy?'Registrando...':'✓ Confirmar Vistoria'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+/* ── Tipos de Ativo Screen ── */
+function SegTiposAtivoScreen({ user, onPersist }) {
+  const [tipos, setTipos]   = useState([]);
+  const [modal, setModal]   = useState(null); // null | 'new' | tipo
+  const [form, setForm]     = useState({ nome:'', icone:'🔴', descricao:'' });
+  const [busy, setBusy]     = useState(false);
+  const [err, setErr]       = useState('');
+
+  const refresh = () => setTipos([...(DB.segTiposAtivo||[])]);
+  useEffect(() => { refresh(); }, []);
+
+  const openNew = () => {
+    setForm({ nome:'', icone:'🔴', descricao:'' });
+    setErr(''); setModal('new');
+  };
+
+  const openEdit = (t) => {
+    setForm({ nome:t.nome, icone:t.icone||'🔴', descricao:t.descricao||'' });
+    setErr(''); setModal(t);
+  };
+
+  const save = async () => {
+    if (!form.nome.trim()) { setErr('Informe o nome do tipo.'); return; }
+    const dup = (DB.segTiposAtivo||[]).find(t => t.nome.toLowerCase() === form.nome.trim().toLowerCase() && (modal==='new' || t.id !== modal.id));
+    if (dup) { setErr('Já existe um tipo com este nome.'); return; }
+    setBusy(true);
+    DB.segTiposAtivo = DB.segTiposAtivo || [];
+    if (modal === 'new') {
+      DB.segTiposAtivo.push({ id:'tip-'+Date.now(), ...form, nome:form.nome.trim(), criadoEm:Date.now() });
+    } else {
+      const idx = DB.segTiposAtivo.findIndex(t => t.id === modal.id);
+      if (idx >= 0) DB.segTiposAtivo[idx] = { ...DB.segTiposAtivo[idx], ...form, nome:form.nome.trim() };
+    }
+    await onPersist();
+    refresh(); setModal(null); setBusy(false);
+  };
+
+  const del = async (id) => {
+    const tipo = (DB.segTiposAtivo||[]).find(t => t.id === id);
+    const emUso = (DB.segAtivos||[]).some(a => a.tipo === tipo?.nome);
+    if (emUso) { alert('Tipo em uso por ativos cadastrados. Atualize os ativos antes de excluir.'); return; }
+    if (!confirm('Remover tipo "' + (tipo?.nome||'') + '"?')) return;
+    DB.segTiposAtivo = (DB.segTiposAtivo||[]).filter(t => t.id !== id);
+    await onPersist(); refresh();
+  };
+
+  const iconeOpts = ['🔴','🟠','🟡','🟢','🔵','🟣','⚫','🔥','💧','🌫️','🚪','💡','📷','⚡','🔧','🛡️','⚠️','🔒','🚨','📡'];
+
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title">
+          <h2>🗂️ Tipos de Ativo</h2>
+          <p>Gerencie os tipos de ativos disponíveis para cadastro</p>
+        </div>
+        <button className="btn btn-primary" onClick={openNew}>
+          <Icon name="plus" size={14}/> Novo Tipo
+        </button>
+      </div>
+
+      {tipos.length === 0 ? (
+        <div className="card" style={{textAlign:'center', padding:40, color:'var(--ink-3)'}}>
+          <Icon name="list" size={32} style={{margin:'0 auto 12px', display:'block'}}/>
+          <p>Nenhum tipo cadastrado.</p>
+          <button className="btn btn-primary" style={{marginTop:16}} onClick={openNew}>
+            <Icon name="plus" size={14}/> Cadastrar primeiro tipo
+          </button>
+        </div>
+      ) : (
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14}}>
+          {tipos.map(t => {
+            const qtd = (DB.segAtivos||[]).filter(a => a.tipo === t.nome).length;
+            return (
+              <div key={t.id} className="card" style={{display:'flex', flexDirection:'column', gap:12}}>
+                <div style={{display:'flex', alignItems:'center', gap:14}}>
+                  <div style={{
+                    width:48, height:48, borderRadius:12,
+                    background:'var(--surface-2)',
+                    display:'flex', alignItems:'center', justifyContent:'center',
+                    fontSize:24, flexShrink:0,
+                    border:'1px solid var(--line)'
+                  }}>
+                    {t.icone||'🔴'}
+                  </div>
+                  <div style={{flex:1, minWidth:0}}>
+                    <div style={{fontWeight:600, fontSize:15, color:'var(--ink)'}}>{t.nome}</div>
+                    {t.descricao && <div style={{fontSize:12, color:'var(--ink-3)', marginTop:2, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{t.descricao}</div>}
+                  </div>
+                </div>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:10, borderTop:'1px solid var(--line)'}}>
+                  <span style={{
+                    display:'inline-flex', alignItems:'center', gap:5,
+                    fontSize:12, fontWeight:600,
+                    color: qtd > 0 ? 'var(--navy)' : 'var(--ink-4)',
+                    background: qtd > 0 ? 'var(--info-bg)' : 'var(--surface-2)',
+                    padding:'3px 10px', borderRadius:999
+                  }}>
+                    <Icon name="shield" size={11}/> {qtd} ativo{qtd !== 1 ? 's' : ''}
+                  </span>
+                  <div style={{display:'flex', gap:6}}>
+                    <button className="btn btn-ghost btn-sm" onClick={() => openEdit(t)}>
+                      <Icon name="edit" size={13}/>
+                    </button>
+                    <button className="btn btn-danger btn-sm" onClick={() => del(t.id)}>
+                      <Icon name="trash" size={13}/>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Modal novo/editar tipo */}
+      {modal && (
+        <div className="modal-overlay" onClick={() => setModal(null)}>
+          <div className="modal-card" onClick={e => e.stopPropagation()} style={{maxWidth:440}}>
+            <button className="close-x" onClick={() => setModal(null)}><Icon name="x" size={16}/></button>
+            <h3>{modal === 'new' ? 'Novo Tipo de Ativo' : 'Editar Tipo de Ativo'}</h3>
+            <p style={{fontSize:13, color:'var(--ink-3)', marginBottom:20}}>
+              Defina o nome, ícone e descrição do tipo de ativo de segurança
+            </p>
+
+            {/* Ícone selector */}
+            <div className="field">
+              <label>Ícone de Identificação</label>
+              <div style={{display:'flex', flexWrap:'wrap', gap:6, marginTop:4}}>
+                {iconeOpts.map(ico => (
+                  <button key={ico} onClick={() => setForm(f => ({...f, icone:ico}))} style={{
+                    width:38, height:38, fontSize:20, cursor:'pointer',
+                    border: form.icone === ico ? '2px solid var(--navy)' : '1.5px solid var(--line)',
+                    borderRadius:8, background: form.icone === ico ? 'var(--info-bg)' : 'var(--surface-2)',
+                    display:'flex', alignItems:'center', justifyContent:'center',
+                    transition:'all 0.15s',
+                  }}>{ico}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="field">
+              <label>Nome do Tipo <span className="req">*</span></label>
+              <input
+                value={form.nome}
+                onChange={e => setForm(f => ({...f, nome:e.target.value}))}
+                placeholder="Ex: Extintor, Hidrante, Sensor de Fumaça..."
+                autoFocus
+              />
+            </div>
+
+            <div className="field">
+              <label>Descrição (opcional)</label>
+              <textarea
+                rows={3}
+                value={form.descricao}
+                onChange={e => setForm(f => ({...f, descricao:e.target.value}))}
+                placeholder="Descreva o tipo de ativo e sua finalidade..."
+              />
+            </div>
+
+            {/* Preview */}
+            {form.nome && (
+              <div style={{
+                background:'var(--surface-2)', borderRadius:10, padding:'12px 16px',
+                display:'flex', alignItems:'center', gap:12, marginBottom:16,
+                border:'1px solid var(--line)'
+              }}>
+                <div style={{fontSize:24}}>{form.icone}</div>
+                <div>
+                  <div style={{fontWeight:600, fontSize:14}}>{form.nome}</div>
+                  {form.descricao && <div style={{fontSize:12, color:'var(--ink-3)', marginTop:2}}>{form.descricao}</div>}
+                </div>
+              </div>
+            )}
+
+            {err && <p style={{color:'var(--err)', fontSize:12, marginBottom:12}}>{err}</p>}
+
+            <div style={{display:'flex', gap:10, justifyContent:'flex-end'}}>
+              <button className="btn btn-ghost" onClick={() => setModal(null)}>Cancelar</button>
+              <button className="btn btn-primary" onClick={save} disabled={busy}>
+                {busy ? 'Salvando...' : 'Salvar Tipo'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Dashboard de Segurança ── */
+function SegDashboardScreen({ user }) {
+  const [vistorias, setVistorias] = useState([]);
+  const [ativos, setAtivos]       = useState([]);
+  const [grupos, setGrupos]       = useState([]);
+  const [filtroGrp, setFiltroGrp] = useState('todos');
+  const [filtroSts, setFiltroSts] = useState('todos');
+
+  useEffect(()=>{
+    setVistorias([...(DB.segVistorias||[])].sort((a,b)=>b.ts-a.ts));
+    setAtivos([...(DB.segAtivos||[])]);
+    setGrupos([...(DB.segGrupos||[])]);
+  },[]);
+
+  const filtradas = vistorias.filter(v=>{
+    if (filtroGrp !== 'todos' && v.grupoId !== filtroGrp) return false;
+    if (filtroSts !== 'todos' && v.status !== filtroSts) return false;
+    return true;
+  });
+
+  const vencidos = ativos.filter(a=>segDueStatus(a).cls==='err').length;
+  const proximos = ativos.filter(a=>segDueStatus(a).cls==='warn').length;
+  const okCount  = ativos.filter(a=>segDueStatus(a).cls==='ok').length;
+
+  return (
+    <div className="main-pad">
+      <div className="page-title-row">
+        <div className="page-title"><h2>📊 Dashboard — Segurança</h2><p>Visão geral de ativos e histórico de vistorias</p></div>
+      </div>
+
+      <div className="seg-stat-row">
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--ink)'}}>{ativos.length}</div><div className="sl">Ativos cadastrados</div></div>
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--ok)'}}>{okCount}</div><div className="sl">Em dia</div></div>
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--warn)'}}>{proximos}</div><div className="sl">Próximos do prazo</div></div>
+        <div className="seg-stat-box"><div className="sv" style={{color:'var(--err)'}}>{vencidos}</div><div className="sl">Vencidos</div></div>
+      </div>
+
+      {/* Por grupo */}
+      {grupos.length > 0 && (
+        <div className="card" style={{marginBottom:20}}>
+          <div className="card-head"><h3>Situação por Grupo</h3></div>
+          <div style={{display:'flex',flexDirection:'column',gap:12}}>
+            {grupos.map(g=>{
+              const ga   = ativos.filter(a=>a.grupo===g.id);
+              const gv   = vistorias.filter(v=>v.grupoId===g.id);
+              const gErr = ga.filter(a=>segDueStatus(a).cls==='err').length;
+              const gWrn = ga.filter(a=>segDueStatus(a).cls==='warn').length;
+              return (
+                <div key={g.id} style={{display:'flex',alignItems:'center',gap:16,padding:'12px 0',borderBottom:'1px solid var(--line)'}}>
+                  <div style={{width:12,height:12,borderRadius:'50%',background:g.cor,flexShrink:0}}/>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:600,fontSize:13}}>{g.nome}</div>
+                    <div style={{fontSize:11,color:'var(--ink-3)'}}>{g.responsavel} · {ga.length} ativos · {gv.length} vistorias</div>
+                  </div>
+                  <div style={{display:'flex',gap:8}}>
+                    {gErr>0 && <span className="status-pill err"><span className="ind"/>{gErr} vencido{gErr>1?'s':''}</span>}
+                    {gWrn>0 && <span className="status-pill warn"><span className="ind"/>{gWrn} prox.</span>}
+                    {gErr===0&&gWrn===0 && <span className="status-pill ok"><span className="ind"/>Em dia</span>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Histórico de vistorias */}
+      <div className="card">
+        <div className="card-head">
+          <h3>Histórico de Vistorias</h3>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+            <select style={{height:30,fontSize:12,borderRadius:6,border:'1px solid var(--line)',padding:'0 8px',background:'var(--surface-2)'}} value={filtroGrp} onChange={e=>setFiltroGrp(e.target.value)}>
+              <option value="todos">Todos os grupos</option>
+              {grupos.map(g=><option key={g.id} value={g.id}>{g.nome}</option>)}
+            </select>
+            <select style={{height:30,fontSize:12,borderRadius:6,border:'1px solid var(--line)',padding:'0 8px',background:'var(--surface-2)'}} value={filtroSts} onChange={e=>setFiltroSts(e.target.value)}>
+              <option value="todos">Todos os status</option>
+              {['Aprovado','Reprovado','Pendente'].map(s=><option key={s}>{s}</option>)}
+            </select>
+          </div>
+        </div>
+        {filtradas.length===0 ? (
+          <div style={{textAlign:'center',padding:32,color:'var(--ink-3)'}}>
+            <Icon name="file-text" size={28} style={{margin:'0 auto 8px',display:'block'}}/>
+            <p>Nenhuma vistoria encontrada.</p>
+          </div>
+        ) : filtradas.map(v=>(
+          <div key={v.id} className="seg-insp-row">
+            <div className="seg-insp-header">
+              <div>
+                <div className="seg-insp-who">{v.ativoNome} <span style={{fontSize:11,color:'var(--ink-3)',fontWeight:400}}>— {v.ativoLocalizacao}</span></div>
+                <div className="seg-insp-when">{new Date(v.ts).toLocaleString('pt-BR')} · {v.vistoriador} · {v.grupoNome}</div>
+              </div>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                {v.foto && <img src={v.foto} alt="" className="seg-insp-thumb"/>}
+                <span className={`status-pill ${v.status==='Aprovado'?'ok':v.status==='Reprovado'?'err':'warn'}`}><span className="ind"/>{v.status}</span>
+              </div>
+            </div>
+            {v.obs && <div className="seg-insp-obs">💬 {v.obs}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
